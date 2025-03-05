@@ -1,0 +1,17 @@
+Mahmoud Ghoraba
+-Leader 
+-setup Necessary files to Begin
+-Booking task from 1 -> 2 
+
+Mahmoud Khalil
+-Booking task from 3 -> 4
+
+Lakshy Rubani
+-User task (all)
+
+Ahmed Hebesha
+-Event task from 2 -> 4
+
+Amr Khalid
+-Event task (1) 
+-Ensuring Quality of Codes
