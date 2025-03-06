@@ -26,9 +26,11 @@ const bookingSchema = new mongoose.Schema({
         default: 'pending'
     },
     createdAt: {
-        type: DateTime,
-        default: DateTime.now
+        type: Date,
+        default: Date.now
     }
     
 
 });
+    const Booking = mongoose.model("Booking", bookingSchema);
+    module.exports = Booking;     
