@@ -10,5 +10,25 @@ const bookingSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event',
         required: true
+    },tickets: {
+        type: Number,
+        required: true,
+        min: 1
+    },
+    totalPrice: {
+        type: Number,
+        required: true,
+        min: 0 
+    },
+    bookingStatus: {
+        type: String,
+        enum: ['pending', 'confirmed', 'canceled'],
+        default: 'pending'
+    },
+    createdAt: {
+        type: DateTime,
+        default: DateTime.now
     }
+    
+
 });
