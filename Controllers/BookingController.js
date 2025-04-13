@@ -89,4 +89,4 @@ const BookingController = {
     }
   },
 };
-module.exports = courseController;
+module.exports = BookingController;
