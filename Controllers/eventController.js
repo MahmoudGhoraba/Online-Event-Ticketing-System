@@ -18,7 +18,8 @@ const eventController={
             category:req.body.category,
             ticketPrice:req.body.ticketPrice,
             remainingTickets:req.body.remainingTickets,
-            totalNumberOfTickets:req.body.totalNumberOfTickets
+            totalNumberOfTickets:req.body.totalNumberOfTickets,
+            Organizer:req.body.Organizer
         });
         try{
             const newEvent= await event.save();
@@ -44,7 +45,23 @@ const eventController={
         }catch (error){
             return res.status(500).json({message:error.message})
         }
-    },
+    },getOrganizerEventAnalytics: async (req,res)=>{
+        try{
+            const events=await eventModel.findById({Organizer:req.user.userId});
+            const analyticsResult=events.map((event)=>{
+                const bookedEvents=event.totalNumberOfTickets-event.remainingTickets;
+                const percentageOfTicketsPerEvent=(bookedEvents/event.totalNumberOfTickets)*100;
+                return {
+                    title:event.title,
+                    percentageOfTicketsPerEvent:percentageOfTicketsPerEvent.toFixed(2)
+                }
+            });
+            return res.status(200).json(analyticsResult);
+        }catch(error){
+            return res.status(500).json({message:error.message});
+        }
+    }
+    ,
     changeStatusOfEvent: async (req,res)=>{
         try{
           const event =await eventModel.findByIdAndUpdate(
