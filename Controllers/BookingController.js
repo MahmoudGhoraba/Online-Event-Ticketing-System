@@ -1,4 +1,5 @@
 
+const Booking = require("../Models/Booking");
 const BookingModel = require("./Models/Booking");
 const EventModel = require("./Models/Event");
 const BookingController = {
@@ -89,4 +90,4 @@ const BookingController = {
     }
   },
 };
-module.exports = courseController;
+module.exports = BookingController;
