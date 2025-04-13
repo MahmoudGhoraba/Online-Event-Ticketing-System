@@ -1,12 +1,6 @@
 
-<<<<<<< HEAD
 const BookingModel = require("../Models/Booking");
 const EventModel = require("../Models/Event");
-=======
-const Booking = require("../Models/Booking");
-const BookingModel = require("./Models/Booking");
-const EventModel = require("./Models/Event");
->>>>>>> 60cbf7f4fe26a43287b6668754e0fb99b6bc3f9e
 const BookingController = {
   getAllBooking: async (req, res) => {
     try {
@@ -95,4 +89,4 @@ const BookingController = {
     }
   },
 };
-module.exports = BookingController;
+module.exports = courseController;
