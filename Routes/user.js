@@ -11,9 +11,9 @@ router.put("/profile",userController.updateUser)
 router.get("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.getUserById)
 router.put("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.updateUser)
 router.delete("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.deleteUser)
-
-//===========> router.get("/events",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/bookingController.g)
 router.get("/events/analytics",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/eventController.getOrganizerEventAnalytics)
+///api/v1/users/bookings GET Get current user’s bookings Standard User
+///api/v1/users/events GET Get current user’s events Event Organizer
 
 
 

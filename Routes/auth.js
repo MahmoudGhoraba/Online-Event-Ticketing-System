@@ -11,6 +11,6 @@ router.post("/login",userController.login)
 
 
 
-
+module.exports=router;
 /*DA EL BONUS  */
 // router.post("/forgetPassword",userController.forgetPassword)
