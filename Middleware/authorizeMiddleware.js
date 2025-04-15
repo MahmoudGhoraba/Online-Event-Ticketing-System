@@ -1,14 +1,11 @@
-const jwt = require('jsonwebtoken');
 
-
-const authorizeMiddleware = (...allowedRoles) => {
-    return (req, res, next) => {
-      if (!req.user || !allowedRoles.includes(req.user.role)) {
-        return res.status(403).json({ message: 'Access denied: Unauthorized role' });
-      }
-      next();
-    };
+module.exports= function authorizeMiddleware(roles) {
+  return (req, res, next) => {
+    console.log('req:',req.user)
+    const userRole = req.user.role;
+    if (!roles.includes(userRole))
+      return res.status(403).json("unauthorized access");
+    // console.log('authormid')
+    next();
   };
-  
-  module.exports = authorizeMiddleware;
-  
+}
