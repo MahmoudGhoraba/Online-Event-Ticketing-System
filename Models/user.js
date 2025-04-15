@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
         immutable: true,
         default: () => Date.now(),
     },
+    otp:{
+        temp: Number,
+        expiry: Date
+    }
 });
 
 const User = mongoose.model('User', userSchema);
