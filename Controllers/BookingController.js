@@ -4,6 +4,7 @@ const EventModel = require("../Models/Event");
 const BookingController = {
   getAllBooking: async (req, res) => {
     try {
+      //maybe add a line for the case someone didnt book before
       const Booking = await BookingModel.find();
       return res.status(200).json(Booking);
     } catch (e) {
@@ -12,6 +13,7 @@ const BookingController = {
   },
   getBooking: async (req, res) => {
     try {
+            //maybe add a line for the case someone didnt book before
       const Booking = await BookingModel.findById(req.params.id);
       return res.status(200).json(Booking);
     } catch (error) {
@@ -32,6 +34,7 @@ const BookingController = {
       status: "pending",
     });
     try {
+      //
       const newBooking = await booking.save();
       newBooking.status = "confirmed";
       const confirmed = await booking.save();
@@ -45,7 +48,7 @@ const BookingController = {
   },
   updateBooking: async (req, res) => {
     try {
-      
+      // lw fe values negative
       const Booking = await BookingModel.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -60,6 +63,7 @@ const BookingController = {
   },
   deleteBooking: async (req, res) => {
     try {
+      // doesnt add the deleted tickets to the event
       const Booking = await BookingModel.findByIdAndDelete(req.params.id);
       if (!Booking) {
         return res.status(404).json({ message: "Booking not found" });
@@ -74,6 +78,7 @@ const BookingController = {
 
   getUserBooking: async (req, res) => {
     try {
+      //checkfor userexistance
       const booking = await BookingModel.findById(req.params.id)
       return res.status(200).json(booking.event);
     } catch (error) {
@@ -89,4 +94,4 @@ const BookingController = {
     }
   },
 };
-module.exports = courseController;
+module.exports = BookingController;

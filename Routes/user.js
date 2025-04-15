@@ -5,6 +5,8 @@ const eventController=require("../Controllers/eventController")
 const bookingController=require("../Controllers/BookingController")
 
 router.get("/",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.getUsers)
+
+// here we put all types====>authenticated user
 router.get("/profile",userController.getUserById)
 router.put("/profile",userController.updateUser)
 
@@ -14,8 +16,3 @@ router.delete("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),
 
 //===========> router.get("/events",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/bookingController.g)
 router.get("/events/analytics",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/eventController.getOrganizerEventAnalytics)
-
-
-
-
-
