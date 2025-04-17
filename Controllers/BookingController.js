@@ -28,7 +28,7 @@ const BookingController = {
       return res.status(400).json({ message: "Not enough tickets available" });
     }
     const booking = new BookingModel({
-      user: req.user._id,
+      user: req.user.userId,
       event: req.body.event,
       tickets: req.body.tickets,
       totalPrice: req.body.totalPrice,

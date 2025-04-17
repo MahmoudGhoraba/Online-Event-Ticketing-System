@@ -10,6 +10,14 @@ const eventController={
           return res.status(500).json({message:error.message});
         }
     },
+    getSingleEvent: async (req,res)=>{
+        try{
+            const event=await eventModel.findById(req.params.id);
+            return res.status(200).json(event);
+        }catch(error){
+            return res.status(500).json({message:error.message})
+        }
+    },
     createEvent: async (req,res)=>{
 
         // chech is this event was already created(no duplication)
@@ -22,7 +30,7 @@ const eventController={
             ticketPrice:req.body.ticketPrice,
             remainingTickets:req.body.remainingTickets,
             totalNumberOfTickets:req.body.totalNumberOfTickets,
-            Organizer:req.body.Organizer
+            Organizer:req.user.userId
         });
         try{
             const newEvent= await event.save();

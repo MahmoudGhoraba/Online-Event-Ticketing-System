@@ -10,7 +10,16 @@ const { Console } = require('console');
 
 const secretKey = 'mySuperSecretKey123'; 
 const userController = {
- getAllUsers : async (req, res) => {
+getUserEvents : async (req, res) => {
+    try {
+        const userId = req.user.userId; 
+        const events = await Event.find({ organizer: userId }); 
+        return res.status(200).json({ events });
+    } catch (err) {
+        return res.status(500).json({ error: "Failed to fetch user events" });
+        }
+},
+ getUsers : async (req, res) => {
     try {
         const users = await User.find();
         return res.status(200).json(users);
