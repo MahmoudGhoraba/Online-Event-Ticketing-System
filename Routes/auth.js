@@ -7,10 +7,10 @@ router.post("/register",userController.registerUser)
 router.post("/login",userController.login)
 
 
+router.put("/forgetPassword",userController.forgetPassword)
+router.put("/authOTP",userController.authOTP)
 
 
 
 
 module.exports=router;
-/*DA EL BONUS  */
-// router.post("/forgetPassword",userController.forgetPassword)

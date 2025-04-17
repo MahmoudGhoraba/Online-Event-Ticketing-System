@@ -1,17 +1,20 @@
 
 const BookingModel = require("../Models/Booking");
 const EventModel = require("../Models/Event");
+
 const BookingController = {
   getAllBooking: async (req, res) => {
     try {
-      const Booking = await BookingModel.find();
-      return res.status(200).json(Booking);
+      //maybe add a line for the case someone didnt book before
+      const Bookings = await BookingModel.find();
+      return res.status(200).json(Bookings);
     } catch (e) {
       return res.status(500).json({ message: e.message });
     }
   },
   getBooking: async (req, res) => {
     try {
+            //maybe add a line for the case someone didnt book before
       const Booking = await BookingModel.findById(req.params.id);
       return res.status(200).json(Booking);
     } catch (error) {
@@ -32,6 +35,7 @@ const BookingController = {
       status: "pending",
     });
     try {
+      //
       const newBooking = await booking.save();
       newBooking.status = "confirmed";
       const confirmed = await booking.save();
@@ -45,7 +49,7 @@ const BookingController = {
   },
   updateBooking: async (req, res) => {
     try {
-      
+      // lw fe values negative
       const Booking = await BookingModel.findByIdAndUpdate(
         req.params.id,
         req.body,
@@ -60,6 +64,15 @@ const BookingController = {
   },
   deleteBooking: async (req, res) => {
     try {
+      // doesnt add the deleted tickets to the event
+      // hena fe haga esmaha ?. used for chaining escpically nested or optional fields
+      const booking=await BookingModel.findById(req.params.id).populate("Event")
+      if(booking.bookingStatus==='confirmed' && booking.event.getTimestamp >=Date.now ){
+      linkedevent.event.remainingTickets=linkedevent.event.remainingTickets+linkedevent.tickets
+      linkedevent.event.totalNumberOfTickets=linkedevent.event.totalNumberOfTickets+linkedevent.tickets
+      }
+    
+
       const Booking = await BookingModel.findByIdAndDelete(req.params.id);
       if (!Booking) {
         return res.status(404).json({ message: "Booking not found" });
@@ -74,6 +87,7 @@ const BookingController = {
 
   getUserBooking: async (req, res) => {
     try {
+      //checkfor userexistance
       const booking = await BookingModel.findById(req.params.id)
       return res.status(200).json(booking.event);
     } catch (error) {
