@@ -1,9 +1,10 @@
 const userModel=require('../Models/user');
 const eventModel=require('../Models/Event');
+
 const eventController={
     getPostedEvents: async (req,res)=>{
         try{
-         const events=await eventModel.find();
+         const events=await eventModel.find({user: req.user._id});
          return res.status(200).json(events);
         }catch(error){
           return res.status(500).json({message:error.message});
@@ -51,6 +52,7 @@ const eventController={
     },getOrganizerEventAnalytics: async (req,res)=>{
         try{
             const events=await eventModel.findById({Organizer:req.user.userId});
+            // i need to check later!!!!!!!!!!11
             const analyticsResult=events.map((event)=>{
                 const bookedEvents=event.totalNumberOfTickets-event.remainingTickets;
                 const percentageOfTicketsPerEvent=(bookedEvents/event.totalNumberOfTickets)*100;
