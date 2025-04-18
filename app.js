@@ -1,6 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const authenticateMiddleware = require('../Online-Event-Ticketing-System/Middleware/authenticateMiddleware'); 
+const mongoose = require("mongoose");
+//const authenticateMiddleware = require('../Online-Event-Ticketing-System/Middleware/authenticateMiddleware'); 
 
 const app = express();
 const cors = require("cors"); // haga 3ashan el security, middle ware block request if the localhost is different
@@ -12,10 +13,10 @@ const bookingRouter = require("./Routes/booking");
 const eventRouter = require("./Routes/event");
 const userRouter = require("./Routes/user");
 // here we apply the middleware
+require('dotenv').config(); // this loads from .env file to your app
 app.use(express.json()); // parse from the post req
 app.use(express.urlencoded({ extended: false })); //parse from the html
 app.use(cookieParser()); // we can access token
-require('dotenv').config(); // this loads from .env file to your app
 
 
 app.use(

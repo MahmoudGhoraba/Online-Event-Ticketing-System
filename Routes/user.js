@@ -6,7 +6,7 @@ const bookingController=require("../Controllers/BookingController")
 const authorizationMiddleware=require('../Middleware/authorizeMiddleware');
 const authenticationMiddleware=require('../Middleware/authenticateMiddleware')
 
-router.get("/",authenticateMiddleware,authorizationMiddleware(["Admin"]),userController.getUsers)//HENA ESMAHA USERS
+router.get("/",authenticationMiddleware,authorizationMiddleware(["Admin"]),userController.getUsers)//HENA ESMAHA USERS
 
 // here we put all types====>authenticated user
 router.get("/profile",authenticationMiddleware,authorizationMiddleware(['Admin','User','Organizer']),userController.getUserProfile)
@@ -17,3 +17,5 @@ router.get("/events/analytics",authenticationMiddleware,authorizationMiddleware(
 router.get("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.getUserById)
 router.put("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.updateUserRole)
 router.delete("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.deleteUser)
+
+module.exports=router;
