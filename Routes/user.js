@@ -4,19 +4,14 @@ const userController=require("../Controllers/userController")
 const eventController=require("../Controllers/eventController")
 const bookingController=require("../Controllers/BookingController")
 
-router.get("/",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.getAllUsers)//HENA ESMAHA USERS
+router.get("/",authenticateMiddleware,authorizeMiddleware(["Admin"]),userController.getAllUsers)//HENA ESMAHA USERS
 
 // here we put all types====>authenticated user
-router.get("/profile",/*MIIDLEWARE all ppl authorizationMiddleware(['Admin',...,..]),*/userController.getUserProfile)
-router.put("/profile",/*MIIDLEWARE all ppl authorizationMiddleware(['Admin',...,..]),*/userController.updateUserProfile)
-
-router.get("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.getUserById)
-router.put("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.updateUserRole)
-router.delete("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),*/userController.deleteUser)
-
-
-router.get("/bookings",/*MIIDLEWARE normal user ONLY authorizationMiddleware(['']),*/bookingController.getUserBookings)
-
-
-router.get("/events",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/userController)// thats an error reminder
-router.get("/events/analytics",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/eventController.getOrganizerEventAnalytics)
+router.get("/profile",authenticateMiddleware,authorizeMiddleware(['Admin','User','Organizer']),userController.getUserProfile)
+router.put("/profile",authenticateMiddleware,authorizeMiddleware(['Admin','User','Organizer']),userController.updateUserProfile)
+router.get("/bookings",authenticateMiddleware,authorizationMiddleware(['User']),bookingController.getUserBookings)
+router.get("/events",authenticateMiddleware,authorizationMiddleware(['Oragnizer']),userController.getUserEvents) // thats an error reminder
+router.get("/events/analytics",authenticateMiddleware,authorizationMiddleware(['Oragnizer']),eventController.getOrganizerEventAnalytics)
+router.get("/:id",authenticateMiddleware,authorizationMiddleware(['Admin']),userController.getUserById)
+router.put("/:id",authenticateMiddleware,authorizationMiddleware(['Admin']),userController.updateUserRole)
+router.delete("/:id",authenticateMiddleware,authorizationMiddleware(['Admin']),userController.deleteUser)
