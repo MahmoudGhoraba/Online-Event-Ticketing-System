@@ -1,7 +1,7 @@
 const express=require("express");
 const eventController=require("../Controllers/eventController");
-const authorizationMiddleware=require('../Middleware/authorizationMiddleware');
-const authenticationMiddleware=require('../Middleware/authenticationMiddleware')
+const authorizationMiddleware=require('../Middleware/authorizeMiddleware');
+const authenticationMiddleware=require('../Middleware/authenticateMiddleware')
 const router=express.Router();
 router.post("/",authenticationMiddleware,authorizationMiddleware["Organizer"],eventController.createEvent);
 router.get("/",eventController.getPostedEvents);
