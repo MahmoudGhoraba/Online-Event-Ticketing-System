@@ -154,7 +154,7 @@ const BookingController = {
   },
   getUserBookings: async (req, res) => {
     try {
-      const bookings = await BookingModel.find({ user: req.user._id }).populate("event");
+      const bookings = await BookingModel.find({ user: req.user.userId }).populate("event");
       if(!bookings){
         return res.status(500).json({ message: 'no Booking ID are found'})
       }
