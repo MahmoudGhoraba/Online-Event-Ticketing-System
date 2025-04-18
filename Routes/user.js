@@ -18,5 +18,5 @@ router.delete("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['Admin']),
 router.get("/bookings",/*MIIDLEWARE normal user ONLY authorizationMiddleware(['']),*/bookingController.getUserBookings)
 
 
-router.get("/events",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/userController)// thats an error reminder
+router.get("/events",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/userController.getUserEvents)// thats an error reminder
 router.get("/events/analytics",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['EventOragniser']),*/eventController.getOrganizerEventAnalytics)

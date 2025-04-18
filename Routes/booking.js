@@ -4,7 +4,7 @@ const userController=require("../Controllers/userController")
 const eventController=require("../Controllers/eventController")
 const bookingController=require("../Controllers/BookingController")
 
-router.get("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['user']),*/bookingController.getAllBooking)
+router.get("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['user']),*/bookingController.getBooking)
 
 router.post("/",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['user']),*/bookingController.createBooking)
 
