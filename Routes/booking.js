@@ -3,6 +3,8 @@ const router=express.Router()
 const userController=require("../Controllers/userController")
 const eventController=require("../Controllers/eventController")
 const bookingController=require("../Controllers/BookingController")
+const authorizationMiddleware=require('../Middleware/authorizationMiddleware');
+const authenticationMiddleware=require('../Middleware/authenticationMiddleware')
 
 router.post("/",authenticateMiddleware,authorizationMiddleware(['User']),bookingController.createBooking)
 
