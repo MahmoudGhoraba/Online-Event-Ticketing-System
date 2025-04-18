@@ -4,10 +4,9 @@ const userController=require("../Controllers/userController")
 const eventController=require("../Controllers/eventController")
 const bookingController=require("../Controllers/BookingController")
 
-router.get("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['user']),*/bookingController.getAllBooking)
+router.post("/",authenticateMiddleware,authorizationMiddleware(['User']),bookingController.createBooking)
 
-router.post("/",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['user']),*/bookingController.createBooking)
-
-router.delete("/:id",/*MIIDLEWARE ADMIN ONLY authorizationMiddleware(['user']),*/bookingController.deleteBooking)
+router.get("/:id",authenticateMiddleware,authorizationMiddleware(['User']),bookingController.getAllBooking)
+router.delete("/:id",authenticateMiddleware,authorizationMiddleware(['User']),bookingController.deleteBooking)
 
 module.exports=router

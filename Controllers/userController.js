@@ -7,8 +7,8 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const { Console } = require('console');
 
-
-const secretKey = 'mySuperSecretKey123'; 
+require("dotenv").config();
+const secretKey = process.env.SECRET_KEY;
 const userController = {
 getUserEvents : async (req, res) => {
     try {
