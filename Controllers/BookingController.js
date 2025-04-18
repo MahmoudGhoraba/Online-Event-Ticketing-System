@@ -79,6 +79,9 @@ const BookingController = {
   /*createBooking: async (req, res) => {
     const amount = req.body.tickets * req.body.event.ticketPrice;
     const remainingTickets = req.body.event.remainingTickets - req.body.tickets;
+    const the_event=await EventModel.findById({_id:req.body.event})
+    const amount = req.body.tickets * the_event.ticketPrice;
+    const remainingTickets = the_event.remainingTickets - req.body.tickets;
     if(remainingTickets < 0) {
       return res.status(400).json({ message: "Not enough tickets available" });
     }
@@ -119,26 +122,27 @@ const BookingController = {
   },
   deleteBooking: async (req, res) => {
     try {
-      // doesnt add the deleted tickets to the event
-      // hena fe haga esmaha ?. used for chaining escpically nested or optional fields
-      const booking=await BookingModel.findById(req.params.id).populate("Event")
-      if(booking.bookingStatus==='confirmed' && booking.event.getTimestamp >=Date.now ){
-      linkedevent.event.remainingTickets=linkedevent.event.remainingTickets+linkedevent.tickets
-      linkedevent.event.totalNumberOfTickets=linkedevent.event.totalNumberOfTickets+linkedevent.tickets
-      }
-    
-
       const Booking = await BookingModel.findByIdAndDelete(req.params.id);
       if (!Booking) {
         return res.status(404).json({ message: "Booking not found" });
       }
+      // doesnt add the deleted tickets to the event
+      // hena fe haga esmaha ?. used for chaining escpically nested or optional fields
+      const booking=await BookingModel.findById(req.params.id).populate("event")
+      if(booking.bookingStatus==='confirmed' && (booking.event.date).getTime() >Date.now() ){
+      booking.event.remainingTickets=booking.event.remainingTickets+booking.tickets
+      booking.event.totalNumberOfTickets=booking.event.totalNumberOfTickets+booking.tickets
+      }
+
+   
       return res
         .status(200)
         .json({ Booking, msg: "booking deleted successfully" });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
-  },
+  }
+  ,
 
   getUserBooking: async (req, res) => {
     try {
@@ -163,5 +167,5 @@ const BookingController = {
       return res.status(500).json({ message: error.message });
     }
   },
-};
+}
 module.exports = BookingController;

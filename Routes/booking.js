@@ -9,4 +9,7 @@ router.post("/",authenticateMiddleware,authorizationMiddleware(['User']),booking
 router.get("/:id",authenticateMiddleware,authorizationMiddleware(['User']),bookingController.getAllBooking)
 router.delete("/:id",authenticateMiddleware,authorizationMiddleware(['User']),bookingController.deleteBooking)
 
+
+
+
 module.exports=router
