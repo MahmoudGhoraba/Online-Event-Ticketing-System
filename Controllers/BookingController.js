@@ -122,30 +122,27 @@ const BookingController = {
   },
   deleteBooking: async (req, res) => {
     try {
+      const Booking = await BookingModel.findByIdAndDelete(req.params.id);
+      if (!Booking) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
       // doesnt add the deleted tickets to the event
       // hena fe haga esmaha ?. used for chaining escpically nested or optional fields
       const booking=await BookingModel.findById(req.params.id).populate("event")
       if(booking.bookingStatus==='confirmed' && (booking.event.date).getTime() >Date.now() ){
       booking.event.remainingTickets=booking.event.remainingTickets+booking.tickets
       booking.event.totalNumberOfTickets=booking.event.totalNumberOfTickets+booking.tickets
-      const booking=await BookingModel.findById(req.params.id).populate("event")
-      if(booking.bookingStatus==='confirmed' && (booking.event.date).getTime() >Date.now() ){
-      booking.event.remainingTickets=booking.event.remainingTickets+booking.tickets
-      booking.event.totalNumberOfTickets=booking.event.totalNumberOfTickets+booking.tickets
       }
-    
 
-      const Booking = await BookingModel.findByIdAndDelete(req.params.id);
-      if (!Booking) {
-        return res.status(404).json({ message: "Booking not found" });
-      }
+   
       return res
         .status(200)
         .json({ Booking, msg: "booking deleted successfully" });
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
-  },
+  }
+  ,
 
   getUserBooking: async (req, res) => {
     try {
@@ -170,5 +167,5 @@ const BookingController = {
       return res.status(500).json({ message: error.message });
     }
   },
-};
+}
 module.exports = BookingController;
