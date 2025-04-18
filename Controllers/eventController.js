@@ -4,7 +4,9 @@ const eventModel=require('../Models/Event');
 const eventController={
     getPostedEvents: async (req,res)=>{
         try{
-         const events=await eventModel.find({user: req.user._id});
+         const events=await eventModel.find({user: req.user.userId});
+         if(!events)
+            return res.status(404).json({message:"No Events are found"})
          return res.status(200).json(events);
         }catch(error){
           return res.status(500).json({message:error.message});
