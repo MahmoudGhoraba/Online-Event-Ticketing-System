@@ -14,6 +14,9 @@ getUserEvents : async (req, res) => {
     try {
         const userId = req.user.userId; 
         const events = await Event.find({ organizer: userId }); 
+        if(!events){
+            return res.status(400).json({ message: 'No events are found' });
+        }
         return res.status(200).json({ events });
     } catch (err) {
         return res.status(500).json({ error: "Failed to fetch user events" });
@@ -22,6 +25,9 @@ getUserEvents : async (req, res) => {
  getUsers : async (req, res) => {
     try {
         const users = await User.find();
+        if(!users){  
+            return res.status(400).json({ message: 'No users are found' });
+        }
         return res.status(200).json(users);
     } catch (err) {
         return res.status(500).json({ error: err.message });
@@ -30,6 +36,9 @@ getUserEvents : async (req, res) => {
 getUserProfile: async (req,res)=>{
      try{
         const userProfile=await User.findById(req.user.userId);
+        if (!userProfile) {
+            return res.status(400).json({ message: 'No profile is found' });
+        }
         return res.status(200).json({userProfile});
      }catch(error){
         return res.status(500).json({ error: err.message });
@@ -119,6 +128,9 @@ registerUser : async (req, res) => {
         const { name, email, password, role, profilePicture } = req.body;
 
         const existingUser = await User.findOne({ email });
+        if (!name || !email || !password) {
+            return res.status(400).json({ message: 'Name, email, and password are required' });
+        }
         if (existingUser) {
             return res.status(400).json({ message: 'Email already registered' });
         }
@@ -146,6 +158,9 @@ login: async (req, res) => {
       const {email, password} = req.body;
 
       const user = await User.findOne({ email });
+      if (!email || !password) {
+        return res.status(400).json({ message: 'Email and Password are required' });
+    }
       if (!user) {
         return res.status(404).json({ message: "email not found" });
       }

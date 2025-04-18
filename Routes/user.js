@@ -4,7 +4,7 @@ const userController=require("../Controllers/userController")
 const eventController=require("../Controllers/eventController")
 const bookingController=require("../Controllers/BookingController")
 
-router.get("/",authenticateMiddleware,authorizeMiddleware(["Admin"]),userController.getAllUsers)//HENA ESMAHA USERS
+router.get("/",authenticateMiddleware,authorizeMiddleware(["Admin"]),userController.getUsers)//HENA ESMAHA USERS
 
 // here we put all types====>authenticated user
 router.get("/profile",authenticateMiddleware,authorizeMiddleware(['Admin','User','Organizer']),userController.getUserProfile)
