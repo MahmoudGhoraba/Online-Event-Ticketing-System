@@ -128,6 +128,10 @@ const BookingController = {
       if(booking.bookingStatus==='confirmed' && (booking.event.date).getTime() >Date.now() ){
       booking.event.remainingTickets=booking.event.remainingTickets+booking.tickets
       booking.event.totalNumberOfTickets=booking.event.totalNumberOfTickets+booking.tickets
+      const booking=await BookingModel.findById(req.params.id).populate("event")
+      if(booking.bookingStatus==='confirmed' && (booking.event.date).getTime() >Date.now() ){
+      booking.event.remainingTickets=booking.event.remainingTickets+booking.tickets
+      booking.event.totalNumberOfTickets=booking.event.totalNumberOfTickets+booking.tickets
       }
     
 
