@@ -29,6 +29,7 @@ const eventController={
             date:req.body.date,
             location:req.body.location,
             category:req.body.category,
+            ticketPrice:req.body.ticketPrice,
             remainingTickets:req.body.totalNumberOfTickets,
             totalNumberOfTickets:req.body.totalNumberOfTickets,
             Organizer:req.user.userId
