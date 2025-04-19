@@ -13,7 +13,7 @@ const userController = {
 getUserEvents : async (req, res) => {
     try {
         const userId = req.user.userId; 
-        const events = await Event.find({ organizer: userId }); 
+        const events = await Event.find({ Organizer: userId }); 
         if(!events){
             return res.status(400).json({ message: 'No events are found' });
         }
