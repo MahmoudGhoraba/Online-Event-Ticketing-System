@@ -4,7 +4,7 @@ const eventModel=require('../Models/Event');
 const eventController={
     getPostedEvents: async (req,res)=>{
         try{
-         const events=await eventModel.find({user: req.user.userId});
+         const events=await eventModel.find();
          if(!events)
             return res.status(404).json({message:"No Events are found"})
          return res.status(200).json(events);
@@ -29,7 +29,7 @@ const eventController={
             date:req.body.date,
             location:req.body.location,
             category:req.body.category,
-            ticketPrice:req.body.ticketPrice,
+            remainingTickets:req.body.totalNumberOfTickets,
             remainingTickets:req.body.remainingTickets,
             totalNumberOfTickets:req.body.totalNumberOfTickets,
             Organizer:req.user.userId
