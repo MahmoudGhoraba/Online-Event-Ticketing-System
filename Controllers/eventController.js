@@ -61,7 +61,7 @@ const eventController={
         }
     },getOrganizerEventAnalytics: async (req,res)=>{
         try{
-            const events=await eventModel.findById({Organizer:req.user.userId});
+            const events=await eventModel.find({Organizer:req.user.userId});
             // i need to check later!!!!!!!!!!11
             if(!events){
                 return res.status(400).json({ message: 'No events are found' });          
