@@ -50,7 +50,7 @@ const BookingController = {
             event: event._id,
             tickets: req.body.tickets,
             totalPrice: totalPrice,
-            bookingStatus: "confirmed", // Directly set to confirmed
+            bookingStatus: "pending"
         });
 
         // Save the booking and update the event atomically
@@ -63,6 +63,8 @@ const BookingController = {
                 { remainingTickets: remainingTickets },
                 { session }
             );
+            booking.bookingStatus='confirmed'
+            await booking.save({ session });
             await session.commitTransaction();
             session.endSession();
 
@@ -131,10 +133,7 @@ const BookingController = {
       const booking=await BookingModel.findById(req.params.id).populate("event")
       if(booking.bookingStatus==='confirmed' && (booking.event.date).getTime() >Date.now() ){
       booking.event.remainingTickets=booking.event.remainingTickets+booking.tickets
-      booking.event.totalNumberOfTickets=booking.event.totalNumberOfTickets+booking.tickets
       }
-
-   
       return res
         .status(200)
         .json({ Booking, msg: "booking deleted successfully" });
@@ -142,9 +141,7 @@ const BookingController = {
       return res.status(500).json({ message: error.message });
     }
   }
-  ,
-
-  getUserBooking: async (req, res) => {
+  ,getUserBooking: async (req, res) => {
     try {
       //checkfor userexistance
       const booking = await BookingModel.findById(req.params.id)
