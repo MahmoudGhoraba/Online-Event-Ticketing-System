@@ -12,8 +12,8 @@ router.get("/",authenticationMiddleware,authorizationMiddleware(["Admin"]),userC
 router.get("/profile",authenticationMiddleware,authorizationMiddleware(['Admin','User','Organizer']),userController.getUserProfile)
 router.put("/profile",authenticationMiddleware,authorizationMiddleware(['Admin','User','Organizer']),userController.updateUserProfile)
 router.get("/bookings",authenticationMiddleware,authorizationMiddleware(['User']),bookingController.getUserBookings)
-router.get("/events",authenticationMiddleware,authorizationMiddleware(['Oragnizer']),userController.getUserEvents) // thats an error reminder
-router.get("/events/analytics",authenticationMiddleware,authorizationMiddleware(['Oragnizer']),eventController.getOrganizerEventAnalytics)
+router.get("/events",authenticationMiddleware,authorizationMiddleware(['Organizer']),userController.getUserEvents) // thats an error reminder
+router.get("/events/analytics",authenticationMiddleware,authorizationMiddleware(['Organizer']),eventController.getOrganizerEventAnalytics)
 router.get("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.getUserById)
 router.put("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.updateUserRole)
 router.delete("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.deleteUser)
