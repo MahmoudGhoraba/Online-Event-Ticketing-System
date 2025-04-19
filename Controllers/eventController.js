@@ -30,7 +30,6 @@ const eventController={
             location:req.body.location,
             category:req.body.category,
             remainingTickets:req.body.totalNumberOfTickets,
-            remainingTickets:req.body.remainingTickets,
             totalNumberOfTickets:req.body.totalNumberOfTickets,
             Organizer:req.user.userId
         });
