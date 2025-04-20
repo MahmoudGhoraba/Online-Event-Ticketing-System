@@ -92,12 +92,12 @@ updateUserRole: async (req, res) => {
     }
 },
 deleteUser : async (req, res) => {
-    // RED FLAGGGGGGGGGGGGGGGGGG! .Populate()
+    // do we make it session???
     try {
         const potentialperson=await User.findById(req.params.id)
         if (!potentialperson) return res.status(404).json({ message: 'User not found' });
 
-        const Bookings=await Booking.find({user:potentialperson._id}).populate(`event`)
+        const Bookings=await Booking.find({user:req.params.id}).populate(`event`)
         
         for(const booking of Bookings){
             const linkedevent=booking.event
@@ -106,17 +106,13 @@ deleteUser : async (req, res) => {
 
             if(booking.bookingStatus==='confirmed' && (linkedevent.date).getTime() >Date.now() ){
                 linkedevent.remainingTickets= linkedevent.remainingTickets+ booking.tickets
-                linkedevent.totalNumberOfTickets=linkedevent.totalNumberOfTickets+ booking.tickets
                 await linkedevent.save()
+                await Booking.findByIdAndDelete(booking._id)
             }
             console.log("the is the deleteuser loop that is repsonsible for adding back tickets")
         }
 
         const deletedUser = await User.findByIdAndDelete(req.params.id);
-
-
-
-
         return res.status(200).json({ message: 'User deleted successfully' });
     } catch (err) {
         return res.status(500).json({ error: err.message });

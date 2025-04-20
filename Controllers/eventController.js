@@ -54,6 +54,7 @@ const eventController={
         }
     },deleteEvent: async (req,res)=>{
         try{
+            //discuss the changes(amr)suggested
           const event= await eventModel.findByIdAndDelete(req.params.id);
           return res.status(200).json({event,message:"event deleted successfully"});
         }catch (error){
