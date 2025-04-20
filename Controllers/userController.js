@@ -184,7 +184,7 @@ login: async (req, res) => {
           sameSite: "none",
         })
         .status(200)
-        .json({ message: "login successfully", user });
+        .json({ message: "login successfully", user,token });
     } catch (error) {
       console.error("Error logging in:", error);
       return res.status(500).json({ message: "Server error" });
@@ -201,12 +201,12 @@ try{
     }
 
     const otp_pass=crypto.randomInt(10000000,99999999)
-    const enddate=new Date(Date.now+ 10*60*1000)
+    const enddate=new Date(Date.now()+ 10*60*1000)
 
     user.otp.temp=otp_pass
     user.otp.expiry=enddate
-    
-    const testAccount=await nodemailer.createTestAccount()
+    console.log("we are prior to the testaccount")
+/*    const testAccount=await nodemailer.createTestAccount()
 
 
     let transporter = nodemailer.createTransport({
@@ -217,15 +217,17 @@ try{
           user: testAccount.user, // Ethereal test user
           pass: testAccount.pass, // Ethereal test password
         },
-      });
+      });*/
 
       
-    
-    await user.save()
+      console.log("we are prior to the save")
 
-    let info = await transporter.sendMail({
+    await user.save()
+    console.log("we are prior to the sendemail")
+
+  /*  let info = await transporter.sendMail({
         from: '"BOOKING FULL STACK" <no-reply@example.com>', // sender
-        to: "TEAM SPAGEHTII@example.com",                      // receiver
+        to: user.email.toString(),                      // receiver
         subject: "Hello from Nodemailer!",
         text: `the opt is: ${user.otp.temp} , the date for expiry us: ${user.otp.expiry}`,
         html: "<b>This is an HTML message</b>",
@@ -233,24 +235,24 @@ try{
 
       console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
 
-
+*/
       // we need to make it for gmail
-/*
+
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "your-email@gmail.com",        // your Gmail
-          pass: "your-app-password-here",      // 16-character app password
+          user: "ahmedwaelhebesha401@gmail.com",        // your Gmail
+          pass: "jdmd vkhm bnza mhjl",      // 16-character app password
         },
       });
 
       const mailOptions = {
-        from: '"Your App" <your-email@gmail.com>',
-        to: "recipient@example.com",
+        from: '"Your App" <ahmedwaelhebesha401@gmail.com>',
+        to: user.email.toString(),
         subject: "Hello from Gmail & Nodemailer",
-        text: "This is a test email using Gmail",
-        html: "<b>This is a test email using Gmail</b>",
-      };
+        text: `The OTP is: ${user.otp.temp}, the expiry date is: ${user.otp.expiry}`,
+        html: `<b>The OTP is: ${user.otp.temp}, the expiry date is: ${user.otp.expiry}</b>`,
+      };      
       
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -258,7 +260,7 @@ try{
         }
         console.log("Email sent:", info.response);
       });
-      */
+      
 
 
 
@@ -266,27 +268,57 @@ try{
 }
 catch(error){
     console.error("AN ERROR OCCURED IN USER_CONTROLLER FORGOT PASSWORD")
-    return res.status(500).json({ message: "Server error of await" });
+    return res.status(500).json({ message:error.message});
 }
 
 },  authOTP: async(req,res)=>{
-    const {email,otp,pass}=req.body
+    const {email,otp,password}=req.body
     try{
-        const user=User.findOne({email})
+        console.log("line 281")
+        const user=await User.findOne({email})
         if(!user){
             return res.status(404).json({ message: "User not found" });
         }
-
-        if(otp !==user.otp.temp || otp.expiry<=Date.now()){
-            return res.status(400).json({ message: "Invalid or expired OTP" });
+        console.log(otp)
+        console.log(user.otp.temp)
+        if(otp !==user.otp.temp){
+            return res.status(400).json({ message: "Invalid  OTP" });
         }
+        if( otp.expiry<=Date.now()){
+            return res.status(400).json({ message: "expired OTP" });
+        }
+        
 
-        const hashedPassword = await bcrypt.hash(pass, 10);
+        console.log("line 289")
+        const hashedPassword = await bcrypt.hash(password, 10);
         user.password = hashedPassword;
 
         user.otp.temp = null;
         user.otp.expiry = null;
+        console.log("line 295")
         await user.save();
+        console.log("line 297")
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: "ahmedwaelhebesha401@gmail.com",        // your Gmail
+              pass: "jdmd vkhm bnza mhjl",      // 16-character app password
+            },
+          });
+    
+          const mailOptions = {
+            from: '"Your App" <ahmedwaelhebesha401@gmail.com>',
+            to: user.email.toString(),
+            subject: "Hello from Gmail & Nodemailer",
+            text: `The OTP is: ${user.otp.temp}, the expiry date is: ${user.otp.expiry}`,
+            html: `<b>this email is to confirm that your password has been changed</b>`,
+          };
+          transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              return console.error("Error:", error);
+            }
+            console.log("Email sent:", info.response);
+          });
         return res.status(200).json({ message: "OTP verified successfully" });
     }
     catch(error){
