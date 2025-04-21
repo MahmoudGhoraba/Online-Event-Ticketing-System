@@ -4,7 +4,8 @@ const express=require("express");
  const authenticationMiddleware=require('../Middleware/authenticateMiddleware')
  const router=express.Router();
  router.post("/",authenticationMiddleware,authorizationMiddleware(["Organizer"]),eventController.createEvent);
- router.get("/all",authenticationMiddleware,authorizationMiddleware(["Admin"]),eventController.getPostedEvents)
+ router.get("/all",authenticationMiddleware,authorizationMiddleware(["Admin"]),eventController.getPostedEvents);
+ router.get("/",eventController.getApprovedPostedEvents);
  //api/v1/events/:id GET Get details of a single event Public
  router.get("/:id",eventController.getSingleEvent);
  router.put("/:id",authenticationMiddleware,authorizationMiddleware(["Organizer","Admin"]),eventController.updateEvent);
