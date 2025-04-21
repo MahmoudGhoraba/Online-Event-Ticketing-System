@@ -87,7 +87,7 @@ const eventController={
             }
             }
             else if(currentUser.role ==='Organizer'){
-                const hisEvent=await eventModel.findOne({_id:req.params.id,user:currentUser._id,})
+                const hisEvent=await eventModel.findOne({_id:req.params.id,Organizer:currentUser._id,})
                 if(!hisEvent){
                     console.log("this event didnt belong to the user")
                     return res.status(500).json({message:"this event doesnt belong to u"})
