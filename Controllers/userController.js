@@ -59,7 +59,7 @@ getUserProfile: async (req,res)=>{
         if(req.body.name) thingstoupdate.name=req.body.name
         if(req.body.email) thingstoupdate.email=req.body.email
         if(req.body.profilePicture) thingstoupdate.profilePicture=req.body.profilePicture
-        if(req.body.role) thingstoupdate.role=req.body.role
+        
 
         const updatedUser = await User.findByIdAndUpdate(
             req.user.userId,
