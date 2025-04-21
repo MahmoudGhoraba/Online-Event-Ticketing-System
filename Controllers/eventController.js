@@ -62,6 +62,9 @@ const eventController={
                         console.log("this event didnt belong to the user")
                         return res.status(500).json({message:"this event doesnt belong to u"})
                     }
+                    if(req.body.status !=null){
+                        return res.status(403).json({message:"As an Organiser you are not allowed to change the event status please redo the changes you want"})
+                    }
                     const event=await eventModel.findByIdAndUpdate(
                         req.params.id,
                         req.body,
