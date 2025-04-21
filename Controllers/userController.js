@@ -202,7 +202,7 @@ try{
 
     const otp_pass=crypto.randomInt(10000000,99999999)
     const enddate=new Date(Date.now()+ 10*60*1000)
-
+    //const enddate = new Date(Date.now() + 5 * 60 * 1000); 
     user.otp.temp=otp_pass
     user.otp.expiry=enddate
     console.log("we are prior to the testaccount")
@@ -284,7 +284,7 @@ catch(error){
         if(otp !==user.otp.temp){
             return res.status(400).json({ message: "Invalid  OTP" });
         }
-        if( otp.expiry<=Date.now()){
+        if( user.otp.expiry<=Date.now()){
             return res.status(400).json({ message: "expired OTP" });
         }
         
