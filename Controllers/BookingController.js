@@ -125,18 +125,7 @@ const BookingController = {
       return res.status(500).json({ message: error.message });
     }
   }
-  ,getUserBooking: async (req, res) => {
-    try {
-      //checkfor userexistance
-      const booking = await BookingModel.findById(req.params.id)
-      if(!booking){
-        return res.status(404).json({ message: 'no Booking ID are found'})
-      }
-      return res.status(200).json(booking);
-    } catch (error) {
-      return res.status(500).json({ message: error.message });
-    }
-  },
+  ,
   getUserBookings: async (req, res) => {
     try {
       const bookings = await BookingModel.find({ user: req.user.userId }).populate("event");
