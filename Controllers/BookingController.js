@@ -39,7 +39,7 @@ const BookingController = {
       }
         // Check ticket availability
         const remainingTickets = event.remainingTickets - req.body.tickets;
-        if (remainingTickets <= 0) {
+        if (remainingTickets < 0) {
             return res.status(400).json({ message: "Not enough tickets available" });
         }
 
