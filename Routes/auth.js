@@ -8,7 +8,7 @@ router.post("/login",userController.login)
 
 
 router.put("/forgetPassword",userController.forgetPassword)
-router.put("/authOTP",userController.authOTP)
+router.post("/authOTP",userController.authOTP)
 
 
 

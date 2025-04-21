@@ -14,9 +14,9 @@ getUserEvents : async (req, res) => {
     try {
         const userId = req.user.userId; 
         const events = await Event.find({ Organizer: userId }); 
-        if(!events){
-            return res.status(400).json({ message: 'No events are found' });
-        }
+        if (events.length === 0) {
+            return res.status(200).json({ message: 'No bookings found', bookings: [] });
+          }
         return res.status(200).json({ events });
     } catch (err) {
         return res.status(500).json({ error: "Failed to fetch user events" });
@@ -77,6 +77,11 @@ updateUserRole: async (req, res) => {
     try {
         const role = req.body.role;
         if(!role){return res.status(400).json({message:"there is an error in the updateUserRole method"})}
+        const validRoles = ['User', 'Organizer', 'Admin'];
+
+        if (!validRoles.includes(role)) {
+            return res.status(400).json({ message: `Invalid role. Allowed roles are: ${validRoles.join(', ')}` });
+        }
         const updatedUser = await User.findByIdAndUpdate(
             req.params.id,
             {role},
@@ -85,9 +90,6 @@ updateUserRole: async (req, res) => {
         if (!updatedUser) return res.status(404).json({ message: 'User not found' });
         return res.status(200).json(updatedUser);
     } catch (err) {
-        if(err.name=='ValidationError'){
-            return res.status(400).json({error:err.message+` THE PROBLEM IS IN THE updateUserRole` })
-        }
         return res.status(500).json({ error: err.message });
     }
 },
@@ -125,10 +127,10 @@ registerUser : async (req, res) => {
 
         const existingUser = await User.findOne({ email });
         if (!name || !email || !password) {
-            return res.status(400).json({ message: 'Name, email, and password are required' });
+            return res.status(400).json({ message: 'Name, email, and password are required please fill them in' });
         }
         if (existingUser) {
-            return res.status(400).json({ message: 'Email already registered' });
+            return res.status(400).json({ message: 'Email already registered please use another email' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -152,11 +154,11 @@ login: async (req, res) => {
     try {
         // nfs el fekra check the body stuff
       const {email, password} = req.body;
-
-      const user = await User.findOne({ email });
       if (!email || !password) {
-        return res.status(400).json({ message: 'Email and Password are required' });
+        return res.status(400).json({ message: 'Email and Password are required please fill them both in' });
     }
+      const user = await User.findOne({ email });
+     
       if (!user) {
         return res.status(404).json({ message: "email not found" });
       }
@@ -165,7 +167,7 @@ login: async (req, res) => {
 
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
-        return res.status(405).json({ message: "incorrect password" });
+        return res.status(401).json({ message: "incorrect password" });
       }
 
       const currentDateTime = new Date();
@@ -197,12 +199,12 @@ try{
     // check if the user is logged in if he we might not allow forget password for amr
 
     if(!user){
-        return res.status(404).json({message:"Somethin is wrong we cpuldnt find the user (forget password)"})
+        return res.status(404).json({message:"Somethin is wrong we couldnt find the user"})
     }
 
     const otp_pass=crypto.randomInt(10000000,99999999)
     const enddate=new Date(Date.now()+ 10*60*1000)
-    //const enddate = new Date(Date.now() + 5 * 60 * 1000); 
+
     user.otp.temp=otp_pass
     user.otp.expiry=enddate
     console.log("we are prior to the testaccount")
@@ -256,7 +258,7 @@ try{
       
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          return console.error("Error:", error);
+            return res.status(500).json({ message: "Email sending failed", error: error.message });
         }
         console.log("Email sent:", info.response);
       });
@@ -275,6 +277,9 @@ catch(error){
     const {email,otp,password}=req.body
     try{
         console.log("line 281")
+        if(!email || !otp||!password){ 
+            return res.status(400).json({ message: "please send all fields: email. otp, password" });
+    }
         const user=await User.findOne({email})
         if(!user){
             return res.status(404).json({ message: "User not found" });
@@ -282,10 +287,10 @@ catch(error){
         console.log(otp)
         console.log(user.otp.temp)
         if(otp !==user.otp.temp){
-            return res.status(400).json({ message: "Invalid  OTP" });
+            return res.status(400).json({ message: "Invalid  OTP, the otp you provided is incorrect"  });
         }
         if( user.otp.expiry<=Date.now()){
-            return res.status(400).json({ message: "expired OTP" });
+            return res.status(400).json({ message: "expired OTP, the otp you sent has expired" });
         }
         
 
@@ -313,13 +318,14 @@ catch(error){
             text: `The OTP is: ${user.otp.temp}, the expiry date is: ${user.otp.expiry}`,
             html: `<b>this email is to confirm that your password has been changed</b>`,
           };
+
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-              return console.error("Error:", error);
+                return res.status(500).json({ message: "Email sending failed", error: error.message });
             }
             console.log("Email sent:", info.response);
           });
-        return res.status(200).json({ message: "OTP verified successfully" });
+        return res.status(200).json({ message: "OTP verified successfully, your password has changed" });
     }
     catch(error){
         console.log("error in authotp")

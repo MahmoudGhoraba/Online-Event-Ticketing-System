@@ -106,8 +106,8 @@ const eventController={
         try{
             const events=await eventModel.find({Organizer:req.user.userId});
             // i need to check later!!!!!!!!!!11
-            if(!events){
-                return res.status(400).json({ message: 'No events are found' });          
+            if (events.length === 0) {
+                return res.status(200).json({ message: 'No events found', events: [] });
             }
             const analyticsResult=events.map((event)=>{
                 const bookedEvents=event.totalNumberOfTickets-event.remainingTickets;
