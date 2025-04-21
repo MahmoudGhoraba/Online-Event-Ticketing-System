@@ -5,8 +5,9 @@ const eventController={
     getPostedEvents: async (req,res)=>{
         try{
          const events=await eventModel.find();
-         if(!events)
-            return res.status(404).json({message:"No Events are found"})
+         if (events.length === 0) {
+            return res.status(200).json({ message: "No events were found", events: [] });
+        }
          return res.status(200).json(events);
         }catch(error){
           return res.status(500).json({message:error.message});
@@ -23,18 +24,27 @@ const eventController={
     createEvent: async (req,res)=>{
 
         // chech is this event was already created(no duplication)
-        const event=new eventModel({
-            title:req.body.title,
-            description:req.body.description,
-            date:req.body.date,
-            location:req.body.location,
-            category:req.body.category,
-            ticketPrice:req.body.ticketPrice,
-            remainingTickets:req.body.totalNumberOfTickets,
-            totalNumberOfTickets:req.body.totalNumberOfTickets,
-            Organizer:req.user.userId
-        });
+        
         try{
+            const existingEvent = await eventModel.findOne({
+                title: req.body.title,
+                Organizer: req.user.userId
+            });
+    
+            if (existingEvent) {
+                return res.status(409).json({ message: "Event with this title already exists" });
+            }
+            const event=new eventModel({
+                title:req.body.title,
+                description:req.body.description,
+                date:req.body.date,
+                location:req.body.location,
+                category:req.body.category,
+                ticketPrice:req.body.ticketPrice,
+                remainingTickets:req.body.totalNumberOfTickets,
+                totalNumberOfTickets:req.body.totalNumberOfTickets,
+                Organizer:req.user.userId
+            });
             const newEvent= await event.save();
             return res.status(201).json(newEvent);
         }catch(error){
@@ -44,6 +54,10 @@ const eventController={
         //check for negative maybe dates
         try{
             const currentUser= await userModel.findById(req.user.userId)
+            const cevent = await eventModel.findById(req.params.id);
+            if (!cevent) {
+                return res.status(404).json({ message: "Event not found" })
+            }
             if(currentUser.role ==='Admin'){
                 try{
                     const event=await eventModel.findByIdAndUpdate(
@@ -53,14 +67,14 @@ const eventController={
                        );
                 return res.status(200).json({event,message:"event updated successfully for admin"});
                 }catch(err){
-                   console.log("error in update event logic")
+                    return res.status(500).json({message:"Sorry admin something went wrong"});
                 }
                 }
                 else if(currentUser.role ==='Organizer'){
                     const hisEvent=await eventModel.findOne({_id:req.params.id,Organizer:currentUser._id,})
                     if(!hisEvent){
                         console.log("this event didnt belong to the user")
-                        return res.status(500).json({message:"this event doesnt belong to u"})
+                        return res.status(403).json({message:"this event doesnt belong to u"})
                     }
                     if(req.body.status !=null){
                         return res.status(403).json({message:"As an Organiser you are not allowed to change the event status please redo the changes you want"})
@@ -72,7 +86,7 @@ const eventController={
                        );
                        return res.status(200).json({event,message:"event updated successfully for organiser"});
                 }
-                console.log("line 72 in eventcontroller")
+                return res.status(403).json({ message: "You do not have permission to update events" });
         }catch(error){
             return res.status(500).json({message:error.message})
         }
@@ -81,23 +95,29 @@ const eventController={
         try{
             //discuss the changes(amr)suggested
             const currentUser= await userModel.findById(req.user.userId)
+            const cevent = await eventModel.findById(req.params.id);
+            if (!cevent) {
+                return res.status(404).json({ message: "Event not found" })
+            }
+
             if(currentUser.role ==='Admin'){
             try{
           const event= await eventModel.findByIdAndDelete(req.params.id);
           return res.status(200).json({event,message:"event deleted successfully for admin"});
             }catch(err){
-               console.log("error in delete event logic")
+                return res.status(500).json({ message: "Server faced an error sorry admin" })
             }
             }
             else if(currentUser.role ==='Organizer'){
                 const hisEvent=await eventModel.findOne({_id:req.params.id,Organizer:currentUser._id,})
                 if(!hisEvent){
                     console.log("this event didnt belong to the user")
-                    return res.status(500).json({message:"this event doesnt belong to u"})
+                    return res.status(403).json({message:"this event doesnt belong to u"})
                 }
                 const event= await eventModel.findByIdAndDelete(req.params.id);
                 return res.status(200).json({event,message:"event deleted successfully for organiser"});
             }
+            return res.status(403).json({ message: "You do not have permission to update events" });
         }catch (error){
             return res.status(500).json({message:error.message})
         }
@@ -139,7 +159,9 @@ const eventController={
         try{
          const events=await eventModel.find({status:"approved"});
          if(!events)
-            return res.status(404).json({message:"No Aprroved Events are found"})
+            if (events.length === 0) {
+                return res.status(200).json({ message: "No approved events found", events: [] });
+            }
          return res.status(200).json(events);
         }catch(error){
           return res.status(500).json({message:error.message});

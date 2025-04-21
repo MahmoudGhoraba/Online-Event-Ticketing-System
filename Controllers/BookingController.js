@@ -39,7 +39,7 @@ const BookingController = {
       }
         // Check ticket availability
         const remainingTickets = event.remainingTickets - req.body.tickets;
-        if (remainingTickets < 0) {
+        if (remainingTickets <= 0) {
             return res.status(400).json({ message: "Not enough tickets available" });
         }
 
@@ -97,7 +97,10 @@ const BookingController = {
   },
   deleteBooking: async (req, res) => {
     try {
-      const booking=await BookingModel.findById({_id:req.params.id , user:req.user.userId}).populate("event")
+      const booking = await BookingModel.findOne({
+        _id: req.params.id,
+        user: req.user.userId
+      }).populate("event");
       if (!booking) {
         return res.status(404).json({ message: "Booking not found" });
       }
@@ -122,7 +125,7 @@ const BookingController = {
       //checkfor userexistance
       const booking = await BookingModel.findById(req.params.id)
       if(!booking){
-        return res.status(500).json({ message: 'no Booking ID are found'})
+        return res.status(404).json({ message: 'no Booking ID are found'})
       }
       return res.status(200).json(booking);
     } catch (error) {
