@@ -7,6 +7,6 @@ const userController=require("../Controllers/userController")
  const authenticationMiddleware=require('../Middleware/authenticateMiddleware')
 
  router.post("/",authenticationMiddleware,authorizationMiddleware(['User']),bookingController.createBooking)
- router.get("/:id",authenticationMiddleware,authorizationMiddleware(['User']),bookingController.getAllBooking)
+ router.get("/:id",authenticationMiddleware,authorizationMiddleware(['User']),bookingController.getUserBooking)
  router.delete("/:id",authenticationMiddleware,authorizationMiddleware(['User']),bookingController.deleteBooking)
 module.exports = router;

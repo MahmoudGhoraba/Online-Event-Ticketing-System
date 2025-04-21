@@ -124,7 +124,7 @@ const BookingController = {
       if(!booking){
         return res.status(500).json({ message: 'no Booking ID are found'})
       }
-      return res.status(200).json(booking.event);
+      return res.status(200).json(booking);
     } catch (error) {
       return res.status(500).json({ message: error.message });
     }
