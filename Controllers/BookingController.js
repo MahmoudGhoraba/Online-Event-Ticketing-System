@@ -102,7 +102,10 @@ const BookingController = {
   },
   deleteBooking: async (req, res) => {
     try {
-      const booking=await BookingModel.findById({_id:req.params.id , user:req.user.userId}).populate("event")
+      const booking = await BookingModel.findOne({
+        _id: req.params.id,
+        user: req.user.userId
+      }).populate("event");
       if (!booking) {
         return res.status(404).json({ message: "Booking not found" });
       }
