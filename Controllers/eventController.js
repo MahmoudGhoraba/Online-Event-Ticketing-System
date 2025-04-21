@@ -134,6 +134,16 @@ const eventController={
         }catch(error){
             res.status(500).json({message:error.message});
         }
+    },
+    getApprovedPostedEvents: async (req,res)=>{
+        try{
+         const events=await eventModel.find({status:"approved"});
+         if(!events)
+            return res.status(404).json({message:"No Aprroved Events are found"})
+         return res.status(200).json(events);
+        }catch(error){
+          return res.status(500).json({message:error.message});
+        }
     }
 };
 module.exports=eventController;
