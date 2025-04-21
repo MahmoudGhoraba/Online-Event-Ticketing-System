@@ -43,24 +43,63 @@ const eventController={
     },updateEvent: async (req,res)=>{
         //check for negative maybe dates
         try{
-           const event=await eventModel.findByIdAndUpdate(
-            req.params.id,
-            req.body,
-            {new:true}
-           );
-           return res.status(200).json({event,message:"event updated successfully"});
+            const currentUser= await userModel.findById(req.user.userId)
+            if(currentUser.role ==='Admin'){
+                try{
+                    const event=await eventModel.findByIdAndUpdate(
+                        req.params.id,
+                        req.body,
+                        {new:true}
+                       );
+                return res.status(200).json({event,message:"event updated successfully for admin"});
+                }catch(err){
+                   console.log("error in update event logic")
+                }
+                }
+                else if(currentUser.role ==='Organizer'){
+                    const hisEvent=await eventModel.findOne({_id:req.params.id,Organizer:currentUser._id,})
+                    if(!hisEvent){
+                        console.log("this event didnt belong to the user")
+                        return res.status(500).json({message:"this event doesnt belong to u"})
+                    }
+                    const event=await eventModel.findByIdAndUpdate(
+                        req.params.id,
+                        req.body,
+                        {new:true}
+                       );
+                       return res.status(200).json({event,message:"event updated successfully for organiser"});
+                }
+                console.log("line 72 in eventcontroller")
         }catch(error){
             return res.status(500).json({message:error.message})
         }
-    },deleteEvent: async (req,res)=>{
+    },
+    deleteEvent: async (req,res)=>{
         try{
             //discuss the changes(amr)suggested
+            const currentUser= await userModel.findById(req.user.userId)
+            if(currentUser.role ==='Admin'){
+            try{
           const event= await eventModel.findByIdAndDelete(req.params.id);
-          return res.status(200).json({event,message:"event deleted successfully"});
+          return res.status(200).json({event,message:"event deleted successfully for admin"});
+            }catch(err){
+               console.log("error in delete event logic")
+            }
+            }
+            else if(currentUser.role ==='Organizer'){
+                const hisEvent=await eventModel.findOne({_id:req.params.id,user:currentUser._id,})
+                if(!hisEvent){
+                    console.log("this event didnt belong to the user")
+                    return res.status(500).json({message:"this event doesnt belong to u"})
+                }
+                const event= await eventModel.findByIdAndDelete(req.params.id);
+                return res.status(200).json({event,message:"event deleted successfully for organiser"});
+            }
         }catch (error){
             return res.status(500).json({message:error.message})
         }
-    },getOrganizerEventAnalytics: async (req,res)=>{
+    },
+    getOrganizerEventAnalytics: async (req,res)=>{
         try{
             const events=await eventModel.find({Organizer:req.user.userId});
             // i need to check later!!!!!!!!!!11
