@@ -7,15 +7,14 @@ export default function RegisterForm() {
     name: "",
     email: "",
     password: "",
-    age: 0,
-    role: "student",
+    role: "User",
   });
   const [message, setMessage]=useState('')
   const navigate=useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/v1/register", form);
+      await axios.post("http://localhost:3000/api/v1/register/", form);
       setMessage("Registration successful. redirect to login .....");
       setTimeout(()=>navigate('/login'),2000)
     } catch (err) {
@@ -33,15 +32,6 @@ export default function RegisterForm() {
         className="border p-2 w-full"
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-      <br />
-      <label>Age </label>
-
-      <input
-        placeholder="Age"
-        className="border p-2 w-full"
-        value={form.age}
-        onChange={(e) => setForm({ ...form, age: e.target.value })}
       />
       <br />
       <label>Email </label>
@@ -70,8 +60,9 @@ export default function RegisterForm() {
         onChange={(e) => setForm({ ...form, role: e.target.value })}
         className="border p-2 w-full"
       >
-        <option value="student">Student</option>
-        <option value="admin">Admin</option>
+        <option value="User">User</option>
+        <option value="Organizer">Organizer</option>
+        <option value="Admin">Admin</option>
       </select>
       <br/>
       <button
