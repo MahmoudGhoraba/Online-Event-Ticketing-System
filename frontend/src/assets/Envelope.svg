@@ -1,0 +1,13 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Envelope" clip-path="url(#clip0_2018_45)">
+<path id="Vector" d="M1.5 3H14.5C14.5 3 15.5 3 15.5 4V12C15.5 12 15.5 13 14.5 13H1.5C1.5 13 0.5 13 0.5 12V4C0.5 4 0.5 3 1.5 3Z" stroke="#0C0C1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M10.458 6.65002L13 9.00002" stroke="#0C0C1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M5.542 6.65002L3 9.00002" stroke="#0C0C1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M15.2533 3.34265L8.91131 7.71599C8.6434 7.90096 8.32554 8.00003 7.99998 8.00003C7.67441 8.00003 7.35656 7.90096 7.08864 7.71599L0.746643 3.34265" stroke="#0C0C1E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_2018_45">
+<rect width="16" height="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>
