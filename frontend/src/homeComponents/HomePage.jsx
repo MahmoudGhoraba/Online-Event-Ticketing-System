@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import TypingMessage from "../homeComponents/TypingMessage";
-import EventCard from "../eventComponents/EventCard";
+import EventList from "../eventComponents/EventList";
 import Footer from "../sharedComponents/Footer";
+import Navbar from "../sharedComponents/navBar";
 import { useNavigate } from "react-router-dom";
+import { Check, ArrowRight } from "lucide-react"; // Make sure to import icons or replace
 
 function HomePage() {
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAllEvents, setShowAllEvents] = useState(false); // new state
+  const [activeTab, setActiveTab] = useState("discover"); // Add tab state
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchEvents() {
       try {
         const response = await axios.get("http://localhost:3000/api/v1/events/");
-        setFeaturedEvents(response.data.slice(0, 4));
+        setFeaturedEvents(response.data);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       } finally {
@@ -24,150 +28,77 @@ function HomePage() {
     fetchEvents();
   }, []);
 
+  // Keep your styles here or move to CSS modules / Tailwind
   const styles = {
-    container: {
-      display: "flex",   
-      flexDirection: "column",
-      minHeight: "100vh",
-      backgroundColor: "white",
-      overflowX: "hidden", // <-- add this
-      overflowY: "hidden",
-    },
-    heroSection: {
-      background: "linear-gradient(135deg, #FEF3C7 0%, #FCD34D 100%)",
-      paddingTop: 80,
-      paddingBottom: 96,
-      textAlign: "center",
-    },
-    heroContainer: {
+    /* your existing styles */
+    tabsContainer: {
       maxWidth: 1200,
       margin: "0 auto",
-      paddingLeft: 24,
-      paddingRight: 24,
-      boxSizing: "border-box",
+      padding: "0 24px",
     },
-    heroText: {
-      fontSize: 18,
-      color: "#4B5563",
-      maxWidth: 640,
-      margin: "16px auto 40px auto",
-      lineHeight: 1.6,
-    },
-    buttonsWrapper: {
+    tabButtonsWrapper: {
       display: "flex",
-      justifyContent: "center",
+      borderBottom: "1px solid #e5e7eb", // gray-200
+      overflowX: "auto",
+      paddingBottom: 8,
       gap: 24,
-      flexWrap: "wrap",
-      marginTop: 32,
+      justifyContent: "start",
     },
-    buttonGreen: {
-      backgroundColor: "#16A34A",
-      color: "white",
-      fontWeight: 600,
-      padding: "12px 40px",
-      borderRadius: 12,
-      border: "none",
-      boxShadow: "0 4px 6px rgba(22, 163, 74, 0.5)",
+    tabButton: (isActive) => ({
+      padding: "12px 24px",
       cursor: "pointer",
-      transition: "background-color 0.3s ease",
-    },
-    buttonGreenHover: {
-      backgroundColor: "#15803D",
-    },
-    buttonBlue: {
-      backgroundColor: "#2563EB",
-      color: "white",
-      fontWeight: 600,
-      padding: "12px 40px",
-      borderRadius: 12,
+      borderBottom: isActive ? "2px solid #2563EB" : "2px solid transparent",
+      color: isActive ? "#2563EB" : "#6B7280", // blue-600 or gray-500
+      fontWeight: isActive ? 600 : 500,
+      whiteSpace: "nowrap",
+      background: "none",
+      outline: "none",
       border: "none",
-      boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
-      cursor: "pointer",
-      transition: "background-color 0.3s ease",
-    },
-    buttonBlueHover: {
-      backgroundColor: "#1D4ED8",
-    },
-    featuredSection: {
-      backgroundColor: "#F9FAFB",
-      paddingTop: 64,
-      paddingBottom: 64,
-      flexGrow: 1,
-    },
-    featuredContainer: {
+    }),
+    tabContent: {
+      marginTop: 24,
       maxWidth: 1200,
-      margin: "0 auto",
-      paddingLeft: 24,
-      paddingRight: 24,
-      boxSizing: "border-box",
-    },
-    featuredHeading: {
-      fontSize: 28,
-      fontWeight: 800,
-      color: "#111827",
-      textAlign: "center",
-      marginBottom: 48,
-    },
-    loadingText: {
-      textAlign: "center",
-      color: "#6B7280",
-      fontSize: 18,
-    },
-    eventsGrid: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-      gap: 32,
-    },
-    exploreButton: {
-      marginTop: 48,
-      backgroundColor: "#2563EB",
-      color: "white",
-      fontWeight: 600,
-      padding: "12px 48px",
-      borderRadius: 12,
-      border: "none",
-      boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
-      cursor: "pointer",
-      transition: "background-color 0.3s ease",
-      display: "inline-block",
-    },
-    exploreButtonHover: {
-      backgroundColor: "#1D4ED8",
+      margin: "auto",
+      padding: "0 24px",
     },
   };
 
-  const [loginHover, setLoginHover] = useState(false);
-  const [registerHover, setRegisterHover] = useState(false);
-  const [exploreHover, setExploreHover] = useState(false);
-
   return (
-    <div style={styles.container}>
-      {/* Hero Section */}
-      <section style={styles.heroSection}>
-        <div style={styles.heroContainer}>
+    <div style={{ minHeight: "100vh", backgroundColor: "#F9FAFB", overflowX: "hidden" }}>
+      <Navbar />
+      <section style={{ paddingTop: 80, paddingBottom: 96, textAlign: "center" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
           <TypingMessage />
-          <p style={styles.heroText}>
+          <p style={{ fontSize: 18, color: "#4B5563", maxWidth: 640, margin: "16px auto 40px auto", lineHeight: 1.6 }}>
             Discover, book, and enjoy events easily with our platform. Find the perfect experience for every occasion.
           </p>
-          <div style={styles.buttonsWrapper}>
+          <div style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", marginTop: 32 }}>
             <button
               style={{
-                ...styles.buttonGreen,
-                ...(loginHover ? styles.buttonGreenHover : {}),
+                backgroundColor: "#16A34A",
+                color: "white",
+                fontWeight: 600,
+                padding: "12px 40px",
+                borderRadius: 12,
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 4px 6px rgba(22, 163, 74, 0.5)",
               }}
-              onMouseEnter={() => setLoginHover(true)}
-              onMouseLeave={() => setLoginHover(false)}
               onClick={() => navigate("/login")}
             >
               Login
             </button>
             <button
               style={{
-                ...styles.buttonBlue,
-                ...(registerHover ? styles.buttonBlueHover : {}),
+                backgroundColor: "#2563EB",
+                color: "white",
+                fontWeight: 600,
+                padding: "12px 40px",
+                borderRadius: 12,
+                border: "none",
+                cursor: "pointer",
+                boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
               }}
-              onMouseEnter={() => setRegisterHover(true)}
-              onMouseLeave={() => setRegisterHover(false)}
               onClick={() => navigate("/register")}
             >
               Register
@@ -177,39 +108,158 @@ function HomePage() {
       </section>
 
       {/* Featured Events Section */}
-      <section style={styles.featuredSection}>
-        <div style={styles.featuredContainer}>
-          <h2 style={styles.featuredHeading}>Featured Events</h2>
+      <section style={{ backgroundColor: "#F9FAFB", paddingTop: 64, paddingBottom: 64 }}>
+    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+      <h2 style={{ fontSize: 28, fontWeight: 800, color: "#111827", textAlign: "center", marginBottom: 48 }}>
+        Featured Events
+      </h2>
 
-          {loading ? (
-            <p style={styles.loadingText}>Loading events...</p>
-          ) : featuredEvents.length === 0 ? (
-            <p style={styles.loadingText}>No events available.</p>
-          ) : (
-            <div style={styles.eventsGrid}>
-              {featuredEvents.map((event) => (
-                <EventCard key={event._id} event={event} />
-              ))}
+      {loading ? (
+        <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>Loading events...</p>
+      ) : featuredEvents.length === 0 ? (
+        <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>No events available.</p>
+      ) : (
+        <>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: 32,
+            }}
+          >
+            {/* Show first 3 events */}
+            <EventList events={featuredEvents.slice(0, 3)} />
+          </div>
+
+          {/* If more than 3 events and not showing all yet */}
+          {featuredEvents.length > 3 && !showAllEvents && (
+            <div style={{ textAlign: "center", marginTop: 24 }}>
+              <button
+                style={{
+                  backgroundColor: "#2563EB",
+                  color: "white",
+                  fontWeight: 600,
+                  padding: "12px 32px",
+                  borderRadius: 12,
+                  border: "none",
+                  boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowAllEvents(true)}
+              >
+                Explore More
+              </button>
             </div>
           )}
 
-          <div style={{ textAlign: "center" }}>
-            <button
-              style={{
-                ...styles.exploreButton,
-                ...(exploreHover ? styles.exploreButtonHover : {}),
-              }}
-              onMouseEnter={() => setExploreHover(true)}
-              onMouseLeave={() => setExploreHover(false)}
-              onClick={() => navigate("/events")}
-            >
-              Explore All Events
-            </button>
-          </div>
-        </div>
-      </section>
+          {/* Show remaining events if showAllEvents is true */}
+          {showAllEvents && (
+            <>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                  gap: 32,
+                  marginTop: 40,
+                }}
+              >
+                <EventList events={featuredEvents.slice(3)} />
+              </div>
 
-      {/* Footer */}
+              <div style={{ textAlign: "center", marginTop: 24 }}>
+                <button
+                  style={{
+                    backgroundColor: "#2563EB",
+                    color: "white",
+                    fontWeight: 600,
+                    padding: "12px 32px",
+                    borderRadius: 12,
+                    border: "none",
+                    boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setShowAllEvents(false)}
+                >
+                  Show Less
+                </button>
+              </div>
+            </>
+          )}
+        </>
+      )}
+    </div>
+  </section>
+
+
+      {/* Tabs Section */}
+      <div style={styles.tabsContainer}>
+        <div style={styles.tabButtonsWrapper}>
+          {["discover", "organize", "attend", "analyze"].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              style={styles.tabButton(activeTab === tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div style={styles.tabContent}>
+          {activeTab === "discover" && (
+            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
+              <div style={{ flex: "1 1 40%" }}>
+                <h3 style={{ fontSize: 24, fontWeight: "bold", color: "#111827" }}>
+                  Find the perfect events for you
+                </h3>
+                <p style={{ marginTop: 16, fontSize: 18, color: "#4B5563" }}>
+                  Our smart discovery engine helps you find events that match your interests, location, and schedule.
+                </p>
+                <ul style={{ marginTop: 32, listStyleType: "none", paddingLeft: 0 }}>
+                  {["Personalized recommendations", "Advanced search filters", "Location-based discovery"].map((item) => (
+                    <li key={item} style={{ display: "flex", alignItems: "start", marginBottom: 10 }}>
+                      <Check className="h-5 w-5 text-green-500" />
+                      <p style={{ marginLeft: 12, color: "#374151" }}>{item}</p>
+                    </li>
+                  ))}
+                </ul>
+                <a href="#" style={{ marginTop: 40, display: "inline-flex", alignItems: "center", color: "#2563EB", fontWeight: 600 }}>
+                  Learn more about discovery
+                  <ArrowRight style={{ marginLeft: 8, width: 16, height: 16 }} />
+                </a>
+              </div>
+              <div style={{ flex: "1 1 60%" }}>
+                <div style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
+                  <img src="src/assets/react.svg" alt="Event discovery interface" style={{ width: "20%", height: "auto" }} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Repeat similar structure for organize, attend, analyze tabs */}
+          {activeTab === "organize" && (
+            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
+              {/* Content for organize */}
+              {/* ... */}
+            </div>
+          )}
+          {activeTab === "attend" && (
+            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
+              {/* Content for attend */}
+              {/* ... */}
+            </div>
+          )}
+          {activeTab === "analyze" && (
+            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
+              {/* Content for analyze */}
+              {/* ... */}
+            </div>
+          )}
+        </div>
+      </div>
+
+
       <Footer />
     </div>
   );

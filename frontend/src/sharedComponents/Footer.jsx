@@ -14,7 +14,6 @@ const Footer = () => {
     container: {
       width: '100%',
       display: 'flex',
-      padding: '0',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
     },
@@ -23,9 +22,8 @@ const Footer = () => {
       display: 'flex',
       flexWrap: 'wrap',
       justifyContent: 'space-between',
-      padding: '0 20px', // optional
+      padding: '0 20px',
     },
-    
     column: {
       flex: '1',
       minWidth: '180px',
@@ -42,6 +40,7 @@ const Footer = () => {
     },
     circleContainer: {
       display: 'flex',
+      justifyContent: 'center',
       gap: '10px',
       marginTop: '20px',
     },
@@ -51,17 +50,17 @@ const Footer = () => {
       backgroundColor: '#ddd',
       borderRadius: '50%',
     },
-    bar: {
-      height: '14px',
-      backgroundColor: '#666',
+    sectionTitle: {
+      fontWeight: 'bold',
+      fontSize: '18px',
       marginBottom: '10px',
-      borderRadius: '2px',
     },
-    block: {
-      height: '40px',
-      backgroundColor: '#aaa',
-      marginBottom: '15px',
-      borderRadius: '4px',
+    link: {
+      marginBottom: '8px',
+      display: 'block',
+      color: '#ccc',
+      textDecoration: 'none',
+      cursor: 'pointer',
     },
     input: {
       backgroundColor: '#555',
@@ -102,7 +101,7 @@ const Footer = () => {
         <div style={styles.contentWrapper}>
           {/* Logo Column */}
           <div style={styles.column}>
-            <div style={styles.logoBox}>Logo</div>
+            <div style={styles.logoBox}>🎟️ Spaghetti's</div>
             <div style={styles.circleContainer}>
               <div style={styles.circle}></div>
               <div style={styles.circle}></div>
@@ -111,20 +110,33 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Columns */}
-          {[1, 2, 3].map((_, i) => (
-            <div key={i} style={styles.column}>
-              <div style={styles.block}></div>
-              <div style={styles.bar}></div>
-              <div style={styles.bar}></div>
-              <div style={styles.bar}></div>
-            </div>
-          ))}
-
-          {/* Input & Button Column */}
+          {/* Information Columns */}
           <div style={styles.column}>
-            <input type="text" placeholder="Label" style={styles.input} />
-            <button style={styles.button}>Button</button>
+            <div style={styles.sectionTitle}>About Us</div>
+            <span style={styles.link}>Our Story</span>
+            <span style={styles.link}>Team</span>
+            <span style={styles.link}>Careers</span>
+          </div>
+
+          <div style={styles.column}>
+            <div style={styles.sectionTitle}>Support</div>
+            <span style={styles.link}>Contact</span>
+            <span style={styles.link}>FAQs</span>
+            <span style={styles.link}>Help Center</span>
+          </div>
+
+          <div style={styles.column}>
+            <div style={styles.sectionTitle}>Legal</div>
+            <span style={styles.link}>Privacy Policy</span>
+            <span style={styles.link}>Terms of Service</span>
+            <span style={styles.link}>Cookie Policy</span>
+          </div>
+
+          {/* Subscribe Column */}
+          <div style={styles.column}>
+            <div style={styles.sectionTitle}>Subscribe</div>
+            <input type="text" placeholder="Your email" style={styles.input} />
+            <button style={styles.button}>Subscribe</button>
           </div>
         </div>
       </div>
