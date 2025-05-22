@@ -196,7 +196,7 @@ login: async (req, res) => {
 try{
     const user=await User.findOne({email:theusere_mail})
 
-    // check if the user is logged in if he we might not allow forget password for amr
+    // check if the user is logged in if she we might not allow forget password for amr
 
     if(!user){
         return res.status(404).json({message:"Somethin is wrong we couldnt find the user"})
@@ -245,6 +245,10 @@ try{
         auth: {
           user: "ahmedwaelhebesha401@gmail.com",        // your Gmail
           pass: "jdmd vkhm bnza mhjl",      // 16-character app password
+          
+        },
+        tls: {
+            rejectUnauthorized: false,  // 👈 Add this line
         },
       });
 
@@ -258,15 +262,17 @@ try{
       
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
+            console.log("Error sending email:", error);
             return res.status(500).json({ message: "Email sending failed", error: error.message });
         }
         console.log("Email sent:", info.response);
+        return res.status(200).json({message:`the otp value :${otp_pass} and the enddate is ${enddate} done as expected`})
       });
+
       
 
 
 
-    return res.status(200).json({message:`the otp value :${otp_pass} and the enddate is ${enddate} done as expected`})
 }
 catch(error){
     console.error("AN ERROR OCCURED IN USER_CONTROLLER FORGOT PASSWORD")
@@ -278,6 +284,7 @@ catch(error){
     try{
         console.log("line 281")
         if(!email || !otp||!password){ 
+            console.log(email+" "+otp+" "+password)
             return res.status(400).json({ message: "please send all fields: email. otp, password" });
     }
         const user=await User.findOne({email})
@@ -286,7 +293,7 @@ catch(error){
         }
         console.log(otp)
         console.log(user.otp.temp)
-        if(otp !==user.otp.temp){
+        if(parseInt(otp) !==user.otp.temp){
             return res.status(400).json({ message: "Invalid  OTP, the otp you provided is incorrect"  });
         }
         if( user.otp.expiry<=Date.now()){
@@ -308,6 +315,10 @@ catch(error){
             auth: {
               user: "ahmedwaelhebesha401@gmail.com",        // your Gmail
               pass: "jdmd vkhm bnza mhjl",      // 16-character app password
+            },
+
+            tls: {
+                rejectUnauthorized: false,  // 👈 Add this line
             },
           });
     

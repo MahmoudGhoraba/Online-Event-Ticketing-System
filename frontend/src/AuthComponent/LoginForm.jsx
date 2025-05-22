@@ -18,6 +18,7 @@ export default function LoginForm() {
   };
 
   return (
+    <div>
     <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-20 space-y-4">
       <h1>Welcome Please Login</h1>
       <br/>
@@ -45,10 +46,21 @@ export default function LoginForm() {
         Login
       </button>
       <br/>
-      
-      <button onClick={()=>navigate('/register')} className="bg-blue-600 text-white px-4 py-2 rounded">
-        Register
-      </button>
     </form>
+      <div className="text-center mt-4">
+        <p>
+          Don't have an account?{" "}
+          <a href="/register" className="text-blue-600">
+            Register here
+          </a>
+        </p>
+        <p>
+          Forgot your password?{" "}
+          <a href="/forget-password" className="text-blue-600">
+            Reset it here
+          </a>
+        </p>
+      </div>
+    </div>
   );
 }

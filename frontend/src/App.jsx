@@ -5,6 +5,8 @@ import RegisterForm from "./AuthComponent/RegisterForm";
 import HomePage from "./homeComponents/HomePage";
 import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
 import ProtectedRoute from "./auth/ProtectedRoutes";
+import ForgetPassword from "./AuthComponent/forgetPassword";
+
 function App() {
 
 
@@ -16,6 +18,7 @@ function App() {
           <Route path="/" element={<HomePage/>} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
           <Route
             path="/admin/users" 
             element={
