@@ -11,11 +11,12 @@ function EventDetails() {
   useEffect(() => {
     const fetchEvent = async () => {
       try {
+        console.log("in the rifht comp")
         const response = await axios.get(`http://localhost:3000/api/v1/events/${id}`);
         setEvent(response.data);
         console.log(response.data)
       } catch (err) {
-        console.error('Failed to fetch event:', eror);
+        console.error('Failed to fetch event:', err);
         setError('Could not load event details.');
       } finally {
         setLoading(false);

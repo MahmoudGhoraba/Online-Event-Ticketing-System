@@ -6,6 +6,7 @@ import HomePage from "./homeComponents/HomePage";
 import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
 import ProtectedRoute from "./auth/ProtectedRoutes";
 import ForgetPassword from "./AuthComponent/forgetPassword";
+import EventDetails from './eventComponents/eventdetails'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="/events/:id" element={<EventDetails />} />
           <Route
             path="/admin/users" 
             element={
