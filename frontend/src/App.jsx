@@ -7,6 +7,9 @@ import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
 import ProtectedRoute from "./auth/ProtectedRoutes";
 import ForgetPassword from "./AuthComponent/forgetPassword";
 import EventDetails from './eventComponents/eventdetails'
+import OrganizerPage from "./OrganizerComponent/Organizer"
+import OrganizerEvent from "./eventComponents/eventdetails"
+import CreateEvent from './OrganizerComponent/OrganizerCreateEvent'
 
 function App() {
 
@@ -29,7 +32,34 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/organizer/users" 
+            element={
+              <ProtectedRoute allowedRoles={["Organizer"]}>
+                <OrganizerPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/organizer/eventdeatails/:id" 
+            element={
+              <ProtectedRoute allowedRoles={["Organizer"]}>
+                <OrganizerEvent />
+              </ProtectedRoute>
+            }
+          />
+          
+          <Route
+            path="/organizer/createvents" 
+            element={
+              <ProtectedRoute allowedRoles={["Organizer"]}>
+                <CreateEvent />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
+
+      
 
       
 

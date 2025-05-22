@@ -53,11 +53,15 @@ const eventController={
     },updateEvent: async (req,res)=>{
         //check for negative maybe dates
         try{
+            console.log(req)
             const currentUser= await userModel.findById(req.user.userId)
             const cevent = await eventModel.findById(req.params.id);
             if (!cevent) {
                 return res.status(404).json({ message: "Event not found" })
             }
+            console.log(req.params.remainingTickets)
+            console.log("then total")
+            console.log(req.params.totalNumberOfTickets)
             if(currentUser.role ==='Admin'){
                 try{
                     const event=await eventModel.findByIdAndUpdate(
@@ -76,7 +80,8 @@ const eventController={
                         console.log("this event didnt belong to the user")
                         return res.status(403).json({message:"this event doesnt belong to u"})
                     }
-                    if(req.body.status !=null){
+                    console.log(req.body.status ===hisEvent.status)
+                    if(req.body.status !==hisEvent.status){
                         return res.status(403).json({message:"As an Organiser you are not allowed to change the event status please redo the changes you want"})
                     }
                     const event=await eventModel.findByIdAndUpdate(
@@ -84,6 +89,8 @@ const eventController={
                         req.body,
                         {new:true}
                        );
+                       console.log(`after changes`)
+                       console.log(event)
                        return res.status(200).json({event,message:"event updated successfully for organiser"});
                 }
                 return res.status(403).json({ message: "You do not have permission to update events" });

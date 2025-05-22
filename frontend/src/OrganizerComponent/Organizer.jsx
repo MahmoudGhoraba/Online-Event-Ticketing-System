@@ -4,21 +4,26 @@ import TypingMessage from "../homeComponents/TypingMessage";
 import EventList from "../eventComponents/EventList";
 import Footer from "../sharedComponents/Footer";
 import Navbar from "../sharedComponents/navBar";
+import CreateEventcard from '../eventComponents/createevent';
 import { useNavigate } from "react-router-dom";
 import { Check, ArrowRight } from "lucide-react"; // Make sure to import icons or replace
+import ChartComponent from './chartcomponent'; // adjust path
 
-function HomePage() {
+
+
+function OrganizerPage() {
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showAllEvents, setShowAllEvents] = useState(false); // new state
-  const [activeTab, setActiveTab] = useState("discover"); // Add tab state
+  const [showAllEvents, setShowAllEvents] = useState(false);
+  const [activeTab, setActiveTab] = useState("discover");
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/events/");
-        setFeaturedEvents(response.data);
+        const response = await axios.get("http://localhost:3000/api/v1/users/events");
+        console.log(response.data);
+        setFeaturedEvents(response.data.events);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       } finally {
@@ -28,15 +33,13 @@ function HomePage() {
     fetchEvents();
   }, []);
 
-  const handleClick=(event)=>{
-    console.log(event._id)
-    navigate(`/events/${event._id}`)
-  }
+  const handleClick = (event) => {
+    console.log("clicked");
+    navigate(`/organizer/eventdeatails/${event._id}`);
+  };
 
-
-  // Keep your styles here or move to CSS modules / Tailwind
+  // Styles object
   const styles = {
-    /* your existing styles */
     tabsContainer: {
       maxWidth: 1200,
       margin: "0 auto",
@@ -44,7 +47,7 @@ function HomePage() {
     },
     tabButtonsWrapper: {
       display: "flex",
-      borderBottom: "1px solid #e5e7eb", // gray-200
+      borderBottom: "1px solid #e5e7eb",
       overflowX: "auto",
       paddingBottom: 8,
       gap: 24,
@@ -54,7 +57,7 @@ function HomePage() {
       padding: "12px 24px",
       cursor: "pointer",
       borderBottom: isActive ? "2px solid #2563EB" : "2px solid transparent",
-      color: isActive ? "#2563EB" : "#6B7280", // blue-600 or gray-500
+      color: isActive ? "#2563EB" : "#6B7280",
       fontWeight: isActive ? 600 : 500,
       whiteSpace: "nowrap",
       background: "none",
@@ -72,130 +75,58 @@ function HomePage() {
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#F9FAFB", overflowX: "hidden" }}>
       <Navbar />
-      <section style={{ paddingTop: 80, paddingBottom: 96, textAlign: "center" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-          <TypingMessage />
-          <p style={{ fontSize: 18, color: "#4B5563", maxWidth: 640, margin: "16px auto 40px auto", lineHeight: 1.6 }}>
-            Discover, book, and enjoy events easily with our platform. Find the perfect experience for every occasion.
-          </p>
-          <div style={{ display: "flex", justifyContent: "center", gap: 24, flexWrap: "wrap", marginTop: 32 }}>
-            <button
-              style={{
-                backgroundColor: "#16A34A",
-                color: "white",
-                fontWeight: 600,
-                padding: "12px 40px",
-                borderRadius: 12,
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 4px 6px rgba(22, 163, 74, 0.5)",
-              }}
-              onClick={() => navigate("/login")}
-            >
-              Login
-            </button>
-            <button
-              style={{
-                backgroundColor: "#2563EB",
-                color: "white",
-                fontWeight: 600,
-                padding: "12px 40px",
-                borderRadius: 12,
-                border: "none",
-                cursor: "pointer",
-                boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
-              }}
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* Featured Events Section */}
       <section style={{ backgroundColor: "#F9FAFB", paddingTop: 64, paddingBottom: 64 }}>
-    <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-      <h2 style={{ fontSize: 28, fontWeight: 800, color: "#111827", textAlign: "center", marginBottom: 48 }}>
-        Featured Events
-      </h2>
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+          <h2 style={{ fontSize: 28, fontWeight: 800, color: "#111827", textAlign: "center", marginBottom: 48 }}>
+            Featured Events
+          </h2>
 
-      {loading ? (
-        <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>Loading events...</p>
-      ) : featuredEvents.length === 0 ? (
-        <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>No events available.</p>
-      ) : (
-        <>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: 32,
-            }}
-          >
-            {/* Show first 3 events */}
-            <EventList events={featuredEvents.slice(0, 3)} onClick={handleClick} />
-          </div>
-
-          {/* If more than 3 events and not showing all yet */}
-          {featuredEvents.length > 3 && !showAllEvents && (
-            <div style={{ textAlign: "center", marginTop: 24 }}>
-              <button
-                style={{
-                  backgroundColor: "#2563EB",
-                  color: "white",
-                  fontWeight: 600,
-                  padding: "12px 32px",
-                  borderRadius: 12,
-                  border: "none",
-                  boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
-                  cursor: "pointer",
-                }}
-                onClick={() => setShowAllEvents(true)}
-              >
-                Explore More
-              </button>
-            </div>
-          )}
-
-          {/* Show remaining events if showAllEvents is true */}
-          {showAllEvents && (
+          {loading ? (
+            <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>Loading events...</p>
+          ) : featuredEvents.length === 0 ? (
+            <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>No events available.</p>
+          ) : (
             <>
               <div
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                   gap: 32,
-                  marginTop: 40,
                 }}
               >
-                <EventList events={featuredEvents.slice(3)} onClick={handleClick} />
+                {/* Show either first 3 events or all events */}
+                <EventList events={showAllEvents ? featuredEvents : featuredEvents.slice(0, 3)} onClick={handleClick} />
+
+                {/* CreateEventcard always last */}
+                <CreateEventcard />
               </div>
 
-              <div style={{ textAlign: "center", marginTop: 24 }}>
-                <button
-                  style={{
-                    backgroundColor: "#2563EB",
-                    color: "white",
-                    fontWeight: 600,
-                    padding: "12px 32px",
-                    borderRadius: 12,
-                    border: "none",
-                    boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
-                    cursor: "pointer",
-                  }}
-                  onClick={() => setShowAllEvents(false)}
-                >
-                  Show Less
-                </button>
-              </div>
+              {/* Toggle button for show more / show less */}
+              {featuredEvents.length > 3 && (
+                <div style={{ textAlign: "center", marginTop: 24 }}>
+                  <button
+                    style={{
+                      backgroundColor: "#2563EB",
+                      color: "white",
+                      fontWeight: 600,
+                      padding: "12px 32px",
+                      borderRadius: 12,
+                      border: "none",
+                      boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => setShowAllEvents(!showAllEvents)}
+                  >
+                    {showAllEvents ? "Show Less" : "Explore More"}
+                  </button>
+                </div>
+              )}
             </>
           )}
-        </>
-      )}
-    </div>
-  </section>
-
+        </div>
+      </section>
 
       {/* Tabs Section */}
       <div style={styles.tabsContainer}>
@@ -243,7 +174,6 @@ function HomePage() {
             </div>
           )}
 
-          {/* Repeat similar structure for organize, attend, analyze tabs */}
           {activeTab === "organize" && (
             <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
               {/* Content for organize */}
@@ -264,11 +194,15 @@ function HomePage() {
           )}
         </div>
       </div>
-
-
+      {activeTab === "analyze" && (
+  <div style={{ padding: '24px 0' }}>
+    
+  </div>
+)}
+<ChartComponent />
       <Footer />
     </div>
   );
 }
 
-export default HomePage;
+export default OrganizerPage;

@@ -15,7 +15,10 @@ export default function LoginForm() {
     if (role === "Admin") {
       navigate("/admin/users");
     }
-  };
+    if(role==='Organizer'){
+    navigate("/organizer/users");
+  }
+};
 
   return (
     <div>
