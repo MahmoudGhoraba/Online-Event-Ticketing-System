@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
         const res = await axios.get("http://localhost:3000/api/v1/users/profile", {
           withCredentials: true,
         });
-        setUser(res.data);
+        setUser(res.data.user);
       } catch(e) {
         console.log(e)
         setUser(null);
@@ -32,7 +32,7 @@ const login = async (credentials) => {
         withCredentials: true,
       });
       if (response.data) {
-        setUser(response.data);
+        setUser(response.data.user);
         
         return response.data.user.role;
       }

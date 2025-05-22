@@ -11,10 +11,9 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const role = await login(form);
-    console.log(role);
+    console.log(role)
     if (role === "Admin") {
       navigate("/admin/users");
-      
     }
   };
 
