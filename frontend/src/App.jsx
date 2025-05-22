@@ -3,6 +3,8 @@ import { AuthProvider, useAuth } from "./auth/AuthContext";
 import LoginForm from "./AuthComponent/LoginForm";
 import RegisterForm from "./AuthComponent/RegisterForm";
 import HomePage from "./homeComponents/HomePage";
+import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
+import ProtectedRoute from "./auth/ProtectedRoutes";
 function App() {
 
 
@@ -14,6 +16,14 @@ function App() {
           <Route path="/" element={<HomePage/>} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
+          <Route
+            path="/admin/users" 
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AdminUsersPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
 
       

@@ -32,9 +32,9 @@ const login = async (credentials) => {
         withCredentials: true,
       });
       if (response.data) {
-        setUser(response.data.user);
+        setUser(response.data);
         
-        return true;
+        return response.data.user.role;
       }
       throw new Error(response.message);
     } catch (err) {

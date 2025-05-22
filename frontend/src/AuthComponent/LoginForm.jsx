@@ -7,11 +7,15 @@ export default function LoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await login(form);
-    if (success) navigate("/");
+    const role = await login(form);
+    console.log(role);
+    if (role === "Admin") {
+      navigate("/admin/users");
+      
+    }
   };
 
   return (
