@@ -1,5 +1,3 @@
-//this is for deployment
-import path from "path"
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require("mongoose");
@@ -16,9 +14,6 @@ const eventRouter = require("./Routes/event");
 const userRouter = require("./Routes/user");
 // here we apply the middleware
 require('dotenv').config(); // this loads from .env file to your app
-
-//this is for the depolyment
-const __dirname=path.resolve();
 app.use(express.json()); // parse from the post req
 app.use(express.urlencoded({ extended: false })); //parse from the html
 app.use(cookieParser()); // we can access token
@@ -54,23 +49,14 @@ app.use(
   const cloud_db_url = `mongodb+srv://amr:Amr.2024Khalil@softwareproject.4sngn.mongodb.net/${db_name}?retryWrites=true&w=majority`;
 
   const db_url = `${process.env.DB_URL}/${db_name}`; // if it gives error try to change the localhost to 127.0.0.1
-   const local = "mongodb://localhost:27017/testdb"
+   //const local = "mongodb://localhost:27017/testdb"
   // ! Mongoose Driver Connection
   mongoose
-    .connect(local)
+    .connect(db_url)
     .then(() => console.log("mongoDB connected"))
     .catch((e) => {
       console.log(e);
     });
-  
-    //this code is for the deployment
-    if(process.env.NODE_ENV==="production"){
-      //remeber to first npm run build in the frontend folder to create a folder for the build (dist can be any other name)
-      app.use(express.static(path.join(__dirname, "/frontend/dist")));
-      app.get("*",(req,res)=>{
-        res.sendFile(res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
-      })
-    }
   app.use(function (req, res, next) {
     return res.status(404).send("404");
   });
