@@ -1,78 +1,117 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./LoginForm.css";  // We'll reuse the same CSS
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
-    role: "User",
+    confirmPassword: ""
   });
-  const [message, setMessage]=useState('')
-  const navigate=useNavigate()
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/v1/register/", form);
-      setMessage("Registration successful. redirect to login .....");
-      setTimeout(()=>navigate('/login'),2000)
-    } catch (err) {
-      alert("Registration failed.");
+      // Add your registration logic here
+      navigate("/login");
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert("Registration failed. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-10 space-y-3">
-      <h1>Welcome Please register</h1>
-      <br/>
-      <label>Name </label>
-      <input
-        placeholder="Name"
-        className="border p-2 w-full"
-        value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
-      />
-      <br />
-      <label>Email </label>
+    <div className="login-container">
+      <div className="illustration-side">
+        <div className="stars"></div>
+        <div className="moon"></div>
+        <div className="mountains">
+          <div className="mountain mountain-1"></div>
+          <div className="mountain mountain-2"></div>
+          <div className="mountain mountain-3"></div>
+        </div>
+      </div>
+      
+      <div className="login-side">
+        <div className="login-card">
+          <div className="login-header">
+            <h1>Create Account</h1>
+            <p className="login-subtitle">Please fill in your information below</p>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="First Name"
+                value={form.firstName}
+                onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                className="form-input"
+              />
+            </div>
 
-      <input
-        placeholder="Email"
-        className="border p-2 w-full"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-      />
-      <br />
-      <label>Password    </label>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="Last Name"
+                value={form.lastName}
+                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+                className="form-input"
+              />
+            </div>
+            
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="Email address"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="form-input"
+              />
+            </div>
+            
+            <div className="form-group">
+              <input
+                type="password"
+                placeholder="Password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                className="form-input"
+              />
+            </div>
 
-      <input
-        type="password"
-        placeholder="Password"
-        className="border p-2 w-full"
-        value={form.password}
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
-      <br />
-      <label>Role    </label>
+            <div className="form-group">
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={form.confirmPassword}
+                onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+                className="form-input"
+              />
+            </div>
 
-      <select
-        value={form.role}
-        onChange={(e) => setForm({ ...form, role: e.target.value })}
-        className="border p-2 w-full"
-      >
-        <option value="User">User</option>
-        <option value="Organizer">Organizer</option>
-        <option value="Admin">Admin</option>
-      </select>
-      <br/>
-      <button
-        type="submit"
-        className="bg-green-600 text-white px-4 py-2 rounded"
-      >
-        Register
-      </button>
-      <br/>
-      <p color="green">{message}</p>
-    </form>
+            <div className="form-options">
+              <label className="remember-me">
+                <input
+                  type="checkbox"
+                />
+                <span>I agree to the Terms & Conditions</span>
+              </label>
+            </div>
+
+            <button type="submit" className="login-button">
+              CREATE ACCOUNT <span>→</span>
+            </button>
+
+            <div className="register-link">
+              Already have an account? <a href="/login">Sign in here</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }
