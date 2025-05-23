@@ -27,7 +27,15 @@ app.use(
     })
   );
   
+  app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "DELETE", "PUT"],
+    credentials: true,
+  })
+);
   
+
   
   
   app.use("/api/v1", authRouter);
@@ -41,7 +49,7 @@ app.use(
   const cloud_db_url = `mongodb+srv://amr:Amr.2024Khalil@softwareproject.4sngn.mongodb.net/${db_name}?retryWrites=true&w=majority`;
 
   const db_url = `${process.env.DB_URL}/${db_name}`; // if it gives error try to change the localhost to 127.0.0.1
-  
+   //const local = "mongodb://localhost:27017/testdb"
   // ! Mongoose Driver Connection
   mongoose
     .connect(db_url)
@@ -49,7 +57,6 @@ app.use(
     .catch((e) => {
       console.log(e);
     });
-  
   app.use(function (req, res, next) {
     return res.status(404).send("404");
   });

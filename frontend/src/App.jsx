@@ -12,6 +12,9 @@ import OrganizerEvent from "./eventComponents/eventdetails"
 import CreateEvent from './OrganizerComponent/OrganizerCreateEvent'
 import ProfilePage from "./UserProfileComponent/ProfilePage";
 import UpdateProfileForm from "./UserProfileComponent/UpdateProfileForm";
+import BookTicketForm from "./BookingComponent/BookTicketForm";
+import UserBookingsPage from "./BookingComponent/UserBookingsPage";
+import BookingDetails from "./BookingComponent/BookingDetails";
 function App() {
 
 
@@ -25,6 +28,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/events/:id" element={<EventDetails />} />
+
           <Route
             path="/admin/users" 
             element={
@@ -32,6 +36,30 @@ function App() {
                 <AdminUsersPage />
               </ProtectedRoute>
             }
+          />
+          <Route
+            path="/booking/BookTicketForm/:eventId"
+            element={
+             <ProtectedRoute allowedRoles={["User"]}>
+                  <BookTicketForm />
+              </ProtectedRoute>
+              }
+          />
+          <Route
+            path="/bookings"
+            element={
+             <ProtectedRoute allowedRoles={["User"]}>
+                  <UserBookingsPage />
+              </ProtectedRoute>
+              }
+          />
+           <Route
+            path="/bookings/:id"
+            element={
+             <ProtectedRoute allowedRoles={["User"]}>
+                  <BookingDetails />
+              </ProtectedRoute>
+              }
           />
           <Route
             path="/organizer/users" 

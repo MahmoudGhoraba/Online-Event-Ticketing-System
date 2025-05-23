@@ -32,7 +32,7 @@ const BookingController = {
         return res.status(500).json({ message: error.message });
     }
 },
-  createBooking: async (req, res) => {
+ /* createBooking: async (req, res) => {
     try {
         // Fetch the event from the database
         const event = await EventModel.findById(req.body.event);
@@ -84,6 +84,41 @@ const BookingController = {
     } catch (e) {
         return res.status(400).json({ message: e.message });
     }
+}*/
+ createBooking : async (req, res) => {
+  try {
+    const event = await EventModel.findById(req.body.event);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    if (event.status !== "approved") {
+      return res.status(400).json({ message: "Event not approved" });
+    }
+
+    const remainingTickets = event.remainingTickets - req.body.tickets;
+    if (remainingTickets < 0) {
+      return res.status(400).json({ message: "Not enough tickets available" });
+    }
+
+    const totalPrice = req.body.tickets * event.ticketPrice;
+
+    const booking = new BookingModel({
+      user: req.user.userId,
+      event: event._id,
+      tickets: req.body.tickets,
+      totalPrice,
+      bookingStatus: "confirmed"
+    });
+
+    await booking.save();
+    await EventModel.findByIdAndUpdate(event._id, {
+      remainingTickets: remainingTickets
+    });
+
+    return res.status(201).json(booking);
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  }
 },
   updateBooking: async (req, res) => {
     try {

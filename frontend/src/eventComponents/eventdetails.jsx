@@ -28,12 +28,16 @@ function EventDetails() {
 
     fetchEvent();
   }, [id]);
+  function NavigateToBookTicketForm(){
+    navigate(`/booking/BookTicketForm/${event._id}`);
+  }
 
   if (loading) return <p>Loading event details...</p>;
   if (error) return <p>{error}</p>;
   if (!event) return <p>No event found.</p>;
 
   const isOrganizer = user.role === 'Organizer';
+  const isUser =user.role==="User";
 
   return (
     <div style={{ padding: 32, backgroundColor: "#F9FAFB", minHeight: "100vh" }}>
@@ -52,7 +56,9 @@ function EventDetails() {
         <p><strong>Category:</strong> {event.category}</p>
         <p><strong>Tickets Remaining:</strong> {event.remainingTickets}</p>
         <p><strong>Total Tickets:</strong> {event.totalNumberOfTickets}</p>
-
+        {isUser&&(
+          <button onClick={NavigateToBookTicketForm}>Book Now!</button>
+        )}
         {isOrganizer && (
           <div style={{ marginTop: 24 }}>
             {isEditing ? (
