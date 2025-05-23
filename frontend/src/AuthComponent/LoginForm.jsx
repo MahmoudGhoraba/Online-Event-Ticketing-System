@@ -13,7 +13,10 @@ export default function LoginForm() {
   try {
     const role = await login(form);
     console.log("User role:", role);
-    navigate("/profile");
+    //navigate("/profile");
+    navigate("/")
+    //navigate("/bookings")
+    //navigate("/bookings/:id")
     
   } catch (error) {
     console.error("Login failed:", error);
