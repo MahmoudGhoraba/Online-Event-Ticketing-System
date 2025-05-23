@@ -10,6 +10,7 @@ import EventDetails from './eventComponents/eventdetails'
 import OrganizerPage from "./OrganizerComponent/Organizer"
 import OrganizerEvent from "./eventComponents/eventdetails"
 import CreateEvent from './OrganizerComponent/OrganizerCreateEvent'
+import UserProfile from "./UserProfileComponent/UserProfile";
 
 function App() {
 
@@ -40,6 +41,14 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+          path="/profile"
+          element={
+          <ProtectedRoute allowedRoles={["Admin", "Organizer", "User"]}>
+          <UserProfile />
+          </ProtectedRoute>
+      }
+/>
           <Route
             path="/organizer/eventdeatails/:id" 
             element={
