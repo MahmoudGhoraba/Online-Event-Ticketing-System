@@ -4,10 +4,10 @@ import TypingMessage from "../homeComponents/TypingMessage";
 import EventList from "../eventComponents/EventList";
 import Footer from "../sharedComponents/Footer";
 import Navbar from "../sharedComponents/navBar";
-import CreateEventcard from '../eventComponents/createevent';
+import CreateEventcard from '../eventComponents/EventForm';
 import { useNavigate } from "react-router-dom";
 import { Check, ArrowRight } from "lucide-react"; // Make sure to import icons or replace
-import ChartComponent from './chartcomponent'; // adjust path
+import ChartComponent from './EventAnalytics'; // adjust path
 
 
 
@@ -35,7 +35,7 @@ function OrganizerPage() {
 
   const handleClick = (event) => {
     console.log("clicked");
-    navigate(`/organizer/eventdeatails/${event._id}`);
+    navigate(`/events/${event._id}`);
   };
 
   // Styles object

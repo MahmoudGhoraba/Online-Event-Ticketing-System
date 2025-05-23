@@ -14,7 +14,7 @@ export default function LoginForm() {
     const role = await login(form);
     console.log("User role:", role);
     //navigate("/profile");
-    navigate("/")
+    navigate("/admin/users")
     //navigate("/bookings")
     //navigate("/bookings/:id")
     

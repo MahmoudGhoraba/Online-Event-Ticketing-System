@@ -6,15 +6,16 @@ import HomePage from "./homeComponents/HomePage";
 import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
 import ProtectedRoute from "./auth/ProtectedRoutes";
 import ForgetPassword from "./AuthComponent/forgetPassword";
-import EventDetails from './eventComponents/eventdetails'
-import OrganizerPage from "./OrganizerComponent/Organizer"
-import OrganizerEvent from "./eventComponents/eventdetails"
+import EventDetails from './eventComponents/eventdetails.jsx'
+import OrganizerPage from "./OrganizerComponent/MyEventsPage.jsx"
+import OrganizerEvent from "./eventComponents/eventdetails.jsx"
 import CreateEvent from './OrganizerComponent/OrganizerCreateEvent'
 import ProfilePage from "./UserProfileComponent/ProfilePage";
 import UpdateProfileForm from "./UserProfileComponent/UpdateProfileForm";
 import BookTicketForm from "./BookingComponent/BookTicketForm";
 import UserBookingsPage from "./BookingComponent/UserBookingsPage";
 import BookingDetails from "./BookingComponent/BookingDetails";
+import ChartComponent from "./OrganizerComponent/EventAnalytics.jsx";
 function App() {
 
 
@@ -28,7 +29,6 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/events/:id" element={<EventDetails />} />
-
           <Route
             path="/admin/users" 
             element={
@@ -62,7 +62,7 @@ function App() {
               }
           />
           <Route
-            path="/organizer/users" 
+            path="/my-events" 
             element={
               <ProtectedRoute allowedRoles={["Organizer"]}>
                 <OrganizerPage />
@@ -78,7 +78,7 @@ function App() {
         }
 />
           <Route
-            path="/organizer/eventdeatails/:id" 
+            path="/events/:id" 
             element={
               <ProtectedRoute allowedRoles={["Organizer"]}>
                 <OrganizerEvent />
@@ -91,6 +91,15 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["Organizer"]}>
                 <CreateEvent />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/my-events/analytics" 
+            element={
+              <ProtectedRoute allowedRoles={["Organizer"]}>
+                <ChartComponent />
               </ProtectedRoute>
             }
           />
