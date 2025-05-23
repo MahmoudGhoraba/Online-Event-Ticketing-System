@@ -1,73 +1,89 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-
+import "./LoginForm.css";
 
 export default function LoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [rememberMe, setRememberMe] = useState(false);
   
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const role = await login(form);
-    console.log("User role:", role);
-    //navigate("/profile");
-    navigate("/admin/users")
-    //navigate("/bookings")
-    //navigate("/bookings/:id")
-    
-  } catch (error) {
-    console.error("Login failed:", error);
-    alert("Login failed. Please check your credentials.");
-  }
-};
-
+    e.preventDefault();
+    try {
+      const role = await login(form);
+      console.log("User role:", role);
+      navigate("/admin/users");
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your credentials.");
+    }
+  };
 
   return (
-    <div>
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto mt-20 space-y-4">
-      <h1>Welcome Please Login</h1>
-      <br/>
-      <label>Email  </label>
-      <br/>
-      <input
-        type="email"
-        placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm({ ...form, email: e.target.value })}
-        className="border p-2 w-full"
-      />
-      <br/>
-      <p>password </p>
-      <input
-        type="password"
-        placeholder="Password"
-        value={form.password}
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-        className="border p-2 w-full"
-      />
-      <br/>
-      <br/>
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
-        Login
-      </button>
-      <br/>
-    </form>
-      <div className="text-center mt-4">
-        <p>
-          Don't have an account?{" "}
-          <a href="/register" className="text-blue-600">
-            Register here
-          </a>
-        </p>
-        <p>
-          Forgot your password?{" "}
-          <a href="/forget-password" className="text-blue-600">
-            Reset it here
-          </a>
-        </p>
+    <div className="login-container">
+      <div className="illustration-side">
+        <div className="stars"></div>
+        <div className="moon"></div>
+        <div className="mountains">
+          <div className="mountain mountain-1"></div>
+          <div className="mountain mountain-2"></div>
+          <div className="mountain mountain-3"></div>
+        </div>
+      </div>
+      
+      <div className="login-side">
+        <div className="login-card">
+          <div className="login-header">
+            <h1>HELLO!</h1>
+            <p className="login-subtitle">Welcome back! Please login to your account.</p>
+          </div>
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="Email address"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="form-input"
+              />
+            </div>
+            
+            <div className="form-group">
+              <input
+                type="password"
+                placeholder="Password"
+                value={form.password}
+                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                className="form-input"
+              />
+            </div>
+
+            <div className="form-options">
+              <label className="remember-me">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                />
+                <span>Remember me</span>
+              </label>
+              <a href="/forget-password" className="forgot-password">
+                Forgot password?
+              </a>
+            </div>
+
+            <button type="submit" className="login-button">
+              NEXT <span>→</span>
+            </button>
+
+            <div className="register-link">
+              Don't have an account? <a href="/register">Register here</a>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
