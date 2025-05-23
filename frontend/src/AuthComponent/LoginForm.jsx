@@ -9,16 +9,18 @@ export default function LoginForm() {
   const [form, setForm] = useState({ email: "", password: "" });
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+  try {
     const role = await login(form);
-    console.log(role)
-    if (role === "Admin") {
-      navigate("/admin/users");
-    }
-    if(role==='Organizer'){
-    navigate("/organizer/users");
+    console.log("User role:", role);
+    navigate("/profile");
+    
+  } catch (error) {
+    console.error("Login failed:", error);
+    alert("Login failed. Please check your credentials.");
   }
 };
+
 
   return (
     <div>
