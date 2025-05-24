@@ -414,6 +414,11 @@
   cursor: pointer;
 }
 
+.auth-register-checkbox span {
+  color: #000; /* Set text color to black */
+  font-size: 0.875rem; /* Optional: for better visual match */
+}
+
 /* Button styling */
 .auth-register-button {
   width: 100%;
