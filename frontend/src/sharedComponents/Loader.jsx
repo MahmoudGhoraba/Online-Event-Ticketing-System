@@ -27,7 +27,6 @@ const StyledWrapper = styled.div`
     border-radius: 50%;
     background: linear-gradient(to bottom right, #d7d2dd, #ddc5c7, #ffedd5);
     animation: loading-bounce 0.5s ease-in-out infinite alternate;
-    box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
   }
 
   .loader:after {
@@ -38,9 +37,9 @@ const StyledWrapper = styled.div`
     height: 7px;
     width: 45px;
     border-radius: 4px;
-    box-shadow: 0 5px 0 rgba(249, 115, 22, 0.15), 
-                -35px 50px 0 rgba(249, 115, 22, 0.15), 
-                -70px 95px 0 rgba(249, 115, 22, 0.15);
+    box-shadow: 0 5px 0 rgba(215, 210, 221, 0.3), 
+                -35px 50px 0 rgba(221, 197, 199, 0.3), 
+                -70px 95px 0 rgba(255, 237, 213, 0.3);
     animation: loading-step 1s ease-in-out infinite;
   }
 
@@ -65,18 +64,17 @@ const StyledWrapper = styled.div`
   @keyframes loading-step {
     0% {
       box-shadow: 0 10px 0 rgba(0, 0, 0, 0),
-                0 10px 0 rgba(249, 115, 22, 0.15),
-                -35px 50px 0 rgba(249, 115, 22, 0.15),
-                -70px 90px 0 rgba(249, 115, 22, 0.15);
+                0 10px 0 rgba(215, 210, 221, 0.3),
+                -35px 50px 0 rgba(221, 197, 199, 0.3),
+                -70px 90px 0 rgba(255, 237, 213, 0.3);
     }
 
     100% {
-      box-shadow: 0 10px 0 rgba(249, 115, 22, 0.15),
-                -35px 50px 0 rgba(249, 115, 22, 0.15),
-                -70px 90px 0 rgba(249, 115, 22, 0.15),
+      box-shadow: 0 10px 0 rgba(215, 210, 221, 0.3),
+                -35px 50px 0 rgba(221, 197, 199, 0.3),
+                -70px 90px 0 rgba(255, 237, 213, 0.3),
                 -70px 90px 0 rgba(0, 0, 0, 0);
     }
-  }
-`;
+  }`;
 
 export default Loader;
