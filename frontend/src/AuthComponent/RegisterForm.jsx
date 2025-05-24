@@ -1,8 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./LoginForm.css";
-import Loader from "../sharedComponents/Loader"; 
+import "./RegisterForm.css";
+import Loader from "../sharedComponents/Loader";
 
 export default function RegisterForm() {
   const navigate = useNavigate();
@@ -13,43 +13,85 @@ export default function RegisterForm() {
     role: "User",
   });
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); 
+    setLoading(true);
     try {
       await axios.post("http://localhost:3000/api/v1/register/", form);
       setMessage("Registration successful. Redirecting to login...");
       
       setTimeout(() => {
-        setLoading(false); 
+        setLoading(false);
         navigate("/login");
       }, 2000);
       
     } catch (error) {
-      alert("Registration failed. Please try again.");
-      setLoading(false); 
+      setMessage("Registration failed. Please try again.");
+      setLoading(false);
     }
   };
 
   return (
     <div className="login-container">
       {loading && (
-      <div className="loader-overlay">
-        <div className="loader-popup">
-          <Loader />
+        <div className="loader-overlay">
+          <div className="loader-popup">
+            <Loader />
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
       <div className={`illustration-side ${loading ? "blurred" : ""}`}>
-        <div className="stars"></div>
-        <div className="moon"></div>
-        <div className="mountains">
-          <div className="mountain mountain-1"></div>
-          <div className="mountain mountain-2"></div>
-          <div className="mountain mountain-3"></div>
+        <div className="welcome-text">
+          <h2>Begin Your Event Journey <span>Today!</span></h2>
+        </div>
+
+        <div className="cards-container">
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Easy Booking</h2>
+              <p className="event-date">Quick & Simple</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">🎫 Book with just a few clicks</div>
+              <div className="ticket-info">✨ Secure payments</div>
+            </div>
+          </div>
+          
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Diverse Events</h2>
+              <p className="event-date">Something for Everyone</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">🎭 Concerts to Workshops</div>
+              <div className="ticket-info">🌟 Premium Events</div>
+            </div>
+          </div>
+          
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Exclusive Access</h2>
+              <p className="event-date">VIP Benefits</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">💫 Early Bird Access</div>
+              <div className="ticket-info">🎁 Special Discounts</div>
+            </div>
+          </div>
+          
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Mobile Ready</h2>
+              <p className="event-date">On the Go</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">📱 Manage Anywhere</div>
+              <div className="ticket-info">🔔 Instant Updates</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -57,15 +99,14 @@ export default function RegisterForm() {
         <div className="login-card">
           <div className="login-header">
             <h1>Create Account</h1>
-            <p className="login-subtitle">Please fill in your information below</p>
+            <p className="login-subtitle">Join us to discover amazing events!</p>
           </div>
 
           <form onSubmit={handleSubmit}>
-            {/* All input fields stay the same */}
             <div className="form-group">
               <input
                 type="text"
-                placeholder="Name"
+                placeholder="Full Name"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="form-input"
@@ -76,7 +117,7 @@ export default function RegisterForm() {
             <div className="form-group">
               <input
                 type="email"
-                placeholder="Email address"
+                placeholder="Email Address"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 className="form-input"
@@ -102,9 +143,9 @@ export default function RegisterForm() {
                 className="form-s"
                 required
               >
-                <option value="User" className="form-s">User</option>
-                <option value="Organizer" className="form-s">Organizer</option>
-                <option value="Admin" className="form-s">Admin</option>
+                <option value="User">Attendee</option>
+                <option value="Organizer">Event Organizer</option>
+                <option value="Admin">Administrator</option>
               </select>
             </div>
 
@@ -116,11 +157,15 @@ export default function RegisterForm() {
             </div>
 
             <button type="submit" className="login-button" disabled={loading}>
-              {loading ? "Creating..." : "CREATE ACCOUNT"} <span>→</span>
+              {loading ? "Creating Account..." : "CREATE ACCOUNT"} <span>→</span>
             </button>
           </form>
 
-          {message && <p className="success-message">{message}</p>}
+          {message && (
+            <div className={`message ${message.includes("successful") ? "success" : "error"}`}>
+              {message}
+            </div>
+          )}
 
           <div className="register-link">
             Already have an account? <a href="/login">Sign in here</a>

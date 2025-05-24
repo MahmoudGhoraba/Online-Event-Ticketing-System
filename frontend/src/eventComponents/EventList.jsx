@@ -90,7 +90,7 @@ export default function EventList() {
       <div className="top-destinations__container">
         <div className="top-destinations__header">
           <div className="top-destinations__subheading">Top Selling</div>
-          <h2 className="top-destinations__heading">Top Destinations</h2>
+          <h2 className="top-destinations__heading">Top Events</h2>
         </div>
 
         <div className="top-destinations__grid">

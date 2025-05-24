@@ -63,7 +63,7 @@ export default function BookingStep() {
         <div className="trip-card-container">
           <div className="trip-card">
             <img
-              src="https://images.unsplash.com/photo-1581386704681-79bff3f1fe7d"
+              src="/src/assets/MusicJam.jpg"
               alt="Live Music Event"
               className="trip-image"
             />
