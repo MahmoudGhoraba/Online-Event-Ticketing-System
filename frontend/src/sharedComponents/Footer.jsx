@@ -81,7 +81,7 @@ const Footer = () => {
             <ul style={{ listStyle: 'none', padding: 0, color: '#4b5563', fontSize: '0.9rem' }}>
               {quickLinks.map((link, index) => (
                 <li key={index} style={{ marginBottom: '0.5rem' }}>
-                  <a href="#" style={{ display: 'flex', alignItems: 'center', color: '#4b5563', textDecoration: 'none' }}>
+                  <a style={{ display: 'flex', alignItems: 'center', color: '#4b5563', textDecoration: 'none' }}>
                     <ArrowRight size={14} style={{ marginRight: '0.5rem', color: '#f97316' }} /> {link}
                   </a>
                 </li>
@@ -204,9 +204,9 @@ const Footer = () => {
             © 2025 Spaghetti's. All rights reserved. Made with ❤️ for event lovers.
           </div>
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <a href="#" style={{ textDecoration: 'none', color: '#6b7280' }}>Privacy Policy</a>
-            <a href="#" style={{ textDecoration: 'none', color: '#6b7280' }}>Terms of Service</a>
-            <a href="#" style={{ textDecoration: 'none', color: '#6b7280' }}>Cookie Policy</a>
+            <a  style={{ textDecoration: 'none', color: '#6b7280' }}>Privacy Policy</a>
+            <a  style={{ textDecoration: 'none', color: '#6b7280' }}>Terms of Service</a>
+            <a  style={{ textDecoration: 'none', color: '#6b7280' }}>Cookie Policy</a>
           </div>
         </div>
       </div>

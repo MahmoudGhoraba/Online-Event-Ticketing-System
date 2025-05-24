@@ -7,9 +7,11 @@ import Footer from '../sharedComponents/Footer';
 import ServiceSection from './ServiceSection';
 import BookingStep from './BookingStep';
 import EventList from '../eventComponents/EventList';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function HomePage() {
+  const navigate = useNavigate();
   return (
     <div className="homepage">
       <Navbar />
@@ -46,8 +48,8 @@ export default function HomePage() {
             </p>
 
             <div className="buttons">
-              <button className="find-out">Sign in</button>
-              <button className="play-demo">
+              <button className="find-out" onClick={() => navigate('/login')}>Sign in</button>
+              <button className="play-demo" onClick={() => navigate('/register')}>
                 <div className="play-icon">
                   <Play size={16} fill="white" className="text-white ml-1" />
                 </div>

@@ -24,12 +24,105 @@ export default function LoginForm() {
   return (
     <div className="login-container">
       <div className="illustration-side">
-        <div className="stars"></div>
-        <div className="moon"></div>
-        <div className="mountains">
-          <div className="mountain mountain-1"></div>
-          <div className="mountain mountain-2"></div>
-          <div className="mountain mountain-3"></div>
+        <div className="welcome-text">
+          <h2>Login to book your tickets now... <span>what are you waiting for?</span></h2>
+        </div>
+        <div className="cards-container">
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Music Festival</h2>
+              <p className="event-date">Summer 2024</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">🎵 Live Performances</div>
+              <div className="ticket-info">🎪 Multiple Stages</div>
+              <div className="ticket-info">🌟 Featured Artists</div>
+            </div>
+          </div>
+
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Sports Championship</h2>
+              <p className="event-date">Season Finals</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">🏆 Premium Seating</div>
+              <div className="ticket-info">🎯 Live Action</div>
+              <div className="ticket-info">🌟 Star Players</div>
+            </div>
+          </div>
+
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Art Exhibition</h2>
+              <p className="event-date">Gallery Opening</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">🎨 Modern Art</div>
+              <div className="ticket-info">🍷 VIP Reception</div>
+              <div className="ticket-info">✨ Special Guests</div>
+            </div>
+          </div>
+
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Tech Conference</h2>
+              <p className="event-date">Innovation Summit</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">💻 Workshops</div>
+              <div className="ticket-info">🚀 Keynotes</div>
+              <div className="ticket-info">🤝 Networking</div>
+            </div>
+          </div>
+
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Food Festival</h2>
+              <p className="event-date">Culinary Week</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">🍳 Chef Demos</div>
+              <div className="ticket-info">🍷 Wine Tasting</div>
+              <div className="ticket-info">🌮 Global Cuisine</div>
+            </div>
+          </div>
+
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Comedy Night</h2>
+              <p className="event-date">Stand-up Special</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">😂 Top Comics</div>
+              <div className="ticket-info">🎭 Live Shows</div>
+              <div className="ticket-info">🎪 After Party</div>
+            </div>
+          </div>
+
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Film Festival</h2>
+              <p className="event-date">Premiere Week</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">🎬 Screenings</div>
+              <div className="ticket-info">🎭 Q&A Sessions</div>
+              <div className="ticket-info">🌟 Celebrity Guests</div>
+            </div>
+          </div>
+
+          <div className="ticket-container">
+            <div className="ticket-header">
+              <h2 className="event-title">Dance Show</h2>
+              <p className="event-date">Contemporary Arts</p>
+            </div>
+            <div className="ticket-body">
+              <div className="ticket-info">💃 Performance</div>
+              <div className="ticket-info">✨ Light Show</div>
+              <div className="ticket-info">🎵 Live Music</div>
+            </div>
+          </div>
         </div>
       </div>
       
