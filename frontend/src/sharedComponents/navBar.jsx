@@ -155,7 +155,7 @@ const Navbar = () => {
         }}
       >
         {/* Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }} onClick={() => navigate('/')}>
           <span style={{ fontSize: "24px" }}>🎟️</span>
           <h2
             style={{
