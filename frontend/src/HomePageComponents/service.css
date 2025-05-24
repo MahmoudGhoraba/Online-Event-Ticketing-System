@@ -1,0 +1,132 @@
+/* service.css */
+
+.services-section {
+  padding: 4rem 1.5rem;
+  background-color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.services-section .background-icons div,
+.services-section .decorative-shapes div {
+  position: absolute;
+}
+
+.services-section .category {
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.services-section .header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.services-section .title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+@media (min-width: 1024px) {
+  .services-section .title {
+    font-size: 3rem;
+  }
+}
+
+.services-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.service-card {
+  position: relative;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.service-card.shadow {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.service-card.shadow:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.service-icon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-icon {
+  transform: scale(1.1);
+}
+
+.service-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+.service-description {
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.service-hover-dot {
+  position: absolute;
+  bottom: -0.5rem;
+  left: -0.5rem;
+  width: 3rem;
+  height: 3rem;
+  background-color: #fb923c;
+  border-radius: 9999px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.service-card:hover .service-hover-dot {
+  opacity: 1;
+}
+
+.service-icon-svg {
+  width: 3rem; /* 12 * 0.25rem = 3rem */
+  height: 3rem;
+}
+
+/* Optional specific colors if you want to replicate Tailwind colors */
+.service-icon-svg.cloud {
+  color: #3b82f6; /* Tailwind's blue-500 */
+}

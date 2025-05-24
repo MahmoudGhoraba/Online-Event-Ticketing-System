@@ -7,7 +7,7 @@ import {
   Ticket,
   Tag,
 } from "lucide-react";
-import "./EventCardStyle.css"; // 🔁 Import the CSS file
+import './events.css'
 
 export default function EventCard({ event }) {
   const navigate = useNavigate();
@@ -18,13 +18,11 @@ export default function EventCard({ event }) {
   };
 
   const eventImage = event.image || "/api/placeholder/400/320";
-
   const formattedDate = new Date(event.date).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
   });
-
   const ticketAvailability =
     (event.remainingTickets / event.totalNumberOfTickets) * 100;
 
@@ -38,50 +36,40 @@ export default function EventCard({ event }) {
       : "ticket-green";
 
   return (
-    <div
-      className={`event-card ${isEventPassed ? "event-passed" : ""}`}
-    >
-      <div className="event-image-container">
+    <div className={`destination-card ${isEventPassed ? "event-passed" : ""}`}>
+      <div className="destination-card__image">
+        <img src={eventImage} alt={event.title} />
         {event.status !== "approved" && (
           <div className="status-badge">{event.status}</div>
         )}
         {isEventPassed && (
-          <div className="overlay">
-            <span className="overlay-text">Event Ended</span>
+          <div className="destination-card__overlay">
+            <span className="event-ended-badge">Event Ended</span>
           </div>
         )}
-        <img src={eventImage} alt={event.title} className="event-image" />
-        <div className="gradient-bottom">
-          <span>${event.ticketPrice.toFixed(2)}</span>
-          <span>{event.category}</span>
-        </div>
       </div>
 
-      <div className="event-content">
-        <h3 className="event-title">{event.title}</h3>
+      <div className="destination-card__content">
+        <div className="destination-card__info">
+          <h3 className="destination-card__title">{event.title}</h3>
+          <span className="destination-card__price">${event.ticketPrice.toFixed(2)}</span>
+        </div>
+
         <div className="info-row">
           <Calendar size={16} className="icon" />
-          {formattedDate}
+          <span>{formattedDate}</span>
         </div>
+
         <div className="info-row">
           <MapPin size={16} className="icon" />
-          {event.location}
+          <span>{event.location}</span>
         </div>
+
         <div className={`ticket-status ${ticketColor}`}>
           <Ticket size={16} className="icon" />
-          {isEventPassed
-            ? "Event ended"
-            : `${event.remainingTickets} tickets left`}
+          <span>{isEventPassed ? "Event ended" : `${event.remainingTickets} tickets left`}</span>
         </div>
-        <div className="bottom-row">
-          <div className="category-info">
-            <Tag size={14} className="icon-small" />
-            {event.category}
-          </div>
-          <button className="view-button" onClick={handleViewDetails}>
-            View details <ArrowRight size={16} style={{ marginLeft: 4 }} />
-          </button>
-        </div>
+
       </div>
     </div>
   );

@@ -2,51 +2,129 @@
 import { useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
 import UpdateProfileForm from './UpdateProfileForm';
+import Navbar from '../sharedComponents/navBar';
+import './ProfilePage.css';
+
+// Import icons (you'll need to install react-icons: npm install react-icons)
+import { FaUser, FaEdit, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
 function ProfilePage() {
   const { user } = useAuth();
-  const [showForm, setShowForm] = useState(false);
+  const [activeSection, setActiveSection] = useState('profile');
 
   if (!user) return <p className="text-red-500">User not found. Please login.</p>;
 
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'profile':
+        return (
+          <div className="profile-container">
+            <div className="profile-header">
+              <h2 className="profile-title">User Profile</h2>
+              {user.profilePicture && (
+                <div className="profile-picture-container">
+                  <img
+                    src={user.profilePicture}
+                    alt="Profile"
+                    className="profile-picture"
+                  />
+                </div>
+              )}
+            </div>
+            <div className="profile-info">
+              <div className="info-item">
+                <span className="info-label">Name</span>
+                <span className="info-value">{user.name}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Email</span>
+                <span className="info-value">{user.email}</span>
+              </div>
+              <div className="info-item">
+                <span className="info-label">Role</span>
+                <span className="info-value capitalize">{user.role}</span>
+              </div>
+            </div>
+          </div>
+        );
+      case 'edit':
+        return (
+          <div className="profile-container">
+            <UpdateProfileForm onFinish={() => setActiveSection('profile')} />
+          </div>
+        );
+      case 'settings':
+        return (
+          <div className="profile-container">
+            <h2 className="profile-title">Settings</h2>
+            <div className="profile-info">
+              {/* Add your settings content here */}
+              <p>Settings page content coming soon...</p>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow-md space-y-4">
-      {!showForm ? (
-        <>
-          <h2 className="text-2xl font-bold text-gray-800">User Profile</h2>
-          {user.profilePicture && (
-            <img
-              src={user.profilePicture}
-              alt="Profile"
-              className="w-24 h-24 rounded-full mx-auto object-cover"
-            />
-          )}
-          <p><strong>Name:</strong> {user.name}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <p><strong>Role:</strong> <span className="capitalize">{user.role}</span></p>
-          <div className="text-center mt-4">
-            <button
-              onClick={() => setShowForm(true)}
-              className="text-blue-600 underline"
-            >
-              Update Profile
-            </button>
+    <>
+      <Navbar />
+      <div className="profile-layout">
+        <aside className="profile-sidebar">
+          <div className="sidebar-header">
+            <h2 className="sidebar-title">Account</h2>
           </div>
-        </>
-      ) : (
-        <>
-          <UpdateProfileForm onFinish={() => setShowForm(false)} />
-          <div className="text-center mt-4">
-            <button
-              onClick={() => setShowForm(false)}
-              className="text-red-600 underline"
-            >
-              Cancel
-            </button>
-          </div>
-        </>
-      )}
-    </div>
+          <nav>
+            <ul className="nav-menu">
+              <li className="nav-item">
+                <a
+                  href="#profile"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveSection('profile');
+                  }}
+                  className={`nav-link ${activeSection === 'profile' ? 'active' : ''}`}
+                >
+                  <FaUser className="nav-icon" />
+                  View Profile
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  href="#edit"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveSection('edit');
+                  }}
+                  className={`nav-link ${activeSection === 'edit' ? 'active' : ''}`}
+                >
+                  <FaEdit className="nav-icon" />
+                  Edit Profile
+                </a>
+              </li>
+              <li className="nav-item">
+                <a
+                  href="#settings"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setActiveSection('settings');
+                  }}
+                  className={`nav-link ${activeSection === 'settings' ? 'active' : ''}`}
+                >
+                  <FaCog className="nav-icon" />
+                  Settings
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </aside>
+        <main className="profile-main-content">
+          {renderContent()}
+        </main>
+      </div>
+    </>
   );
 }
 

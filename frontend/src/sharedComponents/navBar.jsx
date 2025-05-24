@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import searchIcon from "../assets/search.svg";
 import phoneIcon from "../assets/Phone.svg";
 import envelopeIcon from "../assets/Envelope.svg";
-import { Link } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
-
-// HoverLink component that changes style based on role
+// HoverLink component using navigate
 const HoverLink = ({ text, href, role }) => {
   const [hover, setHover] = useState(false);
+  const navigate = useNavigate();
 
   const hoverColors = {
     user: "#94aeb7",
@@ -16,6 +17,7 @@ const HoverLink = ({ text, href, role }) => {
   };
 
   const baseStyle = {
+    cursor: "pointer",
     color: hover ? hoverColors[role] || "#94aeb7" : "#000000",
     fontFamily: '"Roboto-Bold", Helvetica',
     fontSize: "20px",
@@ -25,39 +27,42 @@ const HoverLink = ({ text, href, role }) => {
     lineHeight: "30px",
     textAlign: "center",
     width: "96px",
-    textDecoration: "inherit",
+    textDecoration: "none",
     transition: "color 0.5s ease",
   };
 
   return (
-      <Link
-        to={href}
-        style={baseStyle}
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        {text}
-      </Link>
-    );
-    
+    <span
+      style={baseStyle}
+      onClick={() => navigate(href)}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {text}
+    </span>
+  );
 };
 
 // Role-based links
 const linksByRole = {
-  user: [
-    { text: "About", href: "/about" },
-    { text: "Services", href: "/services" },
-    { text: "Features", href: "/features" },
-    { text: "Shop", href: "/shop" },
-    { text: "Contact", href: "/contact" },
+  null:[],
+  home: [
+    { text: "Login", href: "/login" },
+    { text: "Register", href: "/register" }
   ],
-  organizer: [
+  User: [
+    { text: "Home", href: "/" },
+    { text: "Profile", href: "/profile" },
+    { text: "Bookings", href: "/bookings" }, // removed extra spac
+    
+  ],
+  Organizer: [
     { text: "Dashboard", href: "/organizer/dashboard" },
     { text: "My Events", href: "/organizer/events" },
     { text: "Analytics", href: "/organizer/analytics" },
     { text: "Contact", href: "/contact" },
   ],
-  admin: [
+  Admin: [
     { text: "Admin Panel", href: "/admin" },
     { text: "Users", href: "/admin/users" },
     { text: "Reports", href: "/admin/reports" },
@@ -65,14 +70,21 @@ const linksByRole = {
   ],
 };
 
-// Main Navbar component with role prop
-const Navbar = ({ role = "user" }) => {
+const Navbar = () => {
+  const { user , logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); 
+    window.location.href = "/"; 
+  };
+
   return (
     <div>
       {/* Top Bar */}
       <div
         style={{
-          backgroundColor: "#94aeb7",
+          background: "linear-gradient(to bottom right, #faf5ff, #ffe4e6, #ffedd5)",
           color: "#000",
           display: "flex",
           justifyContent: "space-between",
@@ -121,12 +133,9 @@ const Navbar = ({ role = "user" }) => {
             </span>
           </div>
         </div>
-        <div style={{ display: "flex", gap: "1rem", fontSize: "18px" }}>
-          {/* right icons if needed */}
-        </div>
       </div>
 
-      {/* Spacer to prevent overlap */}
+      {/* Spacer */}
       <div style={{ height: "40px" }} />
 
       {/* Main Navbar */}
@@ -139,14 +148,14 @@ const Navbar = ({ role = "user" }) => {
           padding: "1rem 2rem",
           boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
           position: "fixed",
-          top: "40px", // below top bar
+          top: "40px",
           left: 0,
           right: 0,
           zIndex: 1000,
         }}
       >
-        {/* Left: Logo */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+        {/* Logo */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }} onClick={() => navigate('/')}>
           <span style={{ fontSize: "24px" }}>🎟️</span>
           <h2
             style={{
@@ -163,19 +172,19 @@ const Navbar = ({ role = "user" }) => {
           </h2>
         </div>
 
-        {/* Center: Links based on role */}
+        {/* Role-based Links */}
         <div style={{ display: "flex", gap: "1.2rem", alignItems: "center" }}>
-          {linksByRole[role]?.map((link) => (
+        {(linksByRole[user?.role] || linksByRole[null]).map((link) => (
             <HoverLink
               key={link.text}
               text={link.text}
               href={link.href}
-              role={role}
+              role={user?.role}
             />
           ))}
         </div>
 
-        {/* Right: Search + Sign in */}
+        {/* Right: Search and Sign in */}
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           <button
             style={{
@@ -201,23 +210,37 @@ const Navbar = ({ role = "user" }) => {
               }}
             />
           </button>
-          <button
-            style={{
-              backgroundColor: "#0f0f1d",
-              color: "#fff",
-              padding: "0.5rem 1rem",
-              border: "none",
-              borderRadius: "12px",
-              fontWeight: "bold",
-              fontSize: "14px",
-            }}
-          >
-            Sign in
-          </button>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              style={{
+                backgroundColor: "#e74c3c",
+                color: "#fff",
+                padding: "0.5rem 1rem",
+                border: "none",
+                borderRadius: "12px",
+                fontWeight: "bold",
+                fontSize: "14px",
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            <div style={{ display: "flex", gap: "1.2rem", alignItems: "center" }}>
+              {(linksByRole['home']).map((link) => (
+                <HoverLink
+                  key={link.text}
+                  text={link.text}
+                  href={link.href}
+                  role={'home'}
+                />
+              ))}
+        </div>
+          )}
         </div>
       </div>
 
-      {/* Spacer to prevent content hiding under navbar */}
+      {/* Bottom Spacer */}
       <div style={{ height: "80px" }} />
     </div>
   );

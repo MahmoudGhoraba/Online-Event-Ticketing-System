@@ -1,42 +1,129 @@
 // src/eventComponents/EventList.jsx
-import React from "react";
-import { motion } from "framer-motion";
-import { useInView } from "react-intersection-observer";
+
+import React, { useState, useEffect } from "react";
+import { Navigation } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./events.css";
 import EventCard from "./EventCard";
 
+export default function EventList() {
+  const [featuredEvents, setFeaturedEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 3;
 
+  const navigate = useNavigate();
 
+  const totalPages = Math.ceil(featuredEvents.length / itemsPerPage);
+  const startIndex = currentPage * itemsPerPage;
+  const visibleEvents = featuredEvents.slice(startIndex, startIndex + itemsPerPage);
 
-function AnimatedEventCard({ event,onClick }) {
-  const { ref, inView } = useInView({ triggerOnce: true });
-console.log("in card")
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      onClick={()=>onClick(event)}
-    >
-      <EventCard event={event} />
-    </motion.div>
-  );
-}
-
-export default function EventList({ events,onClick }) {
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-        gap: 32,
-      }}
-    >
-      {events.map((event) => (
-        <AnimatedEventCard key={event._id} event={event} onClick={onClick} />
-      ))
-    
+  const goNext = () => {
+    if (currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
     }
+  };
+
+  const goPrevious = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const response = await axios.get("http://localhost:3000/api/v1/events/");
+        setFeaturedEvents(response.data);
+      } catch (error) {
+        console.error("Failed to fetch events:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchEvents();
+  }, []);
+
+  const handleClick = (event) => {
+    navigate(`/events/${event._id}`);
+  };
+
+  return (
+    <div className="top-destinations">
+      <div
+        style={{
+          borderTop: "2px solid #d1d5db",
+          width: "50%",
+          margin: "0 auto",
+          marginBottom: "4rem",
+          backgroundColor: "white",
+        }}
+      ></div>
+
+      <div className="top-destinations__spiral">
+        <svg width="120" height="200" viewBox="0 0 120 200">
+          <path
+            d="M10 20 Q 60 20 60 60 Q 60 100 20 100 Q -20 100 -20 60 Q -20 20 20 20 Q 60 20 60 60 Q 60 100 40 100"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            opacity="0.3"
+          />
+          <path
+            d="M10 80 Q 50 80 50 120 Q 50 160 10 160 Q -30 160 -30 120 Q -30 80 10 80"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            opacity="0.2"
+          />
+          <path
+            d="M10 140 Q 40 140 40 170 Q 40 200 10 200"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            opacity="0.1"
+          />
+        </svg>
+      </div>
+
+      <div className="top-destinations__container">
+        <div className="top-destinations__header">
+          <div className="top-destinations__subheading">Top Selling</div>
+          <h2 className="top-destinations__heading">Top Events</h2>
+        </div>
+
+        <div className="top-destinations__grid">
+          {loading ? (
+            <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
+              Loading events...
+            </p>
+          ) : featuredEvents.length === 0 ? (
+            <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
+              No events available.
+            </p>
+          ) : (
+            visibleEvents.map((event, index) => (
+              <div                
+              className="destination-card"
+                key={index}
+                onClick={() => handleClick(event)}
+              >
+              <EventCard event={event}/>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="top-destinations__pagination">
+          <button onClick={goPrevious} disabled={currentPage === 0}>
+            Previous
+          </button>
+          <button onClick={goNext} disabled={currentPage >= totalPages - 1}>
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

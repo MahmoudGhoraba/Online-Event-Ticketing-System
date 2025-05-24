@@ -3,8 +3,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext';
 
-export default function UpdateProfileForm() {
-  const { user, setUser } = useAuth(); // ✅ Get user and setUser from context
+export default function UpdateProfileForm({ onFinish }) {
+  const { user, setUser } = useAuth();
 
   const [form, setForm] = useState({
     name: user?.name || '',
@@ -13,6 +13,7 @@ export default function UpdateProfileForm() {
   });
 
   const [status, setStatus] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -21,66 +22,93 @@ export default function UpdateProfileForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus(null);
+    setIsLoading(true);
     try {
       const res = await axios.put(
         'http://localhost:3000/api/v1/users/profile/',
         form,
         { withCredentials: true }
       );
-      setUser(res.data.user); // ✅ Update global user state
+      setUser(res.data.user);
       setStatus('Profile updated successfully!');
-      // Optionally sync form again:
-      setForm({
-        name: res.data.user.name || '',
-        email: res.data.user.email || '',
-        profilePicture: res.data.user.profilePicture || '',
-      });
+      setTimeout(() => {
+        onFinish?.();
+      }, 1500);
     } catch (err) {
       console.error('Update failed:', err);
       setStatus('Failed to update profile. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-10 space-y-4 p-4 border rounded">
-      <h2 className="text-xl font-bold mb-2">Update Profile</h2>
+    <div className="profile-form-container">
+      <h2 className="profile-title">Update Profile</h2>
+      <form onSubmit={handleSubmit} className="profile-info">
+        <div className="info-item">
+          <label className="info-label" htmlFor="name">Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            className="form-input"
+            placeholder="Enter your name"
+          />
+        </div>
 
-      <label className="block">Name:</label>
-      <input
-        type="text"
-        name="name"
-        value={form.name}
-        onChange={handleChange}
-        className="border p-2 w-full"
-      />
+        <div className="info-item">
+          <label className="info-label" htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            className="form-input"
+            placeholder="Enter your email"
+          />
+        </div>
 
-      <label className="block">Email:</label>
-      <input
-        type="email"
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        className="border p-2 w-full"
-      />
+        <div className="info-item">
+          <label className="info-label" htmlFor="profilePicture">Profile Picture URL</label>
+          <input
+            id="profilePicture"
+            type="text"
+            name="profilePicture"
+            value={form.profilePicture}
+            onChange={handleChange}
+            className="form-input"
+            placeholder="Enter profile picture URL"
+          />
+        </div>
 
-      <label className="block">Profile Picture URL:</label>
-      <input
-        type="text"
-        name="profilePicture"
-        value={form.profilePicture}
-        onChange={handleChange}
-        className="border p-2 w-full"
-      />
+        <div className="profile-actions">
+          <button
+            type="submit"
+            className={`update-button ${isLoading ? 'loading' : ''}`}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Updating...' : 'Update Profile'}
+          </button>
+          <button
+            type="button"
+            onClick={onFinish}
+            className="cancel-button"
+            disabled={isLoading}
+          >
+            Cancel
+          </button>
+        </div>
 
-      <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
-        Update
-      </button>
-
-      {status && (
-        <p className={`mt-2 ${status.includes('success') ? 'text-green-600' : 'text-red-600'}`}>
-          {status}
-        </p>
-      )}
-    </form>
+        {status && (
+          <div className={`status-message ${status.includes('success') ? 'success' : 'error'}`}>
+            {status}
+          </div>
+        )}
+      </form>
+    </div>
   );
 }

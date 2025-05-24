@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import TypingMessage from "../homeComponents/TypingMessage";
+import TypingMessage from "../HomePageComponents/TypingMessage";
 import EventList from "../eventComponents/EventList";
 import Footer from "../sharedComponents/Footer";
 import Navbar from "../sharedComponents/navBar";
