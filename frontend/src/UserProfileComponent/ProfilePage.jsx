@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useAuth } from '../auth/AuthContext';
 import UpdateProfileForm from './UpdateProfileForm';
+import Navbar from '../sharedComponents/navBar';
 
 function ProfilePage() {
   const { user } = useAuth();
@@ -11,6 +12,7 @@ function ProfilePage() {
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white rounded-2xl shadow-md space-y-4">
+      <Navbar/>
       {!showForm ? (
         <>
           <h2 className="text-2xl font-bold text-gray-800">User Profile</h2>

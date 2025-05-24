@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import LoginForm from "./AuthComponent/LoginForm";
 import RegisterForm from "./AuthComponent/RegisterForm";
-import HomePage from "./homeComponents/HomePage";
+import HomePage from "./HomePageComponents/HomePage";
 import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
 import ProtectedRoute from "./auth/ProtectedRoutes";
 import ForgetPassword from "./AuthComponent/forgetPassword";

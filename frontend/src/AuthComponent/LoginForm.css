@@ -276,3 +276,32 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: #1f2937 !important;
   transition: background-color 5000s ease-in-out 0s;
 } 
+
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* translucent dark backdrop */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* above everything */
+}
+
+.loader-popup {
+  background: #fff; /* white popup */
+  padding: 40px 50px;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.blurred {
+  filter: blur(2px);
+  pointer-events: none;
+}

@@ -14,11 +14,11 @@ export default function LoginForm() {
     try {
       const role = await login(form);
       console.log("User role:", role);
-      navigate("/admin/users");
+      navigate("/profile");
     } catch (error) {
       console.error("Login failed:", error);
       alert("Login failed. Please check your credentials.");
-    }
+    } 
   };
 
   return (

@@ -1,0 +1,270 @@
+/* review.css */
+
+.step-container {
+  padding: 4rem 1.5rem;
+  background-color: white;
+}
+
+.booking-inner {
+  max-width: 80rem;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+}
+
+@media (min-width: 1024px) {
+  .booking-inner {
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+  }
+}
+
+.booking-header {
+  color: #6b7280;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.booking-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.25;
+}
+
+@media (min-width: 1024px) {
+  .booking-title {
+    font-size: 3rem;
+  }
+}
+
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.step-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.step-icon-yellow {
+  background-color: #f59e0b;
+}
+.step-icon-orange {
+  background-color: #f97316;
+}
+.step-icon-blue {
+  background-color: #3b82f6;
+}
+
+.step-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.step-content p {
+  color: #4b5563;
+  line-height: 1.625;
+}
+
+/* Right Card Section */
+.trip-card-container {
+  position: relative;
+}
+
+.trip-card {
+  background-color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 20rem;
+  margin: 0 auto;
+}
+
+.trip-image {
+  width: 100%;
+  height: 11rem;
+  object-fit: cover;
+}
+
+.trip-content {
+  padding: 1.25rem;
+}
+
+.trip-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.trip-date {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.trip-date span {
+  color: #374151;
+}
+
+.trip-icons {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.trip-icon-circle {
+  width: 2rem;
+  height: 2rem;
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trip-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trip-people {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.trip-heart {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #d1d5db;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.trip-heart:hover {
+  color: #ef4444;
+}
+
+/* Floating Status Card */
+.status-card {
+  position: absolute;
+  bottom: -1.5rem;
+  right: -2rem;
+  background-color: white;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: 16rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.status-details {
+  flex: 1;
+}
+
+.status-ongoing {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 0.25rem;
+}
+
+.status-title {
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.status-progress-label {
+  font-size: 0.875rem;
+  color: #7c3aed;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.status-bar {
+  width: 8rem;
+  height: 0.375rem;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+}
+
+.status-bar-fill {
+  width: 60%;
+  height: 100%;
+  background-color: #7c3aed;
+  border-radius: 9999px;
+}
+
+.status-image {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-left: 1rem;
+}
+
+.status-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Decorative Dots */
+.dot-yellow {
+  position: absolute;
+  top: -1rem;
+  left: -1rem;
+  width: 2rem;
+  height: 2rem;
+  background-color: #facc15;
+  border-radius: 9999px;
+  opacity: 0.6;
+}
+
+.dot-purple {
+  position: absolute;
+  top: 4rem;
+  right: -2rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: #a78bfa;
+  border-radius: 9999px;
+  opacity: 0.5;
+}
+
+.dot-blue {
+  position: absolute;
+  bottom: -2rem;
+  left: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #60a5fa;
+  border-radius: 9999px;
+  opacity: 0.4;
+}

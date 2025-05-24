@@ -1,31 +1,49 @@
 import { useState } from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./LoginForm.css";  // We'll reuse the same CSS
+import "./LoginForm.css";
+import Loader from "../sharedComponents/Loader"; 
 
 export default function RegisterForm() {
   const navigate = useNavigate();
   const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    role: "User",
   });
-  
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false); 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); 
     try {
-      // Add your registration logic here
-      navigate("/login");
+      await axios.post("http://localhost:3000/api/v1/register/", form);
+      setMessage("Registration successful. Redirecting to login...");
+      
+      setTimeout(() => {
+        setLoading(false); 
+        navigate("/login");
+      }, 2000);
+      
     } catch (error) {
-      console.error("Registration failed:", error);
       alert("Registration failed. Please try again.");
+      setLoading(false); 
     }
   };
 
   return (
     <div className="login-container">
-      <div className="illustration-side">
+      {loading && (
+      <div className="loader-overlay">
+        <div className="loader-popup">
+          <Loader />
+        </div>
+      </div>
+    )}
+
+      <div className={`illustration-side ${loading ? "blurred" : ""}`}>
         <div className="stars"></div>
         <div className="moon"></div>
         <div className="mountains">
@@ -34,35 +52,27 @@ export default function RegisterForm() {
           <div className="mountain mountain-3"></div>
         </div>
       </div>
-      
-      <div className="login-side">
+
+      <div className={`login-side ${loading ? "blurred" : ""}`}>
         <div className="login-card">
           <div className="login-header">
             <h1>Create Account</h1>
             <p className="login-subtitle">Please fill in your information below</p>
           </div>
-          
+
           <form onSubmit={handleSubmit}>
+            {/* All input fields stay the same */}
             <div className="form-group">
               <input
                 type="text"
-                placeholder="First Name"
-                value={form.firstName}
-                onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+                placeholder="Name"
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="form-input"
+                required
               />
             </div>
 
-            <div className="form-group">
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={form.lastName}
-                onChange={(e) => setForm({ ...form, lastName: e.target.value })}
-                className="form-input"
-              />
-            </div>
-            
             <div className="form-group">
               <input
                 type="email"
@@ -70,9 +80,10 @@ export default function RegisterForm() {
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 className="form-input"
+                required
               />
             </div>
-            
+
             <div className="form-group">
               <input
                 type="password"
@@ -80,36 +91,40 @@ export default function RegisterForm() {
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 className="form-input"
+                required
               />
             </div>
 
             <div className="form-group">
-              <input
-                type="password"
-                placeholder="Confirm Password"
-                value={form.confirmPassword}
-                onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
+              <select
+                value={form.role}
+                onChange={(e) => setForm({ ...form, role: e.target.value })}
                 className="form-input"
-              />
+                required
+              >
+                <option value="User">User</option>
+                <option value="Organizer">Organizer</option>
+                <option value="Admin">Admin</option>
+              </select>
             </div>
 
             <div className="form-options">
               <label className="remember-me">
-                <input
-                  type="checkbox"
-                />
+                <input type="checkbox" required />
                 <span>I agree to the Terms & Conditions</span>
               </label>
             </div>
 
-            <button type="submit" className="login-button">
-              CREATE ACCOUNT <span>→</span>
+            <button type="submit" className="login-button" disabled={loading}>
+              {loading ? "Creating..." : "CREATE ACCOUNT"} <span>→</span>
             </button>
-
-            <div className="register-link">
-              Already have an account? <a href="/login">Sign in here</a>
-            </div>
           </form>
+
+          {message && <p className="success-message">{message}</p>}
+
+          <div className="register-link">
+            Already have an account? <a href="/login">Sign in here</a>
+          </div>
         </div>
       </div>
     </div>
