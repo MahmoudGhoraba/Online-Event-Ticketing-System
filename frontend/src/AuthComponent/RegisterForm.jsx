@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../cssStyles/RegisterForm.css";
 import Loader from "../sharedComponents/Loader";
 
@@ -94,6 +94,12 @@ export default function RegisterForm() {
 
   return (
     <div className="auth-register-container">
+      <div className="back-to-home">
+        <Link to="/" className="back-home-button">
+          ← Back to Home
+        </Link>
+      </div>
+      
       {loading && (
         <div className="loader-overlay">
           <div className="loader-popup">

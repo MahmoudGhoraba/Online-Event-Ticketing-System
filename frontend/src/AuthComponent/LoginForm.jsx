@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import '../cssStyles/LoginForm.css';
 
@@ -23,6 +23,12 @@ export default function LoginForm() {
 
   return (
     <div className="auth-login-container">
+      <div className="back-to-home">
+        <Link to="/" className="back-home-button">
+          ← Back to Home
+        </Link>
+      </div>
+
       <div className="auth-login-left">
         <div className="auth-login-welcome">
           <h2>Login to book your tickets now... <span>what are you waiting for?</span></h2>
