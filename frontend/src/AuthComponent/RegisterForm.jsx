@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./RegisterForm.css";
+import "../cssStyles/RegisterForm.css";
 import Loader from "../sharedComponents/Loader";
 
 export default function RegisterForm() {
@@ -14,6 +14,21 @@ export default function RegisterForm() {
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const testimonials = [
+    {
+      text: "Just booked VIP tickets in seconds! 🎵",
+      author: "Sarah M."
+    },
+    {
+      text: "Best event platform ever! 🌟",
+      author: "Michael R."
+    },
+    {
+      text: "Amazing deals and service! 💎",
+      author: "James L."
+    }
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +49,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="login-container">
+    <div className="auth-register-container">
       {loading && (
         <div className="loader-overlay">
           <div className="loader-popup">
@@ -43,104 +58,110 @@ export default function RegisterForm() {
         </div>
       )}
 
-      <div className={`illustration-side ${loading ? "blurred" : ""}`}>
-        <div className="welcome-text">
+      <div className={`auth-register-left ${loading ? "blurred" : ""}`}>
+        <div className="auth-register-welcome">
           <h2>Begin Your Event Journey <span>Today!</span></h2>
         </div>
 
-        <div className="cards-container">
-          <div className="ticket-container">
-            <div className="ticket-header">
-              <h2 className="event-title">Easy Booking</h2>
-              <p className="event-date">Quick & Simple</p>
-            </div>
-            <div className="ticket-body">
-              <div className="ticket-info">🎫 Book with just a few clicks</div>
-              <div className="ticket-info">✨ Secure payments</div>
-            </div>
+        <div className="auth-register-cards">
+          <div className="auth-register-feature">
+            <div className="auth-register-feature-icon">🎫</div>
+            <h3>Easy Booking</h3>
+            <p>Book your favorite events with just a few clicks</p>
           </div>
           
-          <div className="ticket-container">
-            <div className="ticket-header">
-              <h2 className="event-title">Diverse Events</h2>
-              <p className="event-date">Something for Everyone</p>
-            </div>
-            <div className="ticket-body">
-              <div className="ticket-info">🎭 Concerts to Workshops</div>
-              <div className="ticket-info">🌟 Premium Events</div>
-            </div>
+          <div className="auth-register-feature">
+            <div className="auth-register-feature-icon">🎭</div>
+            <h3>Diverse Events</h3>
+            <p>From concerts to workshops, find your perfect event</p>
           </div>
           
-          <div className="ticket-container">
-            <div className="ticket-header">
-              <h2 className="event-title">Exclusive Access</h2>
-              <p className="event-date">VIP Benefits</p>
-            </div>
-            <div className="ticket-body">
-              <div className="ticket-info">💫 Early Bird Access</div>
-              <div className="ticket-info">🎁 Special Discounts</div>
-            </div>
+          <div className="auth-register-feature">
+            <div className="auth-register-feature-icon">💫</div>
+            <h3>VIP Access</h3>
+            <p>Get early access and exclusive discounts</p>
           </div>
           
-          <div className="ticket-container">
-            <div className="ticket-header">
-              <h2 className="event-title">Mobile Ready</h2>
-              <p className="event-date">On the Go</p>
+          <div className="auth-register-feature">
+            <div className="auth-register-feature-icon">📱</div>
+            <h3>Mobile Ready</h3>
+            <p>Manage your tickets on the go, anytime</p>
+          </div>
+        </div>
+
+        <div className="auth-register-floating-testimonials">
+          {testimonials.map((testimonial, index) => (
+            <div key={index} className="auth-register-floating-testimonial">
+              <div className="auth-register-floating-content">
+                <p>{testimonial.text}</p>
+                <span>- {testimonial.author}</span>
+              </div>
             </div>
-            <div className="ticket-body">
-              <div className="ticket-info">📱 Manage Anywhere</div>
-              <div className="ticket-info">🔔 Instant Updates</div>
-            </div>
+          ))}
+        </div>
+
+        <div className="auth-register-stats">
+          <div className="auth-register-stat">
+            <span className="auth-register-stat-number">500K+</span>
+            <span className="auth-register-stat-label">Happy Users</span>
+          </div>
+          <div className="auth-register-stat">
+            <span className="auth-register-stat-number">10K+</span>
+            <span className="auth-register-stat-label">Events Monthly</span>
+          </div>
+          <div className="auth-register-stat">
+            <span className="auth-register-stat-number">98%</span>
+            <span className="auth-register-stat-label">Satisfaction Rate</span>
           </div>
         </div>
       </div>
 
-      <div className={`login-side ${loading ? "blurred" : ""}`}>
-        <div className="login-card">
-          <div className="login-header">
+      <div className={`auth-register-right ${loading ? "blurred" : ""}`}>
+        <div className="auth-register-form">
+          <div className="auth-register-header">
             <h1>Create Account</h1>
-            <p className="login-subtitle">Join us to discover amazing events!</p>
+            <p className="auth-register-subtitle">Join us to discover amazing events!</p>
           </div>
 
           <form onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div className="auth-register-group">
               <input
                 type="text"
                 placeholder="Full Name"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="form-input"
+                className="auth-register-input"
                 required
               />
             </div>
 
-            <div className="form-group">
+            <div className="auth-register-group">
               <input
                 type="email"
                 placeholder="Email Address"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="form-input"
+                className="auth-register-input"
                 required
               />
             </div>
 
-            <div className="form-group">
+            <div className="auth-register-group">
               <input
                 type="password"
                 placeholder="Password"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="form-input"
+                className="auth-register-input"
                 required
               />
             </div>
 
-            <div className="form-group">
+            <div className="auth-register-group">
               <select
                 value={form.role}
                 onChange={(e) => setForm({ ...form, role: e.target.value })}
-                className="form-s"
+                className="auth-register-select"
                 required
               >
                 <option value="User">Attendee</option>
@@ -149,14 +170,12 @@ export default function RegisterForm() {
               </select>
             </div>
 
-            <div className="form-options">
-              <label className="remember-me">
-                <input type="checkbox" required />
-                <span>I agree to the Terms & Conditions</span>
-              </label>
+            <div className="auth-register-checkbox">
+              <input type="checkbox" className="auth-register-check" required />
+              <span>I agree to the Terms & Conditions</span>
             </div>
 
-            <button type="submit" className="login-button" disabled={loading}>
+            <button type="submit" className="auth-register-button" disabled={loading}>
               {loading ? "Creating Account..." : "CREATE ACCOUNT"} <span>→</span>
             </button>
           </form>
@@ -167,7 +186,7 @@ export default function RegisterForm() {
             </div>
           )}
 
-          <div className="register-link">
+          <div className="auth-register-login-link">
             Already have an account? <a href="/login">Sign in here</a>
           </div>
         </div>
