@@ -58,8 +58,8 @@ const linksByRole = {
   ],
   Organizer: [
     { text: "Dashboard", href: "/organizer/dashboard" },
-    { text: "My Events", href: "/organizer/events" },
-    { text: "Analytics", href: "/organizer/analytics" },
+    { text: "My Events", href: "/my-events" },
+    { text: "Analytics", href: "/my-events/analytics" },
     { text: "Contact", href: "/contact" },
   ],
   Admin: [
