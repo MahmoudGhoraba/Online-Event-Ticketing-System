@@ -43,6 +43,7 @@ export default function AdminUsersPage() {
         "http://localhost:3000/api/v1/events/all"
       );
       setEvents(data || []);
+      console.log(data);
       setErrorEvents(null);
     } catch (err) {
       setErrorEvents(err.response?.data?.message || "Failed to load events");
@@ -58,9 +59,10 @@ export default function AdminUsersPage() {
 
   // Filter events by status
   const filteredEvents =
-    filterStatus === "all"
-      ? events
-      : events.filter((event) => event.status === filterStatus);
+  filterStatus === "all"
+    ? events
+    : events.filter((event) => event.status === filterStatus);
+
 
   // Toggle expand/collapse event for showing statuses
   const toggleEventExpand = (eventId) => {
@@ -157,7 +159,9 @@ export default function AdminUsersPage() {
         {["all", "approved", "declined", "pending"].map((status) => (
           <button
             key={status}
-            onClick={() => setFilterStatus(status)}
+            onClick={() => {setFilterStatus(status)
+              console.log("here")
+            }}
             style={{
               margin: "0 8px",
               padding: "6px 12px",

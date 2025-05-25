@@ -2,6 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext'; // Adjust path as needed
+import '../cssStyles/EventDetails.css';
+import {
+  CalendarIcon,
+  MapPinIcon,
+  TagIcon,
+  TicketIcon,
+  CurrencyDollarIcon,
+  UserGroupIcon,
+  PencilSquareIcon,
+  TrashIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  ArrowRightOnRectangleIcon
+} from '@heroicons/react/24/outline';
 
 function EventDetails() {
   const { id } = useParams();
@@ -40,235 +54,341 @@ function EventDetails() {
   }, [id]);
 
   const NavigateToBookTicketForm = () => {
-    navigate(`/booking/BookTicketForm/${event._id}`);
+    console.log("hello");
+    if(user.role === 'User'){
+      navigate(`/booking/BookTicketForm/${event._id}`);
+    }else{
+      alert('You are not authorized to book tickets');
+      navigate('/login');
+    }
   };
 
-  if (loading) return <p>Loading event details...</p>;
-  if (error) return <p>{error}</p>;
-  if (!event) return <p>No event found.</p>;
+  const handleLoginRedirect = () => {
+    navigate('/login');
+  };
+
+  if (loading) return (
+    <div className="event-details-loading">
+      <div className="loading-spinner"></div>
+      <p>Loading event details...</p>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="event-details-error">
+      <XCircleIcon className="error-icon" />
+      <p>{error}</p>
+    </div>
+  );
+  
+  if (!event) return (
+    <div className="event-details-error">
+      <XCircleIcon className="error-icon" />
+      <p>No event found.</p>
+    </div>
+  );
 
   const isOrganizer = user?.role === 'Organizer';
   const isUser = user?.role === 'User';
 
+  const formatDate = (dateString) => {
+    const options = { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  };
+
   return (
-    <div style={{ padding: 32, backgroundColor: "#F9FAFB", minHeight: "100vh" }}>
-      <div
-        style={{
-          maxWidth: 800,
-          margin: "auto",
-          background: "#F3F4F6",
-          padding: 32,
-          borderRadius: 12,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
-        }}
-      >
-        <h1 style={{ fontSize: 28, fontWeight: "bold" }}>{event.title}</h1>
-        <p>{event.description}</p>
-        <p><strong>Date:</strong> {new Date(event.date).toLocaleString()}</p>
-        <p><strong>Location:</strong> {event.location}</p>
-        <p><strong>Category:</strong> {event.category}</p>
-        <p><strong>Tickets Remaining:</strong> {event.remainingTickets}</p>
-        <p><strong>Total Tickets:</strong> {event.totalNumberOfTickets}</p>
-
-        {isUser && (
-          <button
-            onClick={NavigateToBookTicketForm}
-            disabled={event.remainingTickets <= 0}
-            style={{
-              cursor: event.remainingTickets > 0 ? 'pointer' : 'not-allowed',
-              opacity: event.remainingTickets > 0 ? 1 : 0.5,
-              marginTop: 16,
-              padding: '10px 20px',
-              fontSize: 16,
-              backgroundColor: event.remainingTickets > 0 ? '#2563EB' : '#888',
-              color: 'white',
-              border: 'none',
-              borderRadius: 6,
-            }}
-          >
-            {event.remainingTickets > 0 ? "Book Now!" : "Sold Out"}
-          </button>
-        )}
-
-        {isOrganizer && (
-          <div style={{ marginTop: 24 }}>
-            {isEditing ? (
-              <form
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setSaving(true);
-                  try {
-                    await axios.put(`http://localhost:3000/api/v1/events/${id}`, event);
-                    alert("Event updated successfully");
-                    setIsEditing(false);
-                  } catch (err) {
-                    console.error("Update failed", err);
-                    alert("Failed to update event");
-                  } finally {
-                    setSaving(false);
+    <div className="event-details-container">
+      <div className="event-details-card">
+        <div className="event-details-header">
+          <h1 className="event-details-title">{event.title}</h1>
+          {isOrganizer && !isEditing && (
+            <div className="event-details-organizer-actions">
+              <button
+                onClick={() => setIsEditing(true)}
+                className="event-details-edit-button"
+              >
+                <PencilSquareIcon className="button-icon" />
+                Edit Event
+              </button>
+              <button
+                onClick={async () => {
+                  if (window.confirm("Are you sure you want to delete this event? This action cannot be undone.")) {
+                    setDeleting(true);
+                    try {
+                      await axios.delete(`http://localhost:3000/api/v1/events/${id}`);
+                      alert("Event deleted successfully");
+                      navigate('/my-events');
+                    } catch (err) {
+                      console.error("Delete failed", err);
+                      alert("Failed to delete event");
+                    } finally {
+                      setDeleting(false);
+                    }
                   }
                 }}
-                style={{ display: "flex", flexDirection: "column", gap: 16 }}
+                disabled={deleting}
+                className="event-details-delete-button"
               >
-                <input
-                  type="text"
-                  value={event.title}
-                  onChange={(e) => setEvent({ ...event, title: e.target.value })}
-                  placeholder="Event Title"
-                  style={{ padding: 8, fontSize: 16 }}
-                  required
-                />
-                <textarea
-                  value={event.description}
-                  onChange={(e) => setEvent({ ...event, description: e.target.value })}
-                  placeholder="Description"
-                  rows={4}
-                  style={{ padding: 8, fontSize: 16 }}
-                  required
-                />
-                <input
-                  type="datetime-local"
-                  value={toLocalDatetime(event.date)}
-                  onChange={(e) => setEvent({ ...event, date: new Date(e.target.value).toISOString() })}
-                  style={{ padding: 8 }}
-                  required
-                />
-                <input
-                  type="text"
-                  value={event.location}
-                  onChange={(e) => setEvent({ ...event, location: e.target.value })}
-                  placeholder="Location"
-                  style={{ padding: 8 }}
-                  required
-                />
-                <input
-                  type="text"
-                  value={event.category}
-                  onChange={(e) => setEvent({ ...event, category: e.target.value })}
-                  placeholder="Category"
-                  style={{ padding: 8 }}
-                  required
-                />
-                <input
-                  type="number"
-                  value={event.ticketPrice}
-                  onChange={(e) => setEvent({ ...event, ticketPrice: parseFloat(e.target.value) })}
-                  placeholder="Ticket Price"
-                  style={{ padding: 8 }}
-                  min={0}
-                  step="0.01"
-                  required
-                />
-                <input
-                  type="number"
-                  value={event.totalNumberOfTickets}
-                  onChange={(e) => {
-                    const newTotal = parseInt(e.target.value, 10);
-                    if (isNaN(newTotal) || newTotal < 0) {
-                      return;
-                    }
-                    const oldTotal = event.totalNumberOfTickets ?? 0;
-                    const oldRemaining = event.remainingTickets ?? 0;
-                    const bookedTickets = oldTotal - oldRemaining;
-                    const safeBookedTickets = bookedTickets < 0 ? 0 : bookedTickets;
-                    const newRemaining = newTotal - safeBookedTickets >= 0 ? newTotal - safeBookedTickets : 0;
+                <TrashIcon className="button-icon" />
+                {deleting ? "Deleting..." : "Delete Event"}
+              </button>
+            </div>
+          )}
+        </div>
 
-                    setEvent({
-                      ...event,
-                      totalNumberOfTickets: newTotal,
-                      remainingTickets: newRemaining,
-                    });
-                  }}
-                  placeholder="Total Tickets"
-                  style={{ padding: 8 }}
-                  min={0}
-                  required
-                />
-
-                <div style={{ display: "flex", gap: 12 }}>
-                  <button
-                    type="submit"
-                    disabled={saving}
-                    style={{
-                      backgroundColor: "#10B981",
-                      color: "white",
-                      padding: "10px 20px",
-                      border: "none",
-                      borderRadius: 6,
-                      cursor: saving ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    {saving ? "Saving..." : "Save Changes"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    disabled={saving}
-                    style={{
-                      backgroundColor: "#EF4444",
-                      color: "white",
-                      padding: "10px 20px",
-                      border: "none",
-                      borderRadius: 6,
-                      cursor: saving ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    Cancel
-                  </button>
+        {!isEditing ? (
+          <div className="event-details-content">
+            <div className="event-details-info-grid">
+              <div className="info-card">
+                <CalendarIcon className="info-icon" />
+                <div className="info-text">
+                  <h3>Date & Time</h3>
+                  <p>{formatDate(event.date)}</p>
                 </div>
-              </form>
-            ) : (
-              <>
-                <button
-                  onClick={() => setIsEditing(true)}
-                  style={{
-                    backgroundColor: "#2563EB",
-                    color: "white",
-                    padding: "10px 20px",
-                    border: "none",
-                    borderRadius: 6,
-                    cursor: "pointer",
-                    marginRight: 12,
-                  }}
-                >
-                  Edit Event
-                </button>
+              </div>
 
+              <div className="info-card">
+                <MapPinIcon className="info-icon" />
+                <div className="info-text">
+                  <h3>Location</h3>
+                  <p>{event.location}</p>
+                </div>
+              </div>
+
+              <div className="info-card">
+                <TagIcon className="info-icon" />
+                <div className="info-text">
+                  <h3>Category</h3>
+                  <p>{event.category}</p>
+                </div>
+              </div>
+
+              <div className="info-card">
+                <CurrencyDollarIcon className="info-icon" />
+                <div className="info-text">
+                  <h3>Ticket Price</h3>
+                  <p>${event.ticketPrice}</p>
+                </div>
+              </div>
+
+              <div className="info-card">
+                <TicketIcon className="info-icon" />
+                <div className="info-text">
+                  <h3>Available Tickets</h3>
+                  <p>{event.remainingTickets} / {event.totalNumberOfTickets}</p>
+                </div>
+              </div>
+
+              <div className="info-card">
+                <UserGroupIcon className="info-icon" />
+                <div className="info-text">
+                  <h3>Capacity</h3>
+                  <p>{event.totalNumberOfTickets} seats</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="event-details-description">
+              <h2>About This Event</h2>
+              <p>{event.description}</p>
+            </div>
+
+            <div className="event-details-booking">
+              <div className={`ticket-status ${event.remainingTickets > 0 ? 'tickets-available' : 'tickets-sold-out'}`}>
+                {event.remainingTickets > 0 ? (
+                  <CheckCircleIcon className="status-icon" />
+                ) : (
+                  <XCircleIcon className="status-icon" />
+                )}
+                <span>
+                  {event.remainingTickets > 0 
+                    ? `${event.remainingTickets} tickets available` 
+                    : 'Sold Out'}
+                </span>
+              </div>
+              
+              {user ? (
+                isUser && (
+                  <button
+                    onClick={NavigateToBookTicketForm}
+                    disabled={event.remainingTickets <= 0}
+                    className="event-details-button"
+                  >
+                    <TicketIcon className="button-icon" />
+                    {event.remainingTickets > 0 ? "Book Now!" : "Sold Out"}
+                  </button>
+                )
+              ) : (
                 <button
-                  onClick={async () => {
-                    if (
-                      window.confirm(
-                        "Are you sure you want to delete this event? This action cannot be undone."
-                      )
-                    ) {
-                      setDeleting(true);
-                      try {
-                        await axios.delete(`http://localhost:3000/api/v1/events/${id}`);
-                        alert("Event deleted successfully");
-                        navigate('/organizer/users'); // Redirect to organizer users/events page
-                      } catch (err) {
-                        console.error("Delete failed", err);
-                        alert("Failed to delete event");
-                      } finally {
-                        setDeleting(false);
-                      }
-                    }
-                  }}
-                  disabled={deleting}
-                  style={{
-                    backgroundColor: "#EF4444",
-                    color: "white",
-                    padding: "10px 20px",
-                    border: "none",
-                    borderRadius: 6,
-                    cursor: deleting ? "not-allowed" : "pointer",
-                  }}
+                  onClick={handleLoginRedirect}
+                  className="event-details-login-button"
                 >
-                  {deleting ? "Deleting..." : "Delete Event"}
+                  <ArrowRightOnRectangleIcon className="button-icon" />
+                  Login to Book Tickets
                 </button>
-              </>
-            )}
+              )}
+            </div>
           </div>
+        ) : (
+          <form
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setSaving(true);
+              try {
+                await axios.put(`http://localhost:3000/api/v1/events/${id}`, event);
+                alert("Event updated successfully");
+                setIsEditing(false);
+              } catch (err) {
+                console.error("Update failed", err);
+                alert("Failed to update event");
+              } finally {
+                setSaving(false);
+              }
+            }}
+            className="event-details-form"
+          >
+            <div className="form-grid">
+              <div className="form-group">
+                <label>
+                  <span>Event Title</span>
+                  <input
+                    type="text"
+                    value={event.title}
+                    onChange={(e) => setEvent({ ...event, title: e.target.value })}
+                    placeholder="Event Title"
+                    className="event-details-input"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="form-group full-width">
+                <label>
+                  <span>Description</span>
+                  <textarea
+                    value={event.description}
+                    onChange={(e) => setEvent({ ...event, description: e.target.value })}
+                    placeholder="Description"
+                    className="event-details-input event-details-textarea"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <span>Date & Time</span>
+                  <input
+                    type="datetime-local"
+                    value={toLocalDatetime(event.date)}
+                    onChange={(e) => setEvent({ ...event, date: new Date(e.target.value).toISOString() })}
+                    className="event-details-input"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <span>Location</span>
+                  <input
+                    type="text"
+                    value={event.location}
+                    onChange={(e) => setEvent({ ...event, location: e.target.value })}
+                    placeholder="Location"
+                    className="event-details-input"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <span>Category</span>
+                  <input
+                    type="text"
+                    value={event.category}
+                    onChange={(e) => setEvent({ ...event, category: e.target.value })}
+                    placeholder="Category"
+                    className="event-details-input"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <span>Ticket Price ($)</span>
+                  <input
+                    type="number"
+                    value={event.ticketPrice}
+                    onChange={(e) => setEvent({ ...event, ticketPrice: parseFloat(e.target.value) })}
+                    placeholder="Ticket Price"
+                    className="event-details-input"
+                    min={0}
+                    step="0.01"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label>
+                  <span>Total Tickets</span>
+                  <input
+                    type="number"
+                    value={event.totalNumberOfTickets}
+                    onChange={(e) => {
+                      const newTotal = parseInt(e.target.value, 10);
+                      if (isNaN(newTotal) || newTotal < 0) return;
+                      const oldTotal = event.totalNumberOfTickets ?? 0;
+                      const oldRemaining = event.remainingTickets ?? 0;
+                      const bookedTickets = oldTotal - oldRemaining;
+                      const safeBookedTickets = bookedTickets < 0 ? 0 : bookedTickets;
+                      const newRemaining = newTotal - safeBookedTickets >= 0 ? newTotal - safeBookedTickets : 0;
+
+                      setEvent({
+                        ...event,
+                        totalNumberOfTickets: newTotal,
+                        remainingTickets: newRemaining,
+                      });
+                    }}
+                    placeholder="Total Tickets"
+                    className="event-details-input"
+                    min={0}
+                    required
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="event-details-actions">
+              <button
+                type="submit"
+                disabled={saving}
+                className="event-details-edit-button"
+              >
+                <CheckCircleIcon className="button-icon" />
+                {saving ? "Saving..." : "Save Changes"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                disabled={saving}
+                className="event-details-delete-button"
+              >
+                <XCircleIcon className="button-icon" />
+                Cancel
+              </button>
+            </div>
+          </form>
         )}
       </div>
     </div>

@@ -1,49 +1,60 @@
-// src/eventComponents/EventList.jsx
-
 import React, { useState, useEffect } from "react";
-import { Navigation } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../auth/AuthContext";
 import "./events.css";
 import EventCard from "./EventCard";
 
-export default function EventList() {
+export default function EventList(props) {
+  const { user } = useAuth();
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 3;
 
   const navigate = useNavigate();
-
   const totalPages = Math.ceil(featuredEvents.length / itemsPerPage);
   const startIndex = currentPage * itemsPerPage;
   const visibleEvents = featuredEvents.slice(startIndex, startIndex + itemsPerPage);
 
   const goNext = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
+    if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
   };
 
   const goPrevious = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
+    if (currentPage > 0) setCurrentPage(currentPage - 1);
   };
 
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/events/");
-        setFeaturedEvents(response.data);
+        let data;
+        if (props && props.events) {
+          // Use events passed via props
+          setFeaturedEvents(props.events);
+          setLoading(false);
+          return;
+        }
+
+        // Otherwise fetch from API
+        if (!user || user.role === "User" || user.role === "Admin") {
+          const res = await axios.get("http://localhost:3000/api/v1/events/");
+          data = res.data;
+        } else if (user.role === "Organizer") {
+          const res = await axios.get("http://localhost:3000/api/v1/users/events");
+          data = res.data.events;
+        }
+
+        setFeaturedEvents(data);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       } finally {
         setLoading(false);
       }
     }
+
     fetchEvents();
-  }, []);
+  }, [user, props.events]);
 
   const handleClick = (event) => {
     navigate(`/events/${event._id}`);
@@ -63,27 +74,7 @@ export default function EventList() {
 
       <div className="top-destinations__spiral">
         <svg width="120" height="200" viewBox="0 0 120 200">
-          <path
-            d="M10 20 Q 60 20 60 60 Q 60 100 20 100 Q -20 100 -20 60 Q -20 20 20 20 Q 60 20 60 60 Q 60 100 40 100"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            opacity="0.3"
-          />
-          <path
-            d="M10 80 Q 50 80 50 120 Q 50 160 10 160 Q -30 160 -30 120 Q -30 80 10 80"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            opacity="0.2"
-          />
-          <path
-            d="M10 140 Q 40 140 40 170 Q 40 200 10 200"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            opacity="0.1"
-          />
+          {/* Spiral Paths */}
         </svg>
       </div>
 
@@ -104,12 +95,8 @@ export default function EventList() {
             </p>
           ) : (
             visibleEvents.map((event, index) => (
-              <div                
-              className="destination-card"
-                key={index}
-                onClick={() => handleClick(event)}
-              >
-              <EventCard event={event}/>
+              <div className="destination-card" key={index} onClick={() => handleClick(event)}>
+                <EventCard event={event} />
               </div>
             ))
           )}
