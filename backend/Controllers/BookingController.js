@@ -1,210 +1,141 @@
+
 const BookingModel = require("../Models/Booking");
 const EventModel = require("../Models/Event");
 
 const BookingController = {
   getAllBooking: async (req, res) => {
     try {
-      const bookings = await BookingModel.find();
-      if (!bookings?.length) {
-        return res.status(200).json({ 
-          message: 'No bookings found',
-          data: []
-        });
+      //maybe add a line for the case someone didnt book before
+      const Bookings = await BookingModel.find();
+      if(!Bookings){
+        return res.status(500).json({ message: 'no Bookings are found'})
       }
-      return res.status(200).json(bookings);
+      return res.status(200).json(Bookings);
     } catch (e) {
-      return res.status(500).json({ message: e?.message || 'Internal server error' });
+      return res.status(500).json({ message: e.message });
     }
   },
-
   getUserBooking: async (req, res) => {
     try {
-      if (!req?.params?.id || !req?.user?.userId) {
-        return res.status(400).json({ 
-          message: 'Missing required parameters' 
-        });
-      }
+        // Check for booking existence with both booking ID and user ID
+        const booking = await BookingModel.findOne({
+            _id: req.params.id,
+            user: req.user.userId
+        }).populate("event"); // Populate event details if needed
 
-      const booking = await BookingModel.findOne({
-        _id: req.params.id,
-        user: req.user.userId
-      }).populate("event");
+        if (!booking) {
+            return res.status(404).json({ message: 'No booking found for this user with the given ID' });
+        }
 
-      if (!booking) {
-        return res.status(404).json({ 
-          message: 'No booking found for this user with the given ID' 
-        });
-      }
-
-      return res.status(200).json(booking);
+        return res.status(200).json(booking);
     } catch (error) {
-      return res.status(500).json({ 
-        message: error?.message || 'Internal server error' 
-      });
+        return res.status(500).json({ message: error.message });
     }
-  },
-
+},
   createBooking: async (req, res) => {
     try {
-      // Validate required fields
-      if (!req?.body?.event || !req?.body?.tickets || !req?.user?.userId) {
-        return res.status(400).json({ 
-          message: "Missing required booking information" 
-        });
+        // Fetch the event from the database
+        const event = await EventModel.findById(req.body.event);
+        if (!event ) {
+            return res.status(404).json({ message: "Event not found" });
+        }
+        if (event.status!=="approved" ) {
+          return res.status(404).json({ message: "Event not approved" });
       }
+        // Check ticket availability
+        const remainingTickets = event.remainingTickets - req.body.tickets;
+        if (remainingTickets < 0) {
+            return res.status(400).json({ message: "Not enough tickets available" });
+        }
 
-      const event = await EventModel.findById(req?.body?.event);
-      if (!event) {
-        return res.status(404).json({ 
-          message: "Event not found" 
+        // Calculate total price
+        const totalPrice = req.body.tickets * event.ticketPrice;
+
+        // Create a new booking
+        const booking = new BookingModel({
+            user: req.user.userId,
+            event: event._id,
+            tickets: req.body.tickets,
+            totalPrice: totalPrice,
+            bookingStatus: "pending"
         });
-      }
 
-      if (event?.status !== "approved") {
-        return res.status(400).json({ 
-          message: "Event not approved" 
-        });
-      }
+        // Save the booking and update the event atomically
+        const session = await BookingModel.startSession();
+        session.startTransaction();
+        try {
+            await booking.save({ session });
+            await EventModel.findByIdAndUpdate(
+                event._id,
+                { remainingTickets: remainingTickets },
+                { session }
+            );
+            booking.bookingStatus='confirmed'
+            await booking.save({ session });
+            await session.commitTransaction();
+            session.endSession();
 
-      const ticketsRequested = Number(req.body.tickets);
-      if (isNaN(ticketsRequested) || ticketsRequested < 1) {
-        return res.status(400).json({ 
-          message: "Invalid number of tickets requested" 
-        });
-      }
-
-      const remainingTickets = event.remainingTickets - ticketsRequested;
-      if (remainingTickets < 0) {
-        return res.status(400).json({ 
-          message: "Not enough tickets available",
-          available: event.remainingTickets 
-        });
-      }
-
-      const totalPrice = ticketsRequested * (event?.ticketPrice ?? 0);
-      if (totalPrice <= 0) {
-        return res.status(400).json({ 
-          message: "Invalid ticket price calculation" 
-        });
-      }
-
-      const booking = new BookingModel({
-        user: req.user.userId,
-        event: event._id,
-        tickets: ticketsRequested,
-        totalPrice,
-        bookingStatus: "confirmed"
-      });
-
-      await booking.save();
-      await EventModel.findByIdAndUpdate(event._id, {
-        remainingTickets: remainingTickets
-      });
-
-      return res.status(201).json(booking);
+            return res.status(201).json(booking);
+        } catch (err) {
+            await session.abortTransaction();
+            session.endSession();
+            throw err;
+        }
     } catch (e) {
-      return res.status(400).json({ 
-        message: e?.message || 'Failed to create booking' 
-      });
+        return res.status(400).json({ message: e.message });
     }
-  },
-
+},
   updateBooking: async (req, res) => {
     try {
-      if (!req?.params?.id || !req?.body) {
-        return res.status(400).json({ 
-          message: "Missing required update information" 
-        });
-      }
-
-      const booking = await BookingModel.findByIdAndUpdate(
+      // lw fe values negative
+      const Booking = await BookingModel.findByIdAndUpdate(
         req.params.id,
         req.body,
-        { new: true, runValidators: true }
+        { new: true }
       );
-
-      if (!booking) {
-        return res.status(404).json({ 
-          message: "Booking not found" 
-        });
-      }
-
-      return res.status(200).json({ 
-        booking, 
-        message: "Booking updated successfully" 
-      });
+      return res
+        .status(200)
+        .json({ Booking, msg: "booking updated successfully" });
     } catch (error) {
-      return res.status(500).json({ 
-        message: error?.message || 'Failed to update booking' 
-      });
+      return res.status(500).json({ message: error.message });
     }
   },
-
   deleteBooking: async (req, res) => {
     try {
-      if (!req?.params?.id || !req?.user?.userId) {
-        return res.status(400).json({ 
-          message: "Missing required deletion information" 
-        });
-      }
-
       const booking = await BookingModel.findOne({
         _id: req.params.id,
         user: req.user.userId
       }).populate("event");
-
       if (!booking) {
-        return res.status(404).json({ 
-          message: "Booking not found" 
-        });
+        return res.status(404).json({ message: "Booking not found" });
       }
-
-      // Check if refund is possible
-      if (
-        booking?.bookingStatus === 'confirmed' && 
-        booking?.event?.date && 
-        new Date(booking.event.date) > new Date()
-      ) {
-        // Update event tickets only if conditions are met
-        booking.event.remainingTickets += booking.tickets;
-        await booking.event.save();
+      // do we make it a session?
+      console.log("line 133")
+      console.log(booking.bookingStatus)
+      if(booking.bookingStatus==='confirmed' && (booking.event.date).getTime() >Date.now() ){
+      booking.event.remainingTickets=booking.event.remainingTickets+booking.tickets
+      await booking.event.save()
       }
-
-      await BookingModel.findByIdAndDelete(req.params.id);
-
-      return res.status(200).json({ 
-        booking, 
-        message: "Booking deleted successfully" 
-      });
+      console.log("line 138")
+      await BookingModel.findByIdAndDelete(req.params.id)
+      return res
+        .status(200)
+        .json({ booking, msg: "booking deleted successfully" });
     } catch (error) {
-      return res.status(500).json({ 
-        message: error?.message || 'Failed to delete booking' 
-      });
+      return res.status(500).json({ message: error.message });
     }
-  },
-
+  }
+  ,
   getUserBookings: async (req, res) => {
     try {
-      if (!req?.user?.userId) {
-        return res.status(400).json({ 
-          message: "User ID is required" 
-        });
+      const bookings = await BookingModel.find({ user: req.user.userId }).populate("event");
+      if (bookings.length === 0) {
+        return res.status(200).json({ message: 'No bookings found', bookings: [] });
       }
-
-      const bookings = await BookingModel.find({ 
-        user: req.user.userId 
-      }).populate("event");
-
-      return res.status(200).json({
-        bookings: bookings ?? [],
-        count: bookings?.length ?? 0
-      });
+      return res.status(200).json(bookings);
     } catch (error) {
-      return res.status(500).json({ 
-        message: error?.message || 'Failed to fetch user bookings' 
-      });
+      return res.status(500).json({ message: error.message });
     }
   },
-};
-
+}
 module.exports = BookingController;
