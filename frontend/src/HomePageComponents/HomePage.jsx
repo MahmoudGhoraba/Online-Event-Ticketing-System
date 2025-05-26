@@ -47,15 +47,6 @@ export default function HomePage() {
               theater performances, and more. Secure your spot today with a click.
             </p>
 
-            <div className="buttons">
-              <button className="find-out" onClick={() => navigate('/login')}>Sign in</button>
-              <button className="play-demo" onClick={() => navigate('/register')}>
-                <div className="play-icon">
-                  <Play size={16} fill="white" className="text-white ml-1" />
-                </div>
-                <span>Get Started</span>
-              </button>
-            </div>
           </div>
 
           <div className="hero-image">
