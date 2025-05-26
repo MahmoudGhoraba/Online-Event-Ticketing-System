@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import '../cssStyles/EventAnalytics.css';
+import Footer from '../sharedComponents/Footer';
+import Navbar from '../sharedComponents/navBar';
 
 function ChartComponent() {
   const [analytics, setAnalytics] = useState([]);
@@ -91,16 +93,8 @@ function ChartComponent() {
   };
 
   return (
-    <div className="analytics-container">
-      <div className="analytics-navigation">
-        <Link to="/" className="analytics-nav-button">
-          ← Back to Home
-        </Link>
-        <Link to="/profile" className="analytics-nav-button">
-          Profile →
-        </Link>
-      </div>
-
+    <div className="">
+      <Navbar/>
       <div className="analytics-card">
         <div className="analytics-header">
           <h1 className="analytics-title">Event Analytics</h1>
@@ -125,6 +119,7 @@ function ChartComponent() {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
