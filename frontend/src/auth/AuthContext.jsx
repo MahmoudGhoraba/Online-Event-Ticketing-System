@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
   // Fetch current user on app load
   useEffect(() => {
     const fetchUser = async () => {
+      
       try {
         const res = await axios.get("http://localhost:3000/api/v1/users/profile", {
           withCredentials: true,

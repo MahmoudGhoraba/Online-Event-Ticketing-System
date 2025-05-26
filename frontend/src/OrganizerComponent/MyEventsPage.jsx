@@ -6,15 +6,12 @@ import Footer from "../sharedComponents/Footer";
 import Navbar from "../sharedComponents/navBar";
 import CreateEventcard from '../eventComponents/EventForm';
 import { useNavigate } from "react-router-dom";
-import { Check, ArrowRight } from "lucide-react"; // Make sure to import icons or replace
-import ChartComponent from './EventAnalytics'; // adjust path
-
-
+import { Check, ArrowRight } from "lucide-react";
+import ChartComponent from './EventAnalytics';
 
 function OrganizerPage() {
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showAllEvents, setShowAllEvents] = useState(false);
   const [activeTab, setActiveTab] = useState("discover");
   const navigate = useNavigate();
 
@@ -88,42 +85,16 @@ function OrganizerPage() {
           ) : featuredEvents.length === 0 ? (
             <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>No events available.</p>
           ) : (
-            <>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                  gap: 32,
-                }}
-              >
-                {/* Show either first 3 events or all events */}
-                <EventList events={showAllEvents ? featuredEvents : featuredEvents.slice(0, 3)} onClick={handleClick} />
-
-                {/* CreateEventcard always last */}
-                <CreateEventcard />
-              </div>
-
-              {/* Toggle button for show more / show less */}
-              {featuredEvents.length > 3 && (
-                <div style={{ textAlign: "center", marginTop: 24 }}>
-                  <button
-                    style={{
-                      backgroundColor: "#2563EB",
-                      color: "white",
-                      fontWeight: 600,
-                      padding: "12px 32px",
-                      borderRadius: 12,
-                      border: "none",
-                      boxShadow: "0 4px 6px rgba(37, 99, 235, 0.5)",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setShowAllEvents(!showAllEvents)}
-                  >
-                    {showAllEvents ? "Show Less" : "Explore More"}
-                  </button>
-                </div>
-              )}
-            </>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                gap: 32,
+              }}
+            >
+              <EventList events={featuredEvents} onClick={handleClick} />
+              <CreateEventcard />
+            </div>
           )}
         </div>
       </section>
@@ -177,29 +148,26 @@ function OrganizerPage() {
           {activeTab === "organize" && (
             <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
               {/* Content for organize */}
-              {/* ... */}
+              <p>Organize your events easily here.</p>
             </div>
           )}
+
           {activeTab === "attend" && (
             <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
               {/* Content for attend */}
-              {/* ... */}
+              <p>Track and manage the events you’re attending.</p>
             </div>
           )}
+
           {activeTab === "analyze" && (
             <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
               {/* Content for analyze */}
-              {/* ... */}
+              <ChartComponent />
             </div>
           )}
         </div>
       </div>
-      {activeTab === "analyze" && (
-  <div style={{ padding: '24px 0' }}>
-    
-  </div>
-)}
-<ChartComponent />
+
       <Footer />
     </div>
   );

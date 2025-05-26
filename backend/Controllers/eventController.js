@@ -5,6 +5,7 @@ const eventController={
     getPostedEvents: async (req,res)=>{
         try{
          const events=await eventModel.find();
+         console.log("in the all");
          if (events.length === 0) {
             return res.status(200).json({ message: "No events were found", events: [] });
         }
@@ -164,6 +165,7 @@ const eventController={
     },
     getApprovedPostedEvents: async (req,res)=>{
         try{
+            console.log("in the approved");
          const events=await eventModel.find({status:"approved"});
          if(!events)
             if (events.length === 0) {
