@@ -1,56 +1,60 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const mongoose = require("mongoose");
-//const authenticateMiddleware = require('../Online-Event-Ticketing-System/Middleware/authenticateMiddleware'); 
+const mongoose = require('mongoose');
+const cors = require('cors');
+const path = require('path');
+require('dotenv').config();
 
 const app = express();
-const cors = require("cors"); // haga 3ashan el security, middle ware block request if the localhost is different
+
+// CORS setup
+app.use(
+  cors({
+    origin: process.env.ORIGIN, // e.g. https://your-app.onrender.com
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+  })
+);
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// this is connecting routes with middleware
-const authRouter = require("./Routes/auth");
-const bookingRouter = require("./Routes/booking");
-const eventRouter = require("./Routes/event");
-const userRouter = require("./Routes/user");
-// here we apply the middleware
-require('dotenv').config(); // this loads from .env file to your app
-app.use(express.json()); // parse from the post req
-app.use(express.urlencoded({ extended: false })); //parse from the html
-app.use(cookieParser()); // we can access token
+// Routes
+const authRouter = require('./Routes/auth');
+const bookingRouter = require('./Routes/booking');
+const eventRouter = require('./Routes/event');
+const userRouter = require('./Routes/user');
 
+// API Routing
+app.use('/api/v1', authRouter);
+app.use('/api/v1/bookings', bookingRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/events', eventRouter);
 
-app.use(
-    cors({
-      origin: process.env.ORIGIN,
-      methods: ["GET", "POST", "DELETE", "PUT"],
-      credentials: true,
-    })
-  );
-  
-  
-  
-  
-  app.use("/api/v1", authRouter);
-  
-  app.use("/api/v1/bookings", bookingRouter);
-  app.use("/api/v1/users", userRouter);
-  app.use("/api/v1/events", eventRouter);
-  
-  const db_name = process.env.DB_NAME;
+// MongoDB connection
+const db_url = `${process.env.DB_URL}/${process.env.DB_NAME}`;
+mongoose
+  .connect(db_url)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch((e) => console.error('❌ MongoDB connection error:', e));
 
-  const cloud_db_url = `mongodb+srv://amr:Amr.2024Khalil@softwareproject.4sngn.mongodb.net/${db_name}?retryWrites=true&w=majority`;
+// Serve frontend (React static files from /client)
+app.use(express.static(path.join(__dirname, 'client')));
 
-  const db_url = `${process.env.DB_URL}/${db_name}`; // if it gives error try to change the localhost to 127.0.0.1
-  
-  // ! Mongoose Driver Connection
-  mongoose
-    .connect(db_url)
-    .then(() => console.log("mongoDB connected"))
-    .catch((e) => {
-      console.log(e);
-    });
-  
-  app.use(function (req, res, next) {
-    return res.status(404).send("404");
-  });
-  app.listen(process.env.PORT, () => console.log("server started"));
+// React Router fallback — serve index.html for any unknown route
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'index.html'));
+});
+
+// 404 fallback (optional, React handles most 404s now)
+app.use((req, res) => {
+  res.status(404).send('404 - Not Found');
+});
+
+// Start server
+const PORT = process.env.PORT || 10000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server started on port ${PORT}`);
+});
