@@ -15,7 +15,7 @@ getUserEvents : async (req, res) => {
         const userId = req.user.userId; 
         const events = await Event.find({ Organizer: userId }); 
         if (events.length === 0) {
-            return res.status(200).json({ message: 'No bookings found', bookings: [] });
+            return res.status(200).json({ message: 'No Evernts found', events: [] });
           }
         return res.status(200).json({ events });
     } catch (err) {

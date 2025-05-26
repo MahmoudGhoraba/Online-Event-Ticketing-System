@@ -81,21 +81,31 @@ function OrganizerPage() {
           </h2>
 
           {loading ? (
-            <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>Loading events...</p>
-          ) : featuredEvents.length === 0 ? (
-            <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>No events available.</p>
-          ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: 32,
-              }}
-            >
-              <EventList events={featuredEvents} onClick={handleClick} />
-              <CreateEventcard />
-            </div>
-          )}
+  <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>Loading events...</p>
+) : (
+  <>
+    {featuredEvents.length === 0 ? (
+      <div style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
+        <p>No events available.</p>
+      </div>
+    ) : (
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gap: 32,
+        }}
+      >
+        <EventList events={featuredEvents} onClick={handleClick} />
+      </div>
+    )}
+    {/* Always show CreateEventcard */}
+    <div style={{ marginTop: 32 }}>
+      <CreateEventcard />
+    </div>
+  </>
+)}
+
         </div>
       </section>
 
