@@ -44,7 +44,8 @@ const eventController={
                 ticketPrice:req.body.ticketPrice,
                 remainingTickets:req.body.totalNumberOfTickets,
                 totalNumberOfTickets:req.body.totalNumberOfTickets,
-                Organizer:req.user.userId
+                Organizer:req.user.userId,
+                image:req.body.image,
             });
             const newEvent= await event.save();
             return res.status(201).json(newEvent);

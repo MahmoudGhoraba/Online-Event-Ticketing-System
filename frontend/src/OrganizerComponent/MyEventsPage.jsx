@@ -1,27 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import TypingMessage from "../HomePageComponents/TypingMessage";
 import EventList from "../eventComponents/EventList";
 import Footer from "../sharedComponents/Footer";
 import Navbar from "../sharedComponents/navBar";
-import CreateEventcard from '../eventComponents/EventForm';
 import { useNavigate } from "react-router-dom";
-import { Check, ArrowRight, Plus, Calendar } from "lucide-react";
-import ChartComponent from './EventAnalytics';
+import { Plus, Calendar } from "lucide-react";
 import '../cssStyles/MyEventsPage.css';
+import Loader from "../sharedComponents/Loader";
 
 function OrganizerPage() {
-  const [featuredEvents, setFeaturedEvents] = useState([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showCreateForm, setShowCreateForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchEvents() {
       try {
         const response = await axios.get("http://localhost:3000/api/v1/users/events");
-        console.log(response.data);
-        setFeaturedEvents(response.data.events);
+        setEvents(response.data.events);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       } finally {
@@ -31,9 +27,8 @@ function OrganizerPage() {
     fetchEvents();
   }, []);
 
-  const handleClick = (event) => {
-    console.log("clicked");
-    navigate(`/events/${event._id}`);
+  const handleCreateEvent = () => {
+    navigate('/my-events/new');
   };
 
   return (
@@ -53,7 +48,7 @@ function OrganizerPage() {
 
         <div className="organizer-grid">
           {/* Create Event Card */}
-          <div className="organizer-create-card" onClick={() => setShowCreateForm(true)}>
+          <div className="organizer-create-card" onClick={handleCreateEvent}>
             <div className="organizer-create-card-content">
               <div className="organizer-create-icon">
                 <Plus size={32} />
@@ -73,26 +68,19 @@ function OrganizerPage() {
             </div>
             <div className="organizer-stats-content">
               <div className="organizer-stat-item">
-                <span className="organizer-stat-number">{featuredEvents.length}</span>
+                <span className="organizer-stat-number">{events.length}</span>
                 <span className="organizer-stat-label">Total Events</span>
               </div>
-              {/* Add more stats as needed */}
             </div>
           </div>
         </div>
 
-        {/* Create Event Form Modal */}
-        {showCreateForm && (
-          <div className="organizer-modal">
-            <div className="organizer-modal-content">
-              <button className="organizer-modal-close" onClick={() => setShowCreateForm(false)}>×</button>
-              <CreateEventcard />
-            </div>
-          </div>
-        )}
-
       </div>
-        <EventList/>
+      {loading ? (
+          <Loader />
+        ) : (
+          <EventList events={events} />
+        )}
       <Footer />
     </div>
   );

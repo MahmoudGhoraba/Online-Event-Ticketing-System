@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import {
   CalendarIcon,
   MapPinIcon,
@@ -11,7 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import './createEvent.css';
 
-function OrganizerCreateEvent() {
+function EventForm() {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -23,11 +24,57 @@ function OrganizerCreateEvent() {
     totalNumberOfTickets: "",
     Organizer: "",
     status: "pending",
+    image: ""
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Image size should be less than 5MB");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => setPreviewUrl(reader.result);
+    reader.readAsDataURL(file);
+
+    try {
+      setUploadingImage(true);
+      setError(null);
+      setSuccess("Uploading image...");
+
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'unsigned_preset');
+
+      const response = await axios.post(
+        'https://api.cloudinary.com/v1_1/dvmqahby6/image/upload',
+        formData,
+        {
+          withCredentials: false,
+        }
+      );
+
+      const imageUrl = response.data.secure_url;
+      setFormData(prev => ({ ...prev, image: imageUrl }));
+      console.log("Image URL set:", imageUrl);
+      setSuccess("Image uploaded successfully!");
+    } catch (err) {
+      console.error(err);
+      setError("Failed to upload image. Please try again.");
+      setPreviewUrl(null);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,14 +90,19 @@ function OrganizerCreateEvent() {
     setError(null);
     setSuccess(null);
 
+    const eventData = {
+      ...formData,
+      ticketPrice: Number(formData.ticketPrice),
+      remainingTickets: Number(formData.remainingTickets),
+      totalNumberOfTickets: Number(formData.totalNumberOfTickets),
+      date: new Date(formData.date).toISOString(),
+    };
+
+    console.log("Submitting event data:", eventData);
+
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/events", {
-        ...formData,
-        ticketPrice: Number(formData.ticketPrice),
-        remainingTickets: Number(formData.remainingTickets),
-        totalNumberOfTickets: Number(formData.totalNumberOfTickets),
-        date: new Date(formData.date).toISOString(),
-      });
+      const response = await axios.post("http://localhost:3000/api/v1/events", eventData);
+      console.log("Server response:", response.data);
       setSuccess("Event created successfully!");
       setFormData({
         title: "",
@@ -61,9 +113,13 @@ function OrganizerCreateEvent() {
         ticketPrice: "",
         remainingTickets: "",
         totalNumberOfTickets: "",
+        Organizer: "",
         status: "pending",
+        image: ""
       });
+      setPreviewUrl(null);
     } catch (err) {
+      console.error("Error creating event:", err.response?.data || err);
       setError(err.response?.data?.message || "Failed to create event");
     } finally {
       setLoading(false);
@@ -79,6 +135,15 @@ function OrganizerCreateEvent() {
 
   return (
     <div className="event-details-container">
+      <div className="navigation-buttons">
+        <Link to="/" className="back-home-button">
+          ← Back to Home
+        </Link>
+        <Link to="/profile" className="profile-button">
+          Profile →
+        </Link>
+      </div>
+
       <div className="event-details-card">
         <div className="event-details-header">
           <h1 className="event-details-title">Create New Event</h1>
@@ -86,6 +151,28 @@ function OrganizerCreateEvent() {
 
         <form onSubmit={handleSubmit} className="event-details-form">
           <div className="form-grid">
+            <div className="form-group event-image-upload">
+              <div className="image-upload-container">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="image-input"
+                  id="event-image-upload"
+                />
+                <label htmlFor="event-image-upload" style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {previewUrl ? (
+                    <img src={previewUrl} alt="Event Preview" className="image-preview" />
+                  ) : (
+                    <div className="image-placeholder">
+                      <span>📷</span>
+                      <p>Add Event Image</p>
+                    </div>
+                  )}
+                </label>
+              </div>
+            </div>
+
             <div className="form-group">
               <label>
                 <span>Event Title</span>
@@ -233,7 +320,7 @@ function OrganizerCreateEvent() {
           <div className="event-details-actions">
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || uploadingImage}
               className="event-details-button"
             >
               <PlusCircleIcon className="button-icon" />
@@ -249,4 +336,4 @@ function OrganizerCreateEvent() {
   );
 }
 
-export default OrganizerCreateEvent;
+export default EventForm;

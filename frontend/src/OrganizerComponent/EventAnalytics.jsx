@@ -1,8 +1,9 @@
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-import NavBar from "../sharedComponents/navBar"
+import { Link } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
+import '../cssStyles/EventAnalytics.css';
 
 function ChartComponent() {
   const [analytics, setAnalytics] = useState([]);
@@ -42,11 +43,11 @@ function ChartComponent() {
     datasets: [{
       label: 'Percentage of Tickets Booked (%)',
       data: analytics.map(item => item.percentageOfTicketsPerEvent),
-      backgroundColor: 'rgba(37, 99, 235, 0.3)', // #2563EB with opacity
-      borderColor: '#2563EB',
+      backgroundColor: 'rgba(249, 115, 22, 0.3)',
+      borderColor: '#f97316',
       borderWidth: 2,
-      hoverBackgroundColor: 'rgba(37, 99, 235, 0.5)',
-      hoverBorderColor: '#1D4ED8',
+      hoverBackgroundColor: 'rgba(249, 115, 22, 0.5)',
+      hoverBorderColor: '#ea580c',
     }]
   }), [analytics]);
 
@@ -57,11 +58,11 @@ function ChartComponent() {
         beginAtZero: true,
         max: 100,
         ticks: {
-          color: '#374151', // Gray-700
+          color: '#374151',
           font: { weight: '600' },
         },
         grid: {
-          color: '#E5E7EB', // Gray-200 grid lines
+          color: '#E5E7EB',
         },
       },
       x: {
@@ -77,73 +78,54 @@ function ChartComponent() {
     plugins: {
       legend: {
         labels: {
-          color: '#111827', // Gray-900
+          color: '#111827',
           font: { weight: '700', size: 14 },
         },
       },
       tooltip: {
-        backgroundColor: '#2563EB',
+        backgroundColor: '#f97316',
         titleColor: 'white',
         bodyColor: 'white',
       },
     },
   };
 
-  const handleToggleAutoRefresh = () => {
-    setAutoRefresh(!autoRefresh);
-  };
-
   return (
-    <>
-    <NavBar />
-    <div style={{
-      backgroundColor: 'white',
-      padding: 24,
-      borderRadius: 12,
-      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-      maxWidth: 900,
-      margin: '0 auto',
-    }}>
-      <h3 style={{
-        fontSize: 24,
-        fontWeight: 800,
-        color: '#111827',
-        marginBottom: 24,
-        textAlign: 'center',
-      }}>
-        Event Analytics
-      </h3>
-
-      <div style={{ textAlign: 'center', marginBottom: 24 }}>
-        <button
-          onClick={handleToggleAutoRefresh}
-          style={{
-            backgroundColor: autoRefresh ? '#2563EB' : '#6B7280',
-            color: 'white',
-            fontWeight: 600,
-            padding: '10px 24px',
-            borderRadius: 12,
-            border: 'none',
-            cursor: 'pointer',
-            boxShadow: autoRefresh
-              ? '0 4px 6px rgba(37, 99, 235, 0.5)'
-              : 'none',
-            transition: 'background-color 0.3s ease',
-          }}
-        >
-          {autoRefresh ? 'Disable Auto-Refresh' : 'Enable Auto-Refresh'}
-        </button>
+    <div className="analytics-container">
+      <div className="analytics-navigation">
+        <Link to="/" className="analytics-nav-button">
+          ← Back to Home
+        </Link>
+        <Link to="/profile" className="analytics-nav-button">
+          Profile →
+        </Link>
       </div>
 
-      {analytics.length > 0 ? (
-        <Bar data={chartData} options={chartOptions} />
-      ) : (
-        <p style={{ textAlign: 'center', color: '#6B7280', fontSize: 18 }}>
-          No analytics data available.
-        </p>
-      )}
+      <div className="analytics-card">
+        <div className="analytics-header">
+          <h1 className="analytics-title">Event Analytics</h1>
+        </div>
+
+        <div className="analytics-refresh-container">
+          <button
+            onClick={() => setAutoRefresh(!autoRefresh)}
+            className={`analytics-refresh-button ${autoRefresh ? 'active' : ''}`}
+          >
+            {autoRefresh ? 'Disable Auto-Refresh' : 'Enable Auto-Refresh'}
+          </button>
+        </div>
+
+        <div className="analytics-chart-container">
+          {analytics.length > 0 ? (
+            <Bar data={chartData} options={chartOptions} />
+          ) : (
+            <div className="analytics-empty-state">
+              No analytics data available.
+            </div>
+          )}
+        </div>
+      </div>
     </div>
-    </>
   );
 }
 

@@ -36,7 +36,7 @@ export default function EventCard({ event }) {
       : "ticket-green";
 
   return (
-    <div className={`destination-card ${isEventPassed ? "event-passed" : ""}`}>
+    <div className={`destination-card ${isEventPassed ? "event-passed" : ""}`} onClick={handleViewDetails}>
       <div className="destination-card__image">
         <img src={eventImage} alt={event.title} />
         {event.status !== "approved" && (
@@ -69,7 +69,6 @@ export default function EventCard({ event }) {
           <Ticket size={16} className="icon" />
           <span>{isEventPassed ? "Event ended" : `${event.remainingTickets} tickets left`}</span>
         </div>
-
       </div>
     </div>
   );

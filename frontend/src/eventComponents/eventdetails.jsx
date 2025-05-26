@@ -43,7 +43,7 @@ function EventDetails() {
     const fetchEvent = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/v1/events/${id}`);
-        console.log(user);
+        console.log("Event data:", response.data); // Debug log
         setEvent(response.data);
       } catch (err) {
         console.error('Failed to fetch event:', err);
@@ -181,6 +181,20 @@ function EventDetails() {
 
         {!isEditing ? (
           <div className="event-details-content">
+            {event.image && (
+              <div className="event-image-container">
+                <img 
+                  src={event.image} 
+                  alt={event.title} 
+                  className="event-image" 
+                  onError={(e) => {
+                    console.error('Image failed to load:', event.image);
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+
             <div className="event-details-info-grid">
               <div className="info-card">
                 <CalendarIcon className="info-icon" />
@@ -312,6 +326,55 @@ function EventDetails() {
             className="event-details-form"
           >
             <div className="form-grid">
+              <div className="form-group event-image-upload">
+                <div className="image-upload-container">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files[0];
+                      if (!file) return;
+
+                      if (file.size > 5 * 1024 * 1024) {
+                        alert("Image size should be less than 5MB");
+                        return;
+                      }
+
+                      try {
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        formData.append('upload_preset', 'unsigned_preset');
+
+                        const response = await axios.post(
+                          'https://api.cloudinary.com/v1_1/dvmqahby6/image/upload',
+                          formData,
+                          {
+                            withCredentials: false,
+                          }
+                        );
+
+                        setEvent(prev => ({ ...prev, image: response.data.secure_url }));
+                      } catch (err) {
+                        console.error(err);
+                        alert("Failed to upload image. Please try again.");
+                      }
+                    }}
+                    className="image-input"
+                    id="event-image-upload"
+                  />
+                  <label htmlFor="event-image-upload" style={{ width: '100%', height: '100%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {event.image ? (
+                      <img src={event.image} alt="Event Preview" className="image-preview" />
+                    ) : (
+                      <div className="image-placeholder">
+                        <span>📷</span>
+                        <p>Add Event Image</p>
+                      </div>
+                    )}
+                  </label>
+                </div>
+              </div>
+
               <div className="form-group">
                 <label>
                   <span>Event Title</span>

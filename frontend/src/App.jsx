@@ -10,7 +10,7 @@ import ForgetPassword from "./AuthComponent/forgetPassword";
 import EventDetails from './eventComponents/eventdetails.jsx'
 import OrganizerPage from "./OrganizerComponent/MyEventsPage.jsx"
 import OrganizerEvent from "./eventComponents/eventdetails.jsx"
-import CreateEvent from './OrganizerComponent/OrganizerCreateEvent'
+import CreateEvent from './OrganizerComponent/EventForm.jsx'
 import ProfilePage from "./UserProfileComponent/ProfilePage";
 import UpdateProfileForm from "./UserProfileComponent/UpdateProfileForm";
 import BookTicketForm from "./BookingComponent/BookTicketForm";
@@ -106,7 +106,7 @@ function App() {
           />
           
           <Route
-            path="/organizer/createvents" 
+            path="/my-events/new" 
             element={
               <ProtectedRoute allowedRoles={["Organizer"]}>
                 <CreateEvent />
