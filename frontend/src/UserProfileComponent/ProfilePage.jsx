@@ -4,13 +4,14 @@ import { useAuth } from '../auth/AuthContext';
 import UpdateProfileForm from './UpdateProfileForm';
 import Navbar from '../sharedComponents/navBar';
 import './ProfilePage.css';
-
+import { useNavigate } from 'react-router-dom';
 // Import icons (you'll need to install react-icons: npm install react-icons)
-import { FaUser, FaEdit, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaEdit, FaCog, FaSignOutAlt, FaSearch } from 'react-icons/fa';
 
 function ProfilePage() {
   const { user } = useAuth();
   const [activeSection, setActiveSection] = useState('profile');
+  const navigate=useNavigate();
 
   if (!user) return <p className="text-red-500">User not found. Please login.</p>;
 
@@ -117,12 +118,26 @@ function ProfilePage() {
                   Settings
                 </a>
               </li>
+              <li className="nav-item">
+              <a
+                href="#search-booking"
+                onClick={e => {
+                  e.preventDefault();
+                  navigate("/bookings/:id"); 
+                }}
+                className="nav-link"
+              >
+                 <FaSearch className="nav-icon" />
+                Search Booking
+              </a>
+            </li>
             </ul>
           </nav>
         </aside>
         <main className="profile-main-content">
           {renderContent()}
         </main>
+
       </div>
     </>
   );

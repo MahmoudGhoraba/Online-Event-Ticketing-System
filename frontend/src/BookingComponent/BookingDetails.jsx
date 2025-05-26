@@ -54,7 +54,7 @@ const BookingDetails = () => {
               <span className="info-value">${booking.totalPrice.toFixed(2)}</span>
             </div>
             <div className="info-row">
-              <span className="info-label">Status:</span>
+            <span className="info-label">Status:</span>
               <span className={`status-badge ${booking.bookingStatus.toLowerCase()}`}>
                 {booking.bookingStatus}
               </span>
