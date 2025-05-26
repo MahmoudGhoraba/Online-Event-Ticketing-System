@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../cssStyles/ForgetPassword.css";
 import Loader from "../sharedComponents/Loader";
+import { Toast, showToast } from '../sharedComponents/Toast';
 
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
@@ -24,10 +25,12 @@ export default function ForgetPassword() {
       const res = await axios.put("http://localhost:3000/api/v1/forgetPassword", {
         email
       });
-      //setMessage(res.data.message);
+      showToast.success("Reset code sent to your email!");
       setStep(2);
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred.");
+      const errorMessage = err.response?.data?.message || "An error occurred.";
+      showToast.error(errorMessage);
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -45,18 +48,21 @@ export default function ForgetPassword() {
         otp,
         password,
       });
-      //setMessage(res.data.message);
+      showToast.success("Password reset successful! Redirecting to login...");
       setTimeout(() => {
         navigate("/login");
       }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || "OTP verification failed.");
+      const errorMessage = err.response?.data?.message || "OTP verification failed.";
+      showToast.error(errorMessage);
+      setError(errorMessage);
       setLoading(false);
     }
   };
 
   return (
     <div className="auth-forgetPassword-container">
+      <Toast />
       {loading && (
         <div className="loader-overlay">
           <div className="loader-popup">
