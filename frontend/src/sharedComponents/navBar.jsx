@@ -63,11 +63,10 @@ const linksByRole = {
     { text: "Analytics", href: "/my-events/analytics" },
   ],
   Admin: [
-    { text: "Dashboard", href: "/admin" },
-    { text: "Events", href: "/admin/events" },
+    { text: "Home", href: "/" },
+    { text: "Profile", href: "/profile" },
     { text: "Users", href: "/admin/users" },
-    { text: "Reports", href: "/admin/reports" },
-    { text: "Settings", href: "/admin/settings" },
+    { text: "Events", href: "/admin/events" },
   ],
 };
 
