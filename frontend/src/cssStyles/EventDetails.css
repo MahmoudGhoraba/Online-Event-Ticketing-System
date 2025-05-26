@@ -1,12 +1,13 @@
 .event-details-container {
-  min-height: 100vh;
+  min-height: calc(100vh - 120px);
   background: linear-gradient(to bottom right, #faf5ff, #ffe4e6, #ffedd5);
   padding: 2rem;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
   overflow: hidden;
+  margin-top: 120px;
 }
 
 .event-details-container::before,
@@ -422,6 +423,8 @@
 @media (max-width: 768px) {
   .event-details-container {
     padding: 1rem;
+    margin-top: 100px;
+    min-height: calc(100vh - 100px);
   }
 
   .event-details-card {
