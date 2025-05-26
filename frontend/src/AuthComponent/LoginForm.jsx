@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 import '../cssStyles/LoginForm.css';
+import { Toast, showToast } from '../sharedComponents/Toast';
 
 export default function LoginForm() {
   const { login } = useAuth();
@@ -13,16 +14,18 @@ export default function LoginForm() {
     e.preventDefault();
     try {
       const role = await login(form);
+      showToast.success("Login successful! Welcome back!");
       console.log("User role:", role);
       navigate("/profile");
     } catch (error) {
       console.error("Login failed:", error);
-      alert("Login failed. Please check your credentials.");
+      showToast.error(error.response?.data?.message || "Login failed. Please check your credentials.");
     } 
   };
 
   return (
     <div className="auth-login-container">
+      <Toast />
       <div className="back-to-home">
         <Link to="/" className="back-home-button">
           ← Back to Home
@@ -187,3 +190,6 @@ export default function LoginForm() {
     </div>
   );
 }
+//           value={newPassword}
+//           onChange={(e) => setNewPassword(e.target.value)}
+//                   className="auth-forgetPassword-input"  

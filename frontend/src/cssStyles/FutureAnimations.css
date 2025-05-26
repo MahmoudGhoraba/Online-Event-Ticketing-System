@@ -1,0 +1,217 @@
+/* Fade Animations */
+.future-fade-in {
+  animation: fadeIn 0.5s ease-in forwards;
+}
+
+.future-fade-out {
+  animation: fadeOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Slide Animations */
+.future-slide-up {
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.future-slide-down {
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+.future-slide-left {
+  animation: slideLeft 0.5s ease-out forwards;
+}
+
+.future-slide-right {
+  animation: slideRight 0.5s ease-out forwards;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideLeft {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideRight {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* Scale Animations */
+.future-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+.future-scale-out {
+  animation: scaleOut 0.3s ease-out forwards;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+
+@keyframes scaleOut {
+  from { transform: scale(1); }
+  to { transform: scale(0); }
+}
+
+/* Rotate Animations */
+.future-rotate-in {
+  animation: rotateIn 0.4s ease-out forwards;
+}
+
+.future-rotate-out {
+  animation: rotateOut 0.4s ease-out forwards;
+}
+
+@keyframes rotateIn {
+  from { transform: rotate(-180deg); opacity: 0; }
+  to { transform: rotate(0deg); opacity: 1; }
+}
+
+@keyframes rotateOut {
+  from { transform: rotate(0deg); opacity: 1; }
+  to { transform: rotate(180deg); opacity: 0; }
+}
+
+/* Bounce Animations */
+.future-bounce {
+  animation: bounce 1s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Pulse Animations */
+.future-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.7; }
+}
+
+/* Flip Animations */
+.future-flip {
+  animation: flip 0.6s ease-in-out forwards;
+}
+
+@keyframes flip {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(180deg); }
+}
+
+/* Hover Animations */
+.future-hover-grow {
+  transition: transform 0.3s ease;
+}
+
+.future-hover-grow:hover {
+  transform: scale(1.05);
+}
+
+.future-hover-shrink {
+  transition: transform 0.3s ease;
+}
+
+.future-hover-shrink:hover {
+  transform: scale(0.95);
+}
+
+/* Loading Animation (Fixed) */
+.future-loading-dots::after {
+  content: '...';
+  display: inline-block;
+  width: 1ch;
+  overflow: hidden;
+  vertical-align: bottom;
+  animation: loading-dots 1s steps(4, end) infinite;
+}
+
+@keyframes loading-dots {
+  0% { width: 0ch; }
+  100% { width: 3ch; }
+}
+
+/* Text Animation */
+.future-text-pop {
+  animation: textPop 0.6s ease-out forwards;
+}
+
+@keyframes textPop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Gradient Background Animation */
+.future-gradient-bg {
+  background: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80);
+  background-size: 600% 600%;
+  animation: gradientShift 6s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Typing Effect */
+.future-typing {
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid;
+  animation: typing 3s steps(20, end), blink 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* Progress Bar Animation */
+.future-progress-bar {
+  height: 6px;
+  background: linear-gradient(to right, #4ade80, #3b82f6);
+  animation: progress 2s linear forwards;
+  width: 0;
+}
+
+@keyframes progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Optional: Reduce Motion for Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
