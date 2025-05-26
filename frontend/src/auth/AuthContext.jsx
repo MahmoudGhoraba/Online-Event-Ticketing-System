@@ -57,7 +57,14 @@ const login = async (credentials) => {
   ;
   };
 
-  if (loading) return <Loader />;
+  if (loading) return (
+    <div className="auth-loader-overlay">
+      <div className="auth-loader-popup">
+        <Loader />
+        <p>Loading...</p>
+      </div>
+    </div>
+  );
 
   return (
     <AuthContext.Provider value={{ user, setUser, login, logout ,loading}}>

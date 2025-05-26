@@ -4,6 +4,7 @@ import axios from "axios";
 import { useAuth } from "../auth/AuthContext";
 import "./events.css";
 import EventCard from "./EventCard";
+import Loader from "../sharedComponents/Loader";
 
 export default function EventList(props) {
   const { user } = useAuth();
