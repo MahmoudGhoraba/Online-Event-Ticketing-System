@@ -6,13 +6,14 @@ import Footer from "../sharedComponents/Footer";
 import Navbar from "../sharedComponents/navBar";
 import CreateEventcard from '../eventComponents/EventForm';
 import { useNavigate } from "react-router-dom";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Plus, Calendar } from "lucide-react";
 import ChartComponent from './EventAnalytics';
+import '../cssStyles/MyEventsPage.css';
 
 function OrganizerPage() {
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState("discover");
+  const [showCreateForm, setShowCreateForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,149 +36,63 @@ function OrganizerPage() {
     navigate(`/events/${event._id}`);
   };
 
-  // Styles object
-  const styles = {
-    tabsContainer: {
-      maxWidth: 1200,
-      margin: "0 auto",
-      padding: "0 24px",
-    },
-    tabButtonsWrapper: {
-      display: "flex",
-      borderBottom: "1px solid #e5e7eb",
-      overflowX: "auto",
-      paddingBottom: 8,
-      gap: 24,
-      justifyContent: "start",
-    },
-    tabButton: (isActive) => ({
-      padding: "12px 24px",
-      cursor: "pointer",
-      borderBottom: isActive ? "2px solid #2563EB" : "2px solid transparent",
-      color: isActive ? "#2563EB" : "#6B7280",
-      fontWeight: isActive ? 600 : 500,
-      whiteSpace: "nowrap",
-      background: "none",
-      outline: "none",
-      border: "none",
-    }),
-    tabContent: {
-      marginTop: 24,
-      maxWidth: 1200,
-      margin: "auto",
-      padding: "0 24px",
-    },
-  };
-
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#F9FAFB", overflowX: "hidden" }}>
+    <div className="organizer-page">
+      <div className="organizer-background-decor">
+        <div className="organizer-circle organizer-circle-1"></div>
+        <div className="organizer-circle organizer-circle-2"></div>
+      </div>
+
       <Navbar />
 
-      {/* Featured Events Section */}
-      <section style={{ backgroundColor: "#F9FAFB", paddingTop: 64, paddingBottom: 64 }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
-          <h2 style={{ fontSize: 28, fontWeight: 800, color: "#111827", textAlign: "center", marginBottom: 48 }}>
-            Featured Events
-          </h2>
-
-          {loading ? (
-  <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>Loading events...</p>
-) : (
-  <>
-    {featuredEvents.length === 0 ? (
-      <div style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
-        <p>No events available.</p>
-      </div>
-    ) : (
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 32,
-        }}
-      >
-        <EventList events={featuredEvents} onClick={handleClick} />
-      </div>
-    )}
-    {/* Always show CreateEventcard */}
-    <div style={{ marginTop: 32 }}>
-      <CreateEventcard />
-    </div>
-  </>
-)}
-
-        </div>
-      </section>
-
-      {/* Tabs Section */}
-      <div style={styles.tabsContainer}>
-        <div style={styles.tabButtonsWrapper}>
-          {["discover", "organize", "attend", "analyze"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              style={styles.tabButton(activeTab === tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
+      <div className="organizer-content">
+        <div className="organizer-header">
+          <h1 className="organizer-title">My Events Dashboard</h1>
+          <p className="organizer-subtitle">Manage and create your events</p>
         </div>
 
-        {/* Tab Content */}
-        <div style={styles.tabContent}>
-          {activeTab === "discover" && (
-            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
-              <div style={{ flex: "1 1 40%" }}>
-                <h3 style={{ fontSize: 24, fontWeight: "bold", color: "#111827" }}>
-                  Find the perfect events for you
-                </h3>
-                <p style={{ marginTop: 16, fontSize: 18, color: "#4B5563" }}>
-                  Our smart discovery engine helps you find events that match your interests, location, and schedule.
-                </p>
-                <ul style={{ marginTop: 32, listStyleType: "none", paddingLeft: 0 }}>
-                  {["Personalized recommendations", "Advanced search filters", "Location-based discovery"].map((item) => (
-                    <li key={item} style={{ display: "flex", alignItems: "start", marginBottom: 10 }}>
-                      <Check className="h-5 w-5 text-green-500" />
-                      <p style={{ marginLeft: 12, color: "#374151" }}>{item}</p>
-                    </li>
-                  ))}
-                </ul>
-                <a href="#" style={{ marginTop: 40, display: "inline-flex", alignItems: "center", color: "#2563EB", fontWeight: 600 }}>
-                  Learn more about discovery
-                  <ArrowRight style={{ marginLeft: 8, width: 16, height: 16 }} />
-                </a>
+        <div className="organizer-grid">
+          {/* Create Event Card */}
+          <div className="organizer-create-card" onClick={() => setShowCreateForm(true)}>
+            <div className="organizer-create-card-content">
+              <div className="organizer-create-icon">
+                <Plus size={32} />
               </div>
-              <div style={{ flex: "1 1 60%" }}>
-                <div style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }}>
-                  <img src="src/assets/react.svg" alt="Event discovery interface" style={{ width: "20%", height: "auto" }} />
-                </div>
+              <h2 className="organizer-create-title">Create New Event</h2>
+              <p className="organizer-create-description">
+                Start planning your next amazing event
+              </p>
+            </div>
+          </div>
+
+          {/* Events Overview Card */}
+          <div className="organizer-stats-card">
+            <div className="organizer-stats-header">
+              <Calendar size={24} />
+              <h2>Events Overview</h2>
+            </div>
+            <div className="organizer-stats-content">
+              <div className="organizer-stat-item">
+                <span className="organizer-stat-number">{featuredEvents.length}</span>
+                <span className="organizer-stat-label">Total Events</span>
               </div>
+              {/* Add more stats as needed */}
             </div>
-          )}
-
-          {activeTab === "organize" && (
-            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
-              {/* Content for organize */}
-              <p>Organize your events easily here.</p>
-            </div>
-          )}
-
-          {activeTab === "attend" && (
-            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
-              {/* Content for attend */}
-              <p>Track and manage the events you’re attending.</p>
-            </div>
-          )}
-
-          {activeTab === "analyze" && (
-            <div style={{ display: "flex", gap: 32, flexWrap: "wrap" }}>
-              {/* Content for analyze */}
-              <ChartComponent />
-            </div>
-          )}
+          </div>
         </div>
-      </div>
 
+        {/* Create Event Form Modal */}
+        {showCreateForm && (
+          <div className="organizer-modal">
+            <div className="organizer-modal-content">
+              <button className="organizer-modal-close" onClick={() => setShowCreateForm(false)}>×</button>
+              <CreateEventcard />
+            </div>
+          </div>
+        )}
+
+      </div>
+        <EventList/>
       <Footer />
     </div>
   );
