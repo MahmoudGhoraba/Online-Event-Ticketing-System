@@ -1,0 +1,176 @@
+/* User Row Actions */
+.user-row-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* Select Role Dropdown */
+.user-role-select {
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: 0.5rem;
+  background: white;
+  color: #1f2937;
+  font-size: 0.95rem;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 1em;
+  transition: all 0.3s ease;
+}
+
+.user-role-select:focus {
+  outline: none;
+  border-color: #f97316;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+}
+
+.user-role-select:hover {
+  border-color: #f97316;
+}
+
+/* Role Display */
+.user-role-display {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+  transition: all 0.3s ease;
+}
+
+.user-role-display.admin {
+  background: rgba(79, 70, 229, 0.1);
+  color: #4f46e5;
+}
+
+.user-role-display.organizer {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+/* Action Buttons */
+.user-row-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-row-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Edit Button */
+.user-row-edit-btn {
+  color: #f97316;
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.user-row-edit-btn:hover:not(:disabled) {
+  background: #f97316;
+  color: white;
+  box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2);
+}
+
+/* Save Button */
+.user-row-save-btn {
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.user-row-save-btn:hover:not(:disabled) {
+  background: #10b981;
+  color: white;
+  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+}
+
+/* Cancel Button */
+.user-row-cancel-btn {
+  color: #6b7280;
+  border-color: rgba(107, 114, 128, 0.3);
+}
+
+.user-row-cancel-btn:hover:not(:disabled) {
+  background: #6b7280;
+  color: white;
+  box-shadow: 0 4px 6px rgba(107, 114, 128, 0.2);
+}
+
+/* Delete Button */
+.user-row-delete-btn {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.user-row-delete-btn:hover:not(:disabled) {
+  background: #ef4444;
+  color: white;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
+}
+
+/* User Data Cells */
+.user-row-cell {
+  padding: 1rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.user-row-id {
+  font-family: monospace;
+  color: #6b7280;
+}
+
+.user-row-name {
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.user-row-email {
+  color: #4b5563;
+}
+
+/* Loading State */
+.user-row-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Hover Effect */
+.user-row {
+  transition: all 0.3s ease;
+}
+
+.user-row:hover {
+  background: rgba(249, 115, 22, 0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-row-actions {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .user-row-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .user-role-select {
+    padding: 0.4rem 1.8rem 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+} 

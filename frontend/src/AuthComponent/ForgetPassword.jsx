@@ -24,7 +24,7 @@ export default function ForgetPassword() {
       const res = await axios.put("http://localhost:3000/api/v1/forgetPassword", {
         email
       });
-      setMessage(res.data.message);
+      //setMessage(res.data.message);
       setStep(2);
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred.");
@@ -45,7 +45,7 @@ export default function ForgetPassword() {
         otp,
         password,
       });
-      setMessage(res.data.message);
+      //setMessage(res.data.message);
       setTimeout(() => {
         navigate("/login");
       }, 2000);

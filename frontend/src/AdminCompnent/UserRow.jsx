@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import './UserRow.css';
 
 export default function UserRow({ user, onUsersChange }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -34,13 +35,14 @@ export default function UserRow({ user, onUsersChange }) {
   };
 
   return (
-    <tr>
-      <td>{user.id || user._id}</td>
-      <td>{user.name}</td>
-      <td>{user.email}</td>
-      <td>
+    <tr className={`user-row ${isDeleting ? 'user-row-loading' : ''}`}>
+      <td className="user-row-cell user-row-id">{user.id || user._id}</td>
+      <td className="user-row-cell user-row-name">{user.name}</td>
+      <td className="user-row-cell user-row-email">{user.email}</td>
+      <td className="user-row-cell">
         {isEditing ? (
           <select
+            className="user-role-select"
             value={currentRole}
             onChange={(e) => setCurrentRole(e.target.value)}
           >
@@ -49,43 +51,47 @@ export default function UserRow({ user, onUsersChange }) {
             <option value="Organizer">Organizer</option>
           </select>
         ) : (
-          user.role
+          <span className={`user-role-display ${currentRole.toLowerCase()}`}>
+            {currentRole}
+          </span>
         )}
       </td>
-      <td>
-        {isEditing ? (
-          <>
+      <td className="user-row-cell">
+        <div className="user-row-actions">
+          {isEditing ? (
+            <>
+              <button 
+                className="user-row-btn user-row-save-btn"
+                onClick={handleUpdate}
+                disabled={isDeleting}
+              >
+                Save
+              </button>
+              <button 
+                className="user-row-btn user-row-cancel-btn"
+                onClick={() => setIsEditing(false)}
+                disabled={isDeleting}
+              >
+                Cancel
+              </button>
+            </>
+          ) : (
             <button 
-              className="save-btn"
-              onClick={handleUpdate}
+              className="user-row-btn user-row-edit-btn"
+              onClick={() => setIsEditing(true)}
               disabled={isDeleting}
             >
-              Save
+              Edit Role
             </button>
-            <button 
-              className="cancel-btn"
-              onClick={() => setIsEditing(false)}
-              disabled={isDeleting}
-            >
-              Cancel
-            </button>
-          </>
-        ) : (
+          )}
           <button 
-            className="edit-btn"
-            onClick={() => setIsEditing(true)}
-            disabled={isDeleting}
+            className="user-row-btn user-row-delete-btn"
+            onClick={handleDelete}
+            disabled={isEditing || isDeleting}
           >
-            Edit Role
+            {isDeleting ? 'Deleting...' : 'Delete'}
           </button>
-        )}
-        <button 
-          className="delete-btn"
-          onClick={handleDelete}
-          disabled={isEditing || isDeleting}
-        >
-          {isDeleting ? 'Deleting...' : 'Delete'}
-        </button>
+        </div>
       </td>
     </tr>
   );

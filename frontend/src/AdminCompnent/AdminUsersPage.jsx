@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import UserTable from './UserTable';
+import AdminTables from './AdminEventsPage';
+import './index.css';
 import Navbar from '../sharedComponents/navBar';
-import './AdminPages.css';
+import Footer from '../sharedComponents/Footer';
 axios.defaults.withCredentials = true;
 
 export default function AdminUsersPage() {
@@ -25,30 +27,21 @@ export default function AdminUsersPage() {
 
   useEffect(() => { fetchUsers(); }, []);
 
-  if (loading) return <div className="admin-loading">Loading users...</div>;
-  if (error) return <div className="admin-error">Error: {error}</div>;
+  if (loading) return <div className="loading">Loading users...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <>
-      <Navbar />
-      <div className="admin-container">
-        <div className="admin-header">
-          <h1>Manage Users</h1>
-        </div>
-        <div className="admin-content">
-          <div className="admin-controls">
-            <input
-              type="search"
-              placeholder="Search users..."
-              className="admin-search"
-            />
-          </div>
-          <UserTable 
-            users={users} 
-            onUsersChange={fetchUsers} 
-          />
-        </div>
-      </div>
+    <Navbar />
+    <div className="admin-users">
+      <h1>Admin Users</h1>
+      <UserTable 
+        users={users} 
+        onUsersChange={fetchUsers} 
+      />
+      
+    </div>
+    <Footer />
     </>
   );
 }
