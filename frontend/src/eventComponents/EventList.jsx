@@ -8,14 +8,17 @@ import EventCard from "./EventCard";
 export default function EventList(props) {
   const { user } = useAuth();
   const [featuredEvents, setFeaturedEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [priceSort, setPriceSort] = useState(""); // "" | "asc" | "desc"
   const itemsPerPage = 3;
 
   const navigate = useNavigate();
-  const totalPages = Math.ceil(featuredEvents.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
   const startIndex = currentPage * itemsPerPage;
-  const visibleEvents = featuredEvents.slice(startIndex, startIndex + itemsPerPage);
+  const visibleEvents = filteredEvents.slice(startIndex, startIndex + itemsPerPage);
 
   const goNext = () => {
     if (currentPage < totalPages - 1) setCurrentPage(currentPage + 1);
@@ -30,16 +33,14 @@ export default function EventList(props) {
       try {
         let data;
         if (props && props.events) {
-          // Use events passed via props
           setFeaturedEvents(props.events);
+          setFilteredEvents(props.events);
           setLoading(false);
           return;
         }
         let res;
-        // Otherwise fetch from API
         if (!user || user.role === "User") {
          res  = await axios.get("http://localhost:3000/api/v1/events/");
-          console.log("what is the length of the events");
         } else if (user.role === "Organizer") {
            res = await axios.get("http://localhost:3000/api/v1/users/events");
         }
@@ -48,6 +49,7 @@ export default function EventList(props) {
         }
         data = res.data.events;
         setFeaturedEvents(data);
+        setFilteredEvents(data);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       } finally {
@@ -58,8 +60,40 @@ export default function EventList(props) {
     fetchEvents();
   }, [user, props.events]);
 
+  // Apply filters and sorting
+  useEffect(() => {
+    let filtered = [...featuredEvents];
+
+    // Apply date filter
+    if (selectedDate) {
+      filtered = filtered.filter(event => {
+        const eventDate = new Date(event.date).toISOString().split('T')[0];
+        return eventDate === selectedDate;
+      });
+    }
+
+    // Apply price sorting
+    if (priceSort) {
+      filtered.sort((a, b) => {
+        if (priceSort === "asc") {
+          return a.ticketPrice - b.ticketPrice;
+        } else {
+          return b.ticketPrice - a.ticketPrice;
+        }
+      });
+    }
+
+    setFilteredEvents(filtered);
+    setCurrentPage(0); // Reset to first page when filter/sort changes
+  }, [selectedDate, priceSort, featuredEvents]);
+
   const handleClick = (event) => {
     navigate(`/events/${event._id}`);
+  };
+
+  const clearFilters = () => {
+    setSelectedDate("");
+    setPriceSort("");
   };
 
   return (
@@ -74,6 +108,42 @@ export default function EventList(props) {
         }}
       ></div>
 
+      <div className="filters-section">
+        <div className="filters-container">
+          <div className="filter-group">
+            <label htmlFor="date-filter" className="filter-label">Date:</label>
+            <input
+              id="date-filter"
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="filter-input"
+            />
+          </div>
+
+          <div className="filter-group">
+            <label htmlFor="price-sort" className="filter-label">Price:</label>
+            <select
+              id="price-sort"
+              value={priceSort}
+              onChange={(e) => setPriceSort(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">No Sort</option>
+              <option value="asc">Low to High</option>
+              <option value="desc">High to Low</option>
+            </select>
+          </div>
+
+          <button
+            onClick={clearFilters}
+            className="clear-filters-btn"
+          >
+            Clear All Filters
+          </button>
+        </div>
+      </div>
+
       <div className="top-destinations__spiral">
         <svg width="120" height="200" viewBox="0 0 120 200">
           {/* Spiral Paths */}
@@ -83,7 +153,14 @@ export default function EventList(props) {
       <div className="top-destinations__container">
         <div className="top-destinations__header">
           <div className="top-destinations__subheading">Top Selling</div>
-          <h2 className="top-destinations__heading">Top Events</h2>
+          <h2 className="top-destinations__heading">Available Events</h2>
+          {(selectedDate || priceSort) && (
+            <div className="active-filters">
+              {selectedDate && `Date: ${new Date(selectedDate).toLocaleDateString()}`}
+              {selectedDate && priceSort && " | "}
+              {priceSort && `Price: ${priceSort === "asc" ? "Low to High" : "High to Low"}`}
+            </div>
+          )}
         </div>
 
         <div className="top-destinations__grid">
@@ -91,9 +168,9 @@ export default function EventList(props) {
             <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
               Loading events...
             </p>
-          ) : featuredEvents.length === 0 ? (
+          ) : filteredEvents.length === 0 ? (
             <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
-              No events available.
+              No events found with the current filters.
             </p>
           ) : (
             visibleEvents.map((event, index) => (
