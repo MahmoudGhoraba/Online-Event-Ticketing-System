@@ -418,7 +418,7 @@ function EventDetails() {
               <button
                 type="submit"
                 disabled={saving}
-                className="event-details-edit-button"
+                className="event-details-save-button"
               >
                 <CheckCircleIcon className="button-icon" />
                 {saving ? "Saving..." : "Save Changes"}
