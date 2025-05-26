@@ -14,7 +14,8 @@ import {
   TrashIcon,
   CheckCircleIcon,
   XCircleIcon,
-  ArrowRightOnRectangleIcon
+  ArrowRightOnRectangleIcon,
+  ClipboardDocumentCheckIcon
 } from '@heroicons/react/24/outline';
 
 function EventDetails() {
@@ -27,6 +28,7 @@ function EventDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [updatingStatus, setUpdatingStatus] = useState(false);
 
   // Convert ISO date to local datetime-local input value
   const toLocalDatetime = (dateString) => {
@@ -67,6 +69,23 @@ function EventDetails() {
     navigate('/login');
   };
 
+  const handleStatusChange = async (newStatus) => {
+    setUpdatingStatus(true);
+    try {
+      const response = await axios.put(`http://localhost:3000/api/v1/events/${id}`, {
+        ...event,
+        status: newStatus
+      });
+      setEvent(response.data.event);
+      alert(`Event status updated to ${newStatus}`);
+    } catch (err) {
+      console.error('Failed to update status:', err);
+      alert('Failed to update event status');
+    } finally {
+      setUpdatingStatus(false);
+    }
+  };
+
   if (loading) return (
     <div className="event-details-loading">
       <div className="loading-spinner"></div>
@@ -90,6 +109,7 @@ function EventDetails() {
 
   const isOrganizer = user?.role === 'Organizer';
   const isUser = user?.role === 'User';
+  const isAdmin = user?.role === 'Admin';
 
   const formatDate = (dateString) => {
     const options = { 
@@ -215,16 +235,37 @@ function EventDetails() {
               </div>
               
               {user ? (
-                isUser && (
-                  <button
-                    onClick={NavigateToBookTicketForm}
-                    disabled={event.remainingTickets <= 0 || new Date(event.date) < new Date()}
-                    className="event-details-button"
-                  >
-                    <TicketIcon className="button-icon" />
-                    {event.remainingTickets > 0 ? "Book Now!" : "Sold Out"}
-                  </button>
-                )
+                <>
+                  {isUser && (
+                    <button
+                      onClick={NavigateToBookTicketForm}
+                      disabled={event.remainingTickets <= 0 || new Date(event.date) < new Date()}
+                      className="event-details-button"
+                    >
+                      <TicketIcon className="button-icon" />
+                      {event.remainingTickets > 0 ? "Book Now!" : "Sold Out"}
+                    </button>
+                  )}
+                  {isAdmin && (
+                    <div className="admin-status-control">
+                      <div className="status-dropdown">
+                        <ClipboardDocumentCheckIcon className="button-icon" />
+                        <select
+                          value={event.status || ''}
+                          onChange={(e) => handleStatusChange(e.target.value)}
+                          disabled={updatingStatus}
+                          className="status-select"
+                        >
+                          <option value="">Current: {event.status || 'pending'}</option>
+                          <option value="approved">approve</option>
+                          <option value="declined">decline</option>
+                          <option value="pending">pending</option>
+                        </select>
+                      </div>
+                      {updatingStatus && <span className="status-updating">Updating...</span>}
+                    </div>
+                  )}
+                </>
               ) : (
                 <button
                   onClick={handleLoginRedirect}

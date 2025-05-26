@@ -4,6 +4,7 @@ import LoginForm from "./AuthComponent/LoginForm";
 import RegisterForm from "./AuthComponent/RegisterForm";
 import HomePage from "./HomePageComponents/HomePage";
 import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
+import AdminEvents from "./AdminCompnent/AdminEventsPage.jsx";  
 import ProtectedRoute from "./auth/ProtectedRoutes";
 import ForgetPassword from "./AuthComponent/forgetPassword";
 import EventDetails from './eventComponents/eventdetails.jsx'
@@ -34,6 +35,14 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["Admin"]}>
                 <AdminUsersPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/events" 
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AdminEvents />
               </ProtectedRoute>
             }
           />

@@ -64,7 +64,7 @@ const linksByRole = {
     { text: "Contact", href: "/contact" },
   ],
   Admin: [
-    { text: "Admin Panel", href: "/admin" },
+    { text: "Events", href: "/admin/events" },
     { text: "Users", href: "/admin/users" },
     { text: "Reports", href: "/admin/reports" },
     { text: "Settings", href: "/admin/settings" },

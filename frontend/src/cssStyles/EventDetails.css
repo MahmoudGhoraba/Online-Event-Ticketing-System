@@ -498,4 +498,58 @@
 
 .event-details-login-button:active {
   transform: translateY(1px);
+}
+
+.admin-status-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.status-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f3f4f6;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.status-select {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #1f2937;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.status-select:hover {
+  border-color: #2563eb;
+}
+
+.status-select:disabled {
+  background-color: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.status-updating {
+  color: #2563eb;
+  font-size: 0.875rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.button-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #4b5563;
 } 
