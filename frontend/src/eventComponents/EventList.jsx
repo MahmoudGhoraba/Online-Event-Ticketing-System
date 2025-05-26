@@ -191,9 +191,7 @@ export default function EventList(props) {
 
         <div className="top-destinations__grid">
           {loading ? (
-            <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
-              Loading events...
-            </p>
+            <Loader />
           ) : filteredEvents.length === 0 ? (
             <p style={{ textAlign: "center", color: "#6B7280", fontSize: 18 }}>
               No events found with the current filters.

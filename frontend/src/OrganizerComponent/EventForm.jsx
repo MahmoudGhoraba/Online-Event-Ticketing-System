@@ -128,8 +128,7 @@ function EventForm() {
 
   if (loading) return (
     <div className="event-details-loading">
-      <div className="loading-spinner"></div>
-      <p>Creating event...</p>
+      <Loader />
     </div>
   );
 

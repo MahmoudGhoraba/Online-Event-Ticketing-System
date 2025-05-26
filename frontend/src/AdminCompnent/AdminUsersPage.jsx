@@ -5,6 +5,7 @@ import AdminTables from './AdminEventsPage';
 import './index.css';
 import Navbar from '../sharedComponents/navBar';
 import Footer from '../sharedComponents/Footer';
+import Loader from '../sharedComponents/Loader';
 axios.defaults.withCredentials = true;
 
 export default function AdminUsersPage() {
@@ -27,7 +28,7 @@ export default function AdminUsersPage() {
 
   useEffect(() => { fetchUsers(); }, []);
 
-  if (loading) return <div className="loading">Loading users...</div>;
+  if (loading) return <Loader />;
   if (error) return <div className="error">Error: {error}</div>;
 
   return (

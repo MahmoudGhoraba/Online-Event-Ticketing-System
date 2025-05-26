@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext'; // Adjust path as needed
 import '../cssStyles/EventDetails.css';
+import Loader from '../sharedComponents/Loader';
 import {
   CalendarIcon,
   MapPinIcon,
@@ -88,10 +89,7 @@ function EventDetails() {
   };
 
   if (loading) return (
-    <div className="event-details-loading">
-      <div className="loading-spinner"></div>
-      <p>Loading event details...</p>
-    </div>
+    <Loader />
   );
   
   if (error) return (

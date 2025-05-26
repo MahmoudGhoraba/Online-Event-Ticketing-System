@@ -4,6 +4,7 @@ import EventList from "../eventComponents/EventList";
 import "./index.css";
 import Navbar from "../sharedComponents/navBar";
 import Footer from "../sharedComponents/Footer";
+import Loader from "../sharedComponents/Loader";
 axios.defaults.withCredentials = true;
 
 export default function AdminTables() {
@@ -78,14 +79,8 @@ export default function AdminTables() {
 
   if (loadingEvents)
     return (
-  <>
-    <Navbar />
-      <div
-        className="loading"
-        style={{ padding: 20, color: "#111", backgroundColor: "#f0f0f0" }}
-      >
-        Loading events...
-      </div>
+       <>
+        <Loader />
       </>
     );
 

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
+import Loader from "../sharedComponents/Loader";
 
 const AuthContext = createContext();
 
@@ -56,7 +57,7 @@ const login = async (credentials) => {
   ;
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loader />;
 
   return (
     <AuthContext.Provider value={{ user, setUser, login, logout ,loading}}>
