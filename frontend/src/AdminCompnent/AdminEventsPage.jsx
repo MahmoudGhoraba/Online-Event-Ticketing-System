@@ -19,10 +19,10 @@ export default function AdminTables() {
   const fetchEvents = async () => {
     setLoadingEvents(true);
     try {
-      const { data } = await axios.get(
+      const data  = await axios.get(
         "http://localhost:3000/api/v1/events/all"
       );
-      setEvents(data || []);
+      setEvents(data.data.events || []);
       console.log(data);
       setErrorEvents(null);
     } catch (err) {

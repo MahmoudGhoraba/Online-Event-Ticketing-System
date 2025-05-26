@@ -9,7 +9,7 @@ const eventController={
          if (events.length === 0) {
             return res.status(200).json({ message: "No events were found", events: [] });
         }
-         return res.status(200).json(events);
+         return res.status(200).json({events});
         }catch(error){
           return res.status(500).json({message:error.message});
         }
@@ -167,11 +167,10 @@ const eventController={
         try{
             console.log("in the approved");
          const events=await eventModel.find({status:"approved"});
-         if(!events)
             if (events.length === 0) {
                 return res.status(200).json({ message: "No approved events found", events: [] });
             }
-         return res.status(200).json(events);
+         return res.status(200).json({events});
         }catch(error){
           return res.status(500).json({message:error.message});
         }

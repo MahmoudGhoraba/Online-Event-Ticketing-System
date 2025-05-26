@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import searchIcon from "../assets/search.svg";
@@ -64,6 +63,7 @@ const linksByRole = {
     { text: "Contact", href: "/contact" },
   ],
   Admin: [
+    { text: "Dashboard", href: "/admin" },
     { text: "Events", href: "/admin/events" },
     { text: "Users", href: "/admin/users" },
     { text: "Reports", href: "/admin/reports" },
@@ -72,12 +72,23 @@ const linksByRole = {
 };
 
 const Navbar = () => {
-  const { user , logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = () => {
     logout(); 
     window.location.href = "/"; 
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+      setIsSearchOpen(false);
+    }
   };
 
   return (
@@ -187,30 +198,71 @@ const Navbar = () => {
 
         {/* Right: Search and Sign in */}
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <button
-            style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              border: "2px solid black",
-              background: "transparent",
-              fontSize: "18px",
-              position: "relative",
-              padding: 0,
-            }}
-          >
-            <img
-              src={searchIcon}
-              alt="Search"
-              style={{
-                height: "9px",
-                left: "15px",
+          <div style={{ 
+            display: "flex", 
+            alignItems: "center",
+            position: "relative",
+            transition: "all 0.3s ease"
+          }}>
+            {isSearchOpen && (
+              <form onSubmit={handleSearch} style={{
                 position: "absolute",
-                top: "15px",
-                width: "8px",
+                right: "100%",
+                marginRight: "10px",
+                animation: "slideIn 0.3s ease"
+              }}>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search..."
+                  style={{
+                    padding: "8px 12px",
+                    border: "2px solid black",
+                    borderRadius: "20px",
+                    fontSize: "16px",
+                    width: "200px",
+                    outline: "none",
+                    transition: "all 0.3s ease"
+                  }}
+                  autoFocus
+                />
+              </form>
+            )}
+            <button
+              onClick={() => {
+                if (isSearchOpen && searchQuery) {
+                  handleSearch({ preventDefault: () => {} });
+                } else {
+                  setIsSearchOpen(!isSearchOpen);
+                }
               }}
-            />
-          </button>
+              style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "50%",
+                border: "2px solid black",
+                background: isSearchOpen ? "#f0f0f0" : "transparent",
+                fontSize: "18px",
+                position: "relative",
+                padding: 0,
+                cursor: "pointer",
+                transition: "all 0.3s ease"
+              }}
+            >
+              <img
+                src={searchIcon}
+                alt="Search"
+                style={{
+                  height: "9px",
+                  left: "15px",
+                  position: "absolute",
+                  top: "15px",
+                  width: "8px",
+                }}
+              />
+            </button>
+          </div>
           {user ? (
             <button
               onClick={handleLogout}
