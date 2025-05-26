@@ -1,5 +1,5 @@
 .event-details-container {
-  min-height: calc(100vh - 120px);
+  min-height: 100vh;
   background: linear-gradient(to bottom right, #faf5ff, #ffe4e6, #ffedd5);
   padding: 2rem;
   display: flex;
@@ -7,7 +7,7 @@
   align-items: flex-start;
   position: relative;
   overflow: hidden;
-  margin-top: 120px;
+  padding-top: 4rem;
 }
 
 .event-details-container::before,
@@ -423,8 +423,8 @@
 @media (max-width: 768px) {
   .event-details-container {
     padding: 1rem;
-    margin-top: 100px;
-    min-height: calc(100vh - 100px);
+    padding-top: 4rem;
+    min-height: 100vh;
   }
 
   .event-details-card {
@@ -659,4 +659,53 @@
 .no-results small {
   font-size: 0.875rem;
   opacity: 0.8;
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.back-home-button,
+.profile-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.back-home-button:hover,
+.profile-button:hover {
+  background-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 640px) {
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .back-home-button,
+  .profile-button {
+    text-align: center;
+    justify-content: center;
+  }
 } 

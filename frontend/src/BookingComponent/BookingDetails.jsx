@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import './BookingDetails.css';
 
 const BookingDetails = () => {
@@ -16,58 +17,72 @@ const BookingDetails = () => {
   };
 
   return (
-    <div className="booking-details-container">
-      <div className="booking-search">
-        <h2 className="section-title">Find Booking</h2>
-        <div className="search-container">
-          <input
-            type="text"
-            value={bookingId}
-            onChange={(e) => setBookingId(e.target.value)}
-            placeholder="Enter Booking ID"
-            className="booking-input"
-          />
-          <button onClick={() => getBooking(bookingId)} className="view-booking-btn">
-            View Booking
-          </button>
-        </div>
+    <div className="booking-view-container">
+      <div className="navigation-buttons">
+        <Link to="/" className="back-home-button">
+          ← Back to Home
+        </Link>
+        <Link to="/profile" className="profile-button">
+          Profile →
+        </Link>
       </div>
-
-      {!booking && (
-        <p className="info-message">Enter a Booking ID and click "View Booking" to see the details.</p>
-      )}
-
-      {booking && (
-        <div className="booking-card">
-          <h2 className="booking-title">Booking Details</h2>
-          <div className="booking-info">
-            <div className="info-row">
-              <span className="info-label">Event:</span>
-              <span className="info-value">{booking.event.title}</span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Tickets:</span>
-              <span className="info-value">{booking.tickets}</span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Total Price:</span>
-              <span className="info-value">${booking.totalPrice.toFixed(2)}</span>
-            </div>
-            <div className="info-row">
-            <span className="info-label">Status:</span>
-              <span className={`status-badge ${booking.bookingStatus.toLowerCase()}`}>
-                {booking.bookingStatus}
-              </span>
-            </div>
-            <div className="info-row">
-              <span className="info-label">Created At:</span>
-              <span className="info-value">
-                {new Date(booking.createdAt).toLocaleString()}
-              </span>
-            </div>
+      
+      <div className="booking-view-content">
+        <div className="booking-view-search">
+          <h2 className="booking-view-title">Find Your Booking</h2>
+          <p className="booking-view-subtitle">Enter your booking ID to view your ticket details</p>
+          <div className="booking-view-search-box">
+            <input
+              type="text"
+              value={bookingId}
+              onChange={(e) => setBookingId(e.target.value)}
+              placeholder="Enter Booking ID"
+              className="booking-view-input"
+            />
+            <button onClick={() => getBooking(bookingId)} className="booking-view-button">
+              View Booking
+            </button>
           </div>
         </div>
-      )}
+
+        {!booking && (
+          <div className="booking-view-placeholder">
+            <p>Enter your booking ID above to see your ticket details</p>
+          </div>
+        )}
+
+        {booking && (
+          <div className="booking-view-details">
+            <h2 className="booking-view-details-title">Booking Details</h2>
+            <div className="booking-view-info-container">
+              <div className="booking-view-info-row">
+                <span className="booking-view-info-label">Event</span>
+                <span className="booking-view-info-value">{booking.event.title}</span>
+              </div>
+              <div className="booking-view-info-row">
+                <span className="booking-view-info-label">Tickets</span>
+                <span className="booking-view-info-value">{booking.tickets}</span>
+              </div>
+              <div className="booking-view-info-row">
+                <span className="booking-view-info-label">Total Price</span>
+                <span className="booking-view-info-value">${booking.totalPrice.toFixed(2)}</span>
+              </div>
+              <div className="booking-view-info-row">
+                <span className="booking-view-info-label">Status</span>
+                <span className={`booking-view-status ${booking.bookingStatus.toLowerCase()}`}>
+                  {booking.bookingStatus}
+                </span>
+              </div>
+              <div className="booking-view-info-row">
+                <span className="booking-view-info-label">Created At</span>
+                <span className="booking-view-info-value">
+                  {new Date(booking.createdAt).toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

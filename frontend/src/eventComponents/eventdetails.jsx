@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext'; // Adjust path as needed
 import '../cssStyles/EventDetails.css';
@@ -43,6 +43,7 @@ function EventDetails() {
     const fetchEvent = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/v1/events/${id}`);
+        console.log(user);
         setEvent(response.data);
       } catch (err) {
         console.error('Failed to fetch event:', err);
@@ -125,6 +126,17 @@ function EventDetails() {
 
   return (
     <div className="event-details-container">
+      <div className="navigation-buttons">
+        <Link to="/" className="back-home-button">
+          ← Back to Home
+        </Link>
+        { user !== undefined && (
+        <Link to="/profile" className="profile-button">
+          Profile →
+        </Link>
+        )}
+      </div>
+
       <div className="event-details-card">
         <div className="event-details-header">
           <h1 className="event-details-title">{event.title}</h1>

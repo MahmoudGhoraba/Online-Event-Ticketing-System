@@ -8,10 +8,11 @@ import ServiceSection from './ServiceSection';
 import BookingStep from './BookingStep';
 import EventList from '../eventComponents/EventList';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../auth/AuthContext';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   return (
     <div className="homepage">
       <Navbar />
@@ -46,9 +47,19 @@ export default function HomePage() {
               Discover and book tickets to concerts, festivals, sports games,
               theater performances, and more. Secure your spot today with a click.
             </p>
-
+            
+            { user === undefined && (
+            <div className="buttons">
+              <button className="find-out" onClick={() => navigate('/login')}>Sign in</button>
+              <button className="play-demo" onClick={() => navigate('/register')}>
+                <div className="play-icon">
+                  <Play size={16} fill="white" className="text-white ml-1" />
+                </div>
+                <span>Get Started</span>
+              </button>
+            </div>
+            )}
           </div>
-
           <div className="hero-image">
             <div className="image-box">
               <div className="traveler-circle"></div>

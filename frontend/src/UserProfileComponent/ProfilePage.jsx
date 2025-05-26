@@ -5,6 +5,7 @@ import UpdateProfileForm from './UpdateProfileForm';
 import Navbar from '../sharedComponents/navBar';
 import './ProfilePage.css';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../sharedComponents/Footer';
 // Import icons (you'll need to install react-icons: npm install react-icons)
 import { FaUser, FaEdit, FaCog, FaSignOutAlt, FaSearch } from 'react-icons/fa';
 
@@ -118,6 +119,7 @@ function ProfilePage() {
                   Settings
                 </a>
               </li>
+              {user.role === 'User' && (
               <li className="nav-item">
               <a
                 href="#search-booking"
@@ -131,13 +133,13 @@ function ProfilePage() {
                 Search Booking
               </a>
             </li>
+            )}
             </ul>
           </nav>
         </aside>
         <main className="profile-main-content">
           {renderContent()}
         </main>
-
       </div>
     </>
   );

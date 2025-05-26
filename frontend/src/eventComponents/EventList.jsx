@@ -13,6 +13,7 @@ export default function EventList(props) {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedDate, setSelectedDate] = useState("");
   const [priceSort, setPriceSort] = useState(""); // "" | "asc" | "desc"
+  const [statusFilter, setStatusFilter] = useState("all"); // for admin only
   const itemsPerPage = 3;
 
   const navigate = useNavigate();
@@ -60,7 +61,6 @@ export default function EventList(props) {
     fetchEvents();
   }, [user, props.events]);
 
-  // Apply filters and sorting
   useEffect(() => {
     let filtered = [...featuredEvents];
 
@@ -83,9 +83,14 @@ export default function EventList(props) {
       });
     }
 
+    // Apply status filter for admin
+    if (user?.role === "Admin" && statusFilter !== "all") {
+      filtered = filtered.filter(event => event.status === statusFilter);
+    }
+
     setFilteredEvents(filtered);
-    setCurrentPage(0); // Reset to first page when filter/sort changes
-  }, [selectedDate, priceSort, featuredEvents]);
+    setCurrentPage(0);
+  }, [selectedDate, priceSort, statusFilter, featuredEvents, user]);
 
   const handleClick = (event) => {
     navigate(`/events/${event._id}`);
@@ -94,6 +99,7 @@ export default function EventList(props) {
   const clearFilters = () => {
     setSelectedDate("");
     setPriceSort("");
+    setStatusFilter("all");
   };
 
   return (
@@ -135,6 +141,24 @@ export default function EventList(props) {
             </select>
           </div>
 
+          {/* Status Filter - Only visible for admin */}
+          {user?.role === "Admin" && (
+            <div className="filter-group">
+              <label htmlFor="status-filter" className="filter-label">Status:</label>
+              <select
+                id="status-filter"
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="filter-select"
+              >
+                <option value="all">All Status</option>
+                <option value="approved">Approved</option>
+                <option value="pending">Pending</option>
+                <option value="declined">Declined</option>
+              </select>
+            </div>
+          )}
+
           <button
             onClick={clearFilters}
             className="clear-filters-btn"
@@ -154,11 +178,13 @@ export default function EventList(props) {
         <div className="top-destinations__header">
           <div className="top-destinations__subheading">Top Selling</div>
           <h2 className="top-destinations__heading">Available Events</h2>
-          {(selectedDate || priceSort) && (
+          {(selectedDate || priceSort || (user?.role === "Admin" && statusFilter !== "all")) && (
             <div className="active-filters">
               {selectedDate && `Date: ${new Date(selectedDate).toLocaleDateString()}`}
-              {selectedDate && priceSort && " | "}
+              {selectedDate && (priceSort || statusFilter !== "all") && " | "}
               {priceSort && `Price: ${priceSort === "asc" ? "Low to High" : "High to Low"}`}
+              {priceSort && statusFilter !== "all" && " | "}
+              {statusFilter !== "all" && `Status: ${statusFilter.charAt(0).toUpperCase() + statusFilter.slice(1)}`}
             </div>
           )}
         </div>
