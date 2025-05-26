@@ -1,0 +1,323 @@
+/* Modern color variables */
+:root {
+  --update-primary-color: #f97316;
+  --update-primary-hover: #ea580c;
+  --update-danger-color: #ef4444;
+  --update-danger-hover: #dc2626;
+  --update-background-color: #ffffff;
+  --update-text-primary: #2d3748;
+  --update-text-secondary: #4a5568;
+  --update-border-color: #e2e8f0;
+}
+
+.update-profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--update-border-color);
+}
+
+.update-profile-title {
+  text-align: center;
+  color: var(--update-text-primary);
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.update-profile-form {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--update-border-color);
+}
+
+/* Profile Picture Upload Styles */
+.update-profile-picture-upload {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.update-profile-picture-container {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  background: #f3f4f6;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.update-profile-picture-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.update-profile-input {
+  display: none;
+}
+
+.update-profile-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.update-profile-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+  color: #6b7280;
+}
+
+.update-profile-placeholder span {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.update-profile-placeholder p {
+  font-size: 0.875rem;
+  text-align: center;
+  margin: 0;
+}
+
+/* Form Field Styles */
+.update-profile-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--update-border-color);
+  transition: all 0.3s ease;
+}
+
+.update-profile-field:hover {
+  transform: translateX(10px);
+  border-bottom-color: var(--update-primary-color);
+}
+
+.update-profile-field:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.update-profile-label {
+  font-weight: 600;
+  color: var(--update-text-secondary);
+  width: 140px;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.update-profile-input-field {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid var(--update-border-color);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  color: var(--update-text-primary);
+  transition: all 0.3s ease;
+}
+
+.update-profile-input-field:focus {
+  border-color: var(--update-primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+}
+
+.update-profile-input-field::placeholder {
+  color: #a0aec0;
+}
+
+/* Action Buttons */
+.update-profile-actions {
+  margin-top: 2.5rem;
+  text-align: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.update-profile-submit-btn {
+  padding: 0.75rem 2rem;
+  background-color: var(--update-primary-color);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(249, 115, 22, 0.2);
+}
+
+.update-profile-submit-btn:hover {
+  background-color: var(--update-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(249, 115, 22, 0.3);
+}
+
+.update-profile-cancel-btn {
+  padding: 0.75rem 2rem;
+  background-color: white;
+  color: var(--update-danger-color);
+  border: 1px solid var(--update-danger-color);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.update-profile-cancel-btn:hover {
+  background-color: var(--update-danger-color);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.2);
+}
+
+/* Status Message */
+.update-profile-status {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+  animation: updateSlideIn 0.3s ease;
+}
+
+.update-profile-status.success {
+  background-color: #f0fff4;
+  color: #2f855a;
+  border: 1px solid #9ae6b4;
+}
+
+.update-profile-status.error {
+  background-color: #fff5f5;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+/* Loading States */
+.update-profile-submit-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.update-profile-submit-btn.loading::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: updateSpin 0.8s linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+/* Disabled States */
+.update-profile-submit-btn:disabled,
+.update-profile-cancel-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Loader Overlay */
+.update-profile-loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.update-profile-loader-popup {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+@keyframes updateSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes updateSpin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .update-profile-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .update-profile-title {
+    font-size: 2rem;
+  }
+
+  .update-profile-form {
+    padding: 1.5rem;
+  }
+
+  .update-profile-field {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .update-profile-label {
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+
+  .update-profile-actions {
+    flex-direction: column;
+  }
+
+  .update-profile-submit-btn,
+  .update-profile-cancel-btn {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+} 
