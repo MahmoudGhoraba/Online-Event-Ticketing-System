@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import './UserBookingsPage.css'
 import EventCard from "../eventComponents/EventCard";
 import axios from "axios";
+import NavBar from "../sharedComponents/navBar"
 const UserBookingsPage = () => {
   const [bookings, setBookings] = useState([]);
 
@@ -26,6 +27,8 @@ const UserBookingsPage = () => {
     getBookings();
   }, []);
    return (
+  <>
+  <NavBar></NavBar>
   <div className="booking-page-container">
     <div className="bookings-section">
       <h2 className="bookings-header">My Bookings</h2>
@@ -76,6 +79,7 @@ const UserBookingsPage = () => {
       )}
     </div>
   </div>
+  </>
 );
 };
 

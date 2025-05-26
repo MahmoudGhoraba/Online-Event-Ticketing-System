@@ -3,7 +3,7 @@ import axios from 'axios';
 import UserTable from './UserTable';
 import AdminTables from './AdminEventsPage';
 import './index.css';
-
+import Navbar from '../sharedComponents/navBar';
 axios.defaults.withCredentials = true;
 
 export default function AdminUsersPage() {
@@ -30,6 +30,8 @@ export default function AdminUsersPage() {
   if (error) return <div className="error">Error: {error}</div>;
 
   return (
+    <>
+    <Navbar />
     <div className="admin-users">
       <h1>Admin Users</h1>
       <UserTable 
@@ -38,5 +40,6 @@ export default function AdminUsersPage() {
       />
       
     </div>
+    </>
   );
 }

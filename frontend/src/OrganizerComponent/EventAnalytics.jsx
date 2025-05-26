@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
-
+import NavBar from "../sharedComponents/navBar"
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 
@@ -94,6 +94,8 @@ function ChartComponent() {
   };
 
   return (
+    <>
+    <NavBar />
     <div style={{
       backgroundColor: 'white',
       padding: 24,
@@ -141,6 +143,7 @@ function ChartComponent() {
         </p>
       )}
     </div>
+    </>
   );
 }
 

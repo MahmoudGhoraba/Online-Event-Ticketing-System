@@ -9,7 +9,7 @@ import {
   UserGroupIcon,
   PlusCircleIcon,
 } from '@heroicons/react/24/outline';
-import '../cssStyles/EventDetails.css';
+import './createEvent.css';
 
 function OrganizerCreateEvent() {
   const [formData, setFormData] = useState({

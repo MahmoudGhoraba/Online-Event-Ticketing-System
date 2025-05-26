@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import EventList from "../eventComponents/EventList";
 import "./index.css";
-
+import Navbar from "../sharedComponents/navBar";
 axios.defaults.withCredentials = true;
 
 export default function AdminTables() {
@@ -77,25 +77,33 @@ export default function AdminTables() {
 
   if (loadingEvents)
     return (
+  <>
+    <Navbar />
       <div
         className="loading"
         style={{ padding: 20, color: "#111", backgroundColor: "#f0f0f0" }}
       >
         Loading events...
       </div>
+      </>
     );
 
   if (errorEvents)
     return (
+  <>
+    <Navbar />
       <div
         className="error"
         style={{ padding: 20, color: "red", backgroundColor: "#fff0f0" }}
       >
         Error loading events: {errorEvents}
       </div>
+    </>
     );
 
   return (
+    <>
+    <Navbar />
     <div
       className="admin-tables"
       style={{
@@ -224,5 +232,6 @@ export default function AdminTables() {
         );
       })}
     </div>
+    </>
   );
 } 
