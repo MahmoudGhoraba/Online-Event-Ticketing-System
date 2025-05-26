@@ -218,7 +218,7 @@ function EventDetails() {
                 isUser && (
                   <button
                     onClick={NavigateToBookTicketForm}
-                    disabled={event.remainingTickets <= 0}
+                    disabled={event.remainingTickets <= 0 || new Date(event.date) < new Date()}
                     className="event-details-button"
                   >
                     <TicketIcon className="button-icon" />

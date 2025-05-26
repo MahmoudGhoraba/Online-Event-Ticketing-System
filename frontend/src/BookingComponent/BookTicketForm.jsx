@@ -40,6 +40,11 @@ const BookTicketForm = () => {
         { withCredentials: true }
       );
       setMessage("Booking is done successfully");
+      setEvent((prevEvent) => ({
+        ...prevEvent,
+        remainingTickets: prevEvent.remainingTickets - quantity
+      }));
+      setQuantity(1);
     } catch (error) {
       setMessage(error.response?.data?.message || "Booking failed");
     }
