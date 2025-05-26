@@ -17,6 +17,8 @@ import BookTicketForm from "./BookingComponent/BookTicketForm";
 import UserBookingsPage from "./BookingComponent/UserBookingsPage";
 import BookingDetails from "./BookingComponent/BookingDetails";
 import ChartComponent from "./OrganizerComponent/EventAnalytics.jsx";
+import SearchedEvents from './sharedComponents/searchedevents';
+
 function App() {
 
 
@@ -30,6 +32,14 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route
+            path="/admin" 
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AdminUsersPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/users" 
             element={
@@ -112,6 +122,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route path="/search" element={<SearchedEvents />} />
         </Routes>
 
       

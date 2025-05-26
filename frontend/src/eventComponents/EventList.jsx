@@ -35,16 +35,18 @@ export default function EventList(props) {
           setLoading(false);
           return;
         }
-
+        let res;
         // Otherwise fetch from API
-        if (!user || user.role === "User" || user.role === "Admin") {
-          const res = await axios.get("http://localhost:3000/api/v1/events/");
-          data = res.data;
+        if (!user || user.role === "User") {
+         res  = await axios.get("http://localhost:3000/api/v1/events/");
+          console.log("what is the length of the events");
         } else if (user.role === "Organizer") {
-          const res = await axios.get("http://localhost:3000/api/v1/users/events");
-          data = res.data.events;
+           res = await axios.get("http://localhost:3000/api/v1/users/events");
         }
-
+        else if (user.role === "Admin") {
+           res = await axios.get("http://localhost:3000/api/v1/events/all");
+        }
+        data = res.data.events;
         setFeaturedEvents(data);
       } catch (error) {
         console.error("Failed to fetch events:", error);
