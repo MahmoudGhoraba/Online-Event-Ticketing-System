@@ -1,4 +1,4 @@
-.booking-details-container {
+/* .booking-details-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
@@ -100,7 +100,7 @@
 .status-badge.pending {
   background-color: #fff3cd;
   color: #856404;
-}
+} */
 
 
 
@@ -440,3 +440,230 @@
     width: 100%;
   }
 }*/
+
+
+
+
+/* BookingDetails.css */
+.booking-details-container {
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Search Section */
+.booking-search {
+  margin-bottom: 2rem;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.booking-search:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.section-title {
+  margin-bottom: 1.5rem;
+  color: #0062cc;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.search-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.input-group {
+  flex: 1;
+}
+
+.input-group-text {
+  background-color: white;
+  border-right: none;
+  color: #6c757d;
+}
+
+.booking-input {
+  border-left: none;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  box-shadow: none !important;
+}
+
+.booking-input:focus {
+  border-color: #ced4da;
+}
+
+.view-booking-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #0062cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.view-booking-btn:hover {
+  background-color: #0051b3;
+  transform: translateY(-2px);
+}
+
+.view-booking-btn:active {
+  transform: translateY(0);
+}
+
+/* Info Message */
+.info-message {
+  text-align: center;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  color: #6c757d;
+  font-size: 1.1rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Loader */
+.loader-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Booking Card */
+.booking-card {
+  padding: 2rem;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.booking-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #0062cc;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 1rem;
+}
+
+.booking-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  transition: all 0.2s;
+}
+
+.info-row:hover {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding-left: 0.5rem;
+}
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.75rem;
+  color: #0062cc;
+  background-color: rgba(0, 98, 204, 0.1);
+  border-radius: 50%;
+}
+
+.info-label {
+  font-weight: 600;
+  width: 120px;
+  color: #495057;
+}
+
+.info-value {
+  flex: 1;
+  color: #212529;
+  font-weight: 400;
+}
+
+/* Status Badge */
+.status-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  display: inline-block;
+  margin-left: 0.5rem; /* Add some space between label and badge */
+  transition: none; /* Remove any transitions */
+}
+
+.status-badge.confirmed {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+}
+
+.status-badge.pending {
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #d39e00;
+}
+
+.status-badge.cancelled {
+  background-color: rgba(220, 53, 69, 0.15);
+  color: #dc3545;
+}
+
+/* Info Row - Remove hover effects for status specifically */
+.info-row:has(.status-badge):hover {
+  background-color: transparent;
+  padding-left: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+  .booking-search {
+    padding: 1.5rem;
+  }
+  
+  .search-container {
+    flex-direction: column;
+  }
+  
+  .view-booking-btn {
+    width: 100%;
+  }
+  
+  .booking-card {
+    padding: 1.5rem;
+  }
+  
+  .info-row {
+    flex-wrap: wrap;
+  }
+  
+  .info-label {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+  
+  .info-value {
+    width: 100%;
+    padding-left: 48px;
+  }
+}
