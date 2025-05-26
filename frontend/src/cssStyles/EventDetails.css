@@ -98,6 +98,23 @@
 .event-details-organizer-actions {
   display: flex;
   gap: 1rem;
+  align-items: center;
+}
+
+.status-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f3f4f6;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+.status-display .button-icon {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 .event-details-info-grid {

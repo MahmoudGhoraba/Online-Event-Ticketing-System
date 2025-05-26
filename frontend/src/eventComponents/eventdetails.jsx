@@ -130,6 +130,10 @@ function EventDetails() {
           <h1 className="event-details-title">{event.title}</h1>
           {isOrganizer && !isEditing && (
             <div className="event-details-organizer-actions">
+              <div className="status-display">
+                <ClipboardDocumentCheckIcon className="button-icon" />
+                <span>Status: {event.status || 'pending'}</span>
+              </div>
               <button
                 onClick={() => setIsEditing(true)}
                 className="event-details-edit-button"
