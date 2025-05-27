@@ -126,6 +126,10 @@ function App() {
           
 
           <Route path="/search" element={<SearchedEvents />} />
+          <Route
+          path="*"
+          element={<Navigate to={"/login"} replace />}
+        />
         </Routes>
 
       
