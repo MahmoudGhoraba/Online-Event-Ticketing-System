@@ -6,7 +6,7 @@ import HomePage from "./HomePageComponents/HomePage";
 import AdminUsersPage from "./AdminCompnent/AdminUsersPage";
 import AdminEvents from "./AdminCompnent/AdminEventsPage.jsx";  
 import ProtectedRoute from "./auth/ProtectedRoutes";
-import ForgetPassword from "./AuthComponent/forgetPassword";
+import ForgetPassword from "./AuthComponent/ForgetPassword";
 import EventDetails from './eventComponents/eventdetails.jsx'
 import OrganizerPage from "./OrganizerComponent/MyEventsPage.jsx"
 import OrganizerEvent from "./eventComponents/eventdetails.jsx"
@@ -18,7 +18,7 @@ import UserBookingsPage from "./BookingComponent/UserBookingsPage";
 import BookingDetails from "./BookingComponent/BookingDetails";
 import ChartComponent from "./OrganizerComponent/EventAnalytics.jsx";
 import SearchedEvents from './sharedComponents/searchedevents';
-
+import Unauthorized from "./auth/Unauthorized.jsx";
 function App() {
 
 
@@ -32,6 +32,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/unauthorized" element={<Unauthorized/>} />
           <Route
             path="/admin" 
             element={
@@ -122,6 +123,7 @@ function App() {
               </ProtectedRoute>
             }
           />
+          
 
           <Route path="/search" element={<SearchedEvents />} />
         </Routes>
