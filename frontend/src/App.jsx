@@ -18,6 +18,7 @@ import UserBookingsPage from "./BookingComponent/UserBookingsPage";
 import BookingDetails from "./BookingComponent/BookingDetails";
 import ChartComponent from "./OrganizerComponent/EventAnalytics.jsx";
 import SearchedEvents from './sharedComponents/searchedevents';
+import Unauthorized from "./unauth.jsx";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           <Route path="/register" element={<RegisterForm />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
           <Route path="/events/:id" element={<EventDetails />} />
+          <Route path="/unauthorized" element={<Unauthorized/>}/>
           <Route
             path="/admin" 
             element={

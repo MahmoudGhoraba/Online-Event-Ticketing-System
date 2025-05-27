@@ -76,10 +76,15 @@ const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleLogout = () => {
-    logout(); 
-    window.location.href = "/"; 
-  };
+  const handleLogout = async () => {
+  try {
+    await logout();
+    navigate("/"); // React-router style navigation
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+};
+
 
   const handleSearch = (e) => {
     e.preventDefault();

@@ -39,7 +39,7 @@ getUserProfile: async (req,res)=>{
         if (!userProfile) {
             return res.status(400).json({ message: 'No profile is found' });
         }
-        return res.status(200).json({userProfile});
+        return res.status(200).json({user: userProfile});
      }catch(error){
         return res.status(500).json({ error: err.message });
      }

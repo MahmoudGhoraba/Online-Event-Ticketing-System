@@ -5,7 +5,7 @@ import Loader from "../sharedComponents/Loader";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+const [user, setUser] = useState(null); // null = not logged in, but defined
   const [loading, setLoading] = useState(true);
   // Fetch current user on app load
   useEffect(() => {
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         setUser(res.data.user);
       } catch(e) {
         console.log(e)
-        setUser();
+        setUser(null);
       } finally {
         setLoading(false);
       }
@@ -46,6 +46,7 @@ const login = async (credentials) => {
 
   // Logout function in case we have logout endpoint
   const logout = async () => {
+    console.log("in authcontexrt")
     await axios.post(
       "http://localhost:3000/api/v1/logout",
       {},
