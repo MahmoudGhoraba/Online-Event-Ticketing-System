@@ -2,44 +2,73 @@
 
 .step-container {
   padding: 4rem 1.5rem;
-  background-color: white;
+  background: linear-gradient(to bottom right, #f8fafc, #ffffff, #fff7ed);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.step-container.dark-mode {
+  background: linear-gradient(to bottom right, #111827, #1f2937, #1e293b);
+}
+
+.step-divider {
+  width: 50%;
+  margin: 0 auto 4rem;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--border-light), transparent);
+  transition: background 0.3s ease;
+}
+
+.dark-mode .step-divider {
+  background: linear-gradient(to right, transparent, var(--border-dark), transparent);
 }
 
 .booking-inner {
-  max-width: 80rem;
-  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr;
   gap: 4rem;
+  position: relative;
 }
 
 @media (min-width: 1024px) {
   .booking-inner {
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
+    grid-template-columns: 3fr 2fr;
   }
+}
+
+.booking-content {
+  position: relative;
+  z-index: 1;
 }
 
 .booking-header {
-  color: #6b7280;
+  color: #6366f1;
+  font-size: 1rem;
+  font-weight: 600;
   text-transform: uppercase;
-  font-size: 0.875rem;
+  letter-spacing: 0.05em;
   margin-bottom: 1rem;
-  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .booking-header {
+  color: #818cf8;
 }
 
 .booking-title {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: #1f2937;
-  line-height: 1.25;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-light);
+  margin-bottom: 3rem;
+  line-height: 1.2;
+  transition: color 0.3s ease;
 }
 
-@media (min-width: 1024px) {
-  .booking-title {
-    font-size: 3rem;
-  }
+.dark-mode .booking-title {
+  color: var(--text-dark);
 }
 
 .steps-list {
@@ -50,41 +79,101 @@
 
 .step {
   display: flex;
+  gap: 1.5rem;
   align-items: flex-start;
-  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: var(--bg-light);
+  border: 1px solid rgba(99, 102, 241, 0.1);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .step {
+  background: var(--bg-dark);
+  border-color: rgba(129, 140, 248, 0.1);
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.1);
+}
+
+.dark-mode .step:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
 .step-icon {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.75rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.step-icon .icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: all 0.3s ease;
 }
 
 .step-icon-yellow {
-  background-color: #f59e0b;
+  background: rgba(250, 204, 21, 0.2);
+  color: #eab308;
 }
+
+.dark-mode .step-icon-yellow {
+  background: rgba(250, 204, 21, 0.1);
+  color: #facc15;
+}
+
 .step-icon-orange {
-  background-color: #f97316;
+  background: rgba(249, 115, 22, 0.2);
+  color: #ea580c;
 }
+
+.dark-mode .step-icon-orange {
+  background: rgba(249, 115, 22, 0.1);
+  color: #f97316;
+}
+
 .step-icon-blue {
-  background-color: #3b82f6;
+  background: rgba(99, 102, 241, 0.2);
+  color: #4f46e5;
 }
 
-.step-content h3 {
-  font-size: 1.125rem;
+.dark-mode .step-icon-blue {
+  background: rgba(99, 102, 241, 0.1);
+  color: #6366f1;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-title {
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: var(--text-light);
   margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
 }
 
-.step-content p {
-  color: #4b5563;
-  line-height: 1.625;
+.dark-mode .step-title {
+  color: var(--text-dark);
+}
+
+.step-description {
+  color: var(--text-secondary-light);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .step-description {
+  color: var(--text-secondary-dark);
 }
 
 /* Right Card Section */
@@ -93,12 +182,18 @@
 }
 
 .trip-card {
-  background-color: white;
+  background-color: var(--bg-light);
   border-radius: 1.5rem;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   max-width: 20rem;
-  margin: 0 auto;
+  margin: 10rem auto;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .trip-card {
+  background-color: var(--bg-dark);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
 .trip-image {
@@ -114,18 +209,33 @@
 .trip-title {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 0.75rem;
+  color: var(--text-light);
+  margin-bottom: 3.75rem;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .trip-title {
+  color: var(--text-dark);
 }
 
 .trip-date {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--text-secondary-light);
   margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .trip-date {
+  color: var(--text-secondary-dark);
 }
 
 .trip-date span {
-  color: #374151;
+  color: var(--text-light);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .trip-date span {
+  color: var(--text-dark);
 }
 
 .trip-icons {
@@ -137,11 +247,18 @@
 .trip-icon-circle {
   width: 2rem;
   height: 2rem;
-  background-color: #f3f4f6;
+  background-color: var(--bg-light);
   border-radius: 9999px;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-light);
+  transition: all 0.3s ease;
+}
+
+.dark-mode .trip-icon-circle {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
 }
 
 .trip-footer {
@@ -154,71 +271,46 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #6b7280;
+  color: var(--text-secondary-light);
   font-size: 0.875rem;
-}
-
-.trip-heart {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: #d1d5db;
-  cursor: pointer;
   transition: color 0.3s ease;
 }
 
-.trip-heart:hover {
-  color: #ef4444;
+.dark-mode .trip-people {
+  color: var(--text-secondary-dark);
+}
+
+.trip-heart {
+  color: var(--text-secondary-light);
+  transition: color 0.3s ease;
+}
+
+.dark-mode .trip-heart {
+  color: var(--text-secondary-dark);
 }
 
 /* Floating Status Card */
 .status-card {
   position: absolute;
-  bottom: -1.5rem;
-  right: -2rem;
-  background-color: white;
+  bottom: 5.5rem;
+  right: -4.5rem;
+  background-color: var(--bg-light);
   border-radius: 1rem;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   width: 16rem;
   display: flex;
   justify-content: space-between;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .status-card {
+  background-color: var(--bg-dark);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
 }
 
 .status-details {
   flex: 1;
-}
-
-.status-ongoing {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0.25rem;
-}
-
-.status-title {
-  font-weight: 500;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-}
-
-.status-progress-label {
-  font-size: 0.875rem;
-  color: #7c3aed;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
-}
-
-.status-bar {
-  width: 8rem;
-  height: 0.375rem;
-  background-color: #e5e7eb;
-  border-radius: 9999px;
-}
-
-.status-bar-fill {
-  width: 60%;
-  height: 100%;
-  background-color: #7c3aed;
-  border-radius: 9999px;
 }
 
 .status-image {
@@ -235,6 +327,64 @@
   object-fit: cover;
 }
 
+.status-ongoing {
+  font-size: 0.875rem;
+  color: var(--text-secondary-light);
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .status-ongoing {
+  color: var(--text-secondary-dark);
+}
+
+.status-title {
+  font-weight: 500;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .status-title {
+  color: var(--text-dark);
+}
+
+.status-progress-label {
+  font-size: 0.875rem;
+  color: #7c3aed;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.dark-mode .status-progress-label {
+  color: #8b5cf6;
+}
+
+.status-bar {
+  width: 8rem;
+  height: 0.375rem;
+  background-color: var(--border-light);
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode .status-bar {
+  background-color: var(--border-dark);
+}
+
+.status-bar-fill {
+  width: 60%;
+  height: 100%;
+  background-color: #7c3aed;
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode .status-bar-fill {
+  background-color: #8b5cf6;
+}
+
 /* Decorative Dots */
 .dot-yellow {
   position: absolute;
@@ -245,6 +395,12 @@
   background-color: #facc15;
   border-radius: 9999px;
   opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .dot-yellow {
+  background-color: #fbbf24;
+  opacity: 0.3;
 }
 
 .dot-purple {
@@ -256,6 +412,12 @@
   background-color: #a78bfa;
   border-radius: 9999px;
   opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .dot-purple {
+  background-color: #8b5cf6;
+  opacity: 0.3;
 }
 
 .dot-blue {
@@ -267,4 +429,10 @@
   background-color: #60a5fa;
   border-radius: 9999px;
   opacity: 0.4;
+  transition: all 0.3s ease;
+}
+
+.dark-mode .dot-blue {
+  background-color: #3b82f6;
+  opacity: 0.3;
 }

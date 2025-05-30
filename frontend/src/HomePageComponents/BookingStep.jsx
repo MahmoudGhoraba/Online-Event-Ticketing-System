@@ -1,9 +1,10 @@
 import React from 'react';
 import './review.css';
 import { Search, Calendar, CheckCircle, Users, Heart, Music2, Ticket } from 'lucide-react';
-
+import { useTheme } from '../theme/ThemeContext';
 
 export default function BookingStep() {
+  const { isDarkMode } = useTheme();
   const steps = [
     {
       icon: <Search className="icon" />,
@@ -26,7 +27,7 @@ export default function BookingStep() {
   ];
 
   return (
-    <div className="step-container">
+    <div className={`step-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div
         style={{
           borderTop: '2px solid #d1d5db',
@@ -52,8 +53,8 @@ export default function BookingStep() {
                   {step.icon}
                 </div>
                 <div className="step-content">
-                  <h3>{step.title}</h3>
-                  <p>{step.description}</p>
+                  <h3 className="step-title">{step.title}</h3>
+                  <p className="step-description">{step.description}</p>
                 </div>
               </div>
             ))}

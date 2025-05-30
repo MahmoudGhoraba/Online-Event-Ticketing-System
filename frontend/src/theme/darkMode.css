@@ -1,0 +1,73 @@
+:root {
+  /* Light theme variables */
+  --bg-light: #ffffff;
+  --text-light: #2d3748;
+  --text-secondary-light: #4a5568;
+  --border-light: #e2e8f0;
+  --hover-light: #f3f4f6;
+  
+  /* Dark theme variables */
+  --bg-dark: #1a202c;
+  --text-dark: #f7fafc;
+  --text-secondary-dark: #e2e8f0;
+  --border-dark: #2d3748;
+  --hover-dark: #2d3748;
+}
+
+/* Base styles */
+body {
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+
+/* Dark mode styles */
+.dark-mode {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.dark-mode .navbar {
+  background-color: var(--bg-dark);
+  border-color: var(--border-dark);
+  color: var(--text-dark);
+}
+
+.dark-mode .dropdown-menu {
+  background-color: var(--bg-dark);
+  border-color: var(--border-dark);
+}
+
+.dark-mode .dropdown-item {
+  color: var(--text-dark);
+}
+
+.dark-mode .dropdown-item:hover {
+  background-color: var(--hover-dark);
+}
+
+.dark-mode .nav-link {
+  color: var(--text-dark);
+}
+
+.dark-mode .search-input {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+.dark-mode .search-input::placeholder {
+  color: var(--text-secondary-dark);
+}
+
+/* Transition for smooth theme switching */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure text contrast */
+.light-text {
+  color: var(--text-dark);
+}
+
+.dark-text {
+  color: var(--text-light);
+} 

@@ -9,12 +9,15 @@ import BookingStep from './BookingStep';
 import EventList from '../eventComponents/EventList';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import { useTheme } from '../theme/ThemeContext';
 
 export default function HomePage() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isDarkMode } = useTheme();
+
   return (
-    <div className="homepage">
+    <div className={`homepage ${isDarkMode ? 'dark-mode' : ''}`}>
       <Navbar />
 
       <div className="background-decor">
@@ -40,7 +43,6 @@ export default function HomePage() {
           <div className="hero-content">
             <div className="tagline">Your Gateway to Unforgettable Events</div>
             <h1 className="main-heading">
-              {/* You may want to update TypingMessage content accordingly */}
               <TypingMessage />
             </h1>
             <p className="description">
@@ -48,24 +50,26 @@ export default function HomePage() {
               theater performances, and more. Secure your spot today with a click.
             </p>
             
-            { user === undefined && (
-            <div className="buttons">
-              <button className="find-out" onClick={() => navigate('/login')}>Sign in</button>
-              <button className="play-demo" onClick={() => navigate('/register')}>
-                <div className="play-icon">
-                  <Play size={16} fill="white" className="text-white ml-1" />
-                </div>
-                <span>Get Started</span>
-              </button>
-            </div>
+            {user === undefined && (
+              <div className="buttons">
+                <button className="find-out" onClick={() => navigate('/login')}>
+                  Sign in
+                </button>
+                <button className="play-demo" onClick={() => navigate('/register')}>
+                  <div className="play-icon">
+                    <Play size={16} fill="white" className="text-white ml-1" />
+                  </div>
+                  <span>Get Started</span>
+                </button>
+              </div>
             )}
           </div>
+
           <div className="hero-image">
             <div className="image-box">
               <div className="traveler-circle"></div>
               <div className="backpack"></div>
               <div className="suitcase"></div>
-              {/* You could replace these with ticket-themed visuals */}
             </div>
             <div className="float-one"></div>
             <div className="float-two"></div>

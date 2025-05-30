@@ -1,50 +1,45 @@
 import React from 'react';
 import './service.css';
 import { CalendarCheck, Ticket, Users, Settings } from 'lucide-react';
+import { useTheme } from '../theme/ThemeContext';
 
 export default function ServiceSection() {
+  const { isDarkMode } = useTheme();
+
   const services = [
     {
-      icon: <CalendarCheck className="service-icon-svg cloud" />,
+      icon: <CalendarCheck className="service-icon-svg" />,
       title: "Curated Events",
       description: "Explore hand-picked concerts, sports, and shows tailored to your interests.",
-      bgColor: "bg-blue-50",
-      iconBg: "bg-blue-100"
+      bgColor: isDarkMode ? "bg-dark-800" : "bg-blue-50",
+      iconBg: isDarkMode ? "bg-dark-700" : "bg-blue-100"
     },
     {
-      icon: <Ticket className="service-icon-svg cloud" />,
+      icon: <Ticket className="service-icon-svg" />,
       title: "Instant Tickets",
       description: "Book your seat instantly with our secure and fast ticketing system.",
-      bgColor: "bg-white",
-      iconBg: "bg-orange-100",
+      bgColor: isDarkMode ? "bg-dark-900" : "bg-white",
+      iconBg: isDarkMode ? "bg-dark-700" : "bg-orange-100",
     },
     {
-      icon: <Users className="service-icon-svg cloud" />,
+      icon: <Users className="service-icon-svg" />,
       title: "Group Discounts",
       description: "Planning with friends? Enjoy special rates for group bookings.",
-      bgColor: "bg-gray-50",
-      iconBg: "bg-gray-100"
+      bgColor: isDarkMode ? "bg-dark-800" : "bg-gray-50",
+      iconBg: isDarkMode ? "bg-dark-700" : "bg-gray-100"
     },
     {
-      icon: <Settings className="service-icon-svg cloud"  />,
+      icon: <Settings className="service-icon-svg" />,
       title: "Custom Alerts",
       description: "Get notified for upcoming events based on your preferences.",
-      bgColor: "bg-blue-50",
-      iconBg: "bg-blue-100"
+      bgColor: isDarkMode ? "bg-dark-900" : "bg-blue-50",
+      iconBg: isDarkMode ? "bg-dark-700" : "bg-blue-100"
     }
   ];
 
   return (
-    <div className="services-section">
-      <div
-        style={{
-          borderTop: '2px solid #d1d5db',
-          width: '50%',
-          margin: '0 auto',
-          marginBottom: '4rem',
-          backgroundColor: 'white',
-        }}
-      ></div>
+    <div className={`services-section ${isDarkMode ? 'dark-mode' : ''}`}>
+      <div className="section-divider"></div>
 
       {/* Background decorative elements */}
       <div className="background-icons">
@@ -62,26 +57,22 @@ export default function ServiceSection() {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="header">
-          <div className="category">Category</div>
-          <h2 className="title">We Offer Best Ticketing Services</h2>
+          <div className="category">Our Services</div>
+          <h2 className="title">What We Offer</h2>
         </div>
 
         <div className="services-grid">
           {services.map((service, index) => (
             <div
               key={index}
-              className="service-card"
-              style={{ backgroundColor: `var(--tw-${service.bgColor})` }}
+              className={`service-card ${service.bgColor} shadow`}
             >
-              <div
-                className="service-icon"
-                style={{ backgroundColor: `var(--tw-${service.iconBg})` }}
-              >
+              <div className={`service-icon ${service.iconBg}`}>
                 {service.icon}
               </div>
               <h3 className="service-title">{service.title}</h3>
               <p className="service-description">{service.description}</p>
-              <div className="service-hover-dot" />
+              <div className="service-hover-dot"></div>
             </div>
           ))}
         </div>

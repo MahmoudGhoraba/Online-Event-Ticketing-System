@@ -2,12 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../auth/AuthContext";
+import { useTheme } from "../theme/ThemeContext";
 import "./events.css";
 import EventCard from "./EventCard";
 import Loader from "../sharedComponents/Loader";
 
 export default function EventList(props) {
   const { user } = useAuth();
+  const { isDarkMode } = useTheme();
   const [featuredEvents, setFeaturedEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -104,14 +106,14 @@ export default function EventList(props) {
   };
 
   return (
-    <div className="top-destinations">
+    <div className={`top-destinations ${isDarkMode ? 'dark-mode' : ''}`}>
       <div
         style={{
           borderTop: "2px solid #d1d5db",
           width: "50%",
           margin: "0 auto",
           marginBottom: "4rem",
-          backgroundColor: "white",
+          backgroundColor: isDarkMode ? 'var(--bg-dark)' : 'white',
         }}
       ></div>
 

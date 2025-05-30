@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
+import { ThemeProvider } from "./theme/ThemeContext";
 import LoginForm from "./AuthComponent/LoginForm";
 import RegisterForm from "./AuthComponent/RegisterForm";
 import HomePage from "./HomePageComponents/HomePage";
@@ -24,119 +25,116 @@ function App() {
 
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage/>} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/forget-password" element={<ForgetPassword />} />
-          <Route path="/events/:id" element={<EventDetails />} />
-          <Route path="/unauthorized" element={<Unauthorized/>} />
-          <Route
-            path="/admin" 
-            element={
-              <ProtectedRoute allowedRoles={["Admin"]}>
-                <AdminUsersPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/users" 
-            element={
-              <ProtectedRoute allowedRoles={["Admin"]}>
-                <AdminUsersPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/events" 
-            element={
-              <ProtectedRoute allowedRoles={["Admin"]}>
-                <AdminEvents />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/booking/BookTicketForm/:eventId"
-            element={
-             <ProtectedRoute allowedRoles={["User"]}>
-                  <BookTicketForm />
-              </ProtectedRoute>
+      <ThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage/>} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/forget-password" element={<ForgetPassword />} />
+            <Route path="/events/:id" element={<EventDetails />} />
+            <Route path="/unauthorized" element={<Unauthorized/>} />
+            <Route
+              path="/admin" 
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <AdminUsersPage />
+                </ProtectedRoute>
               }
-          />
-          <Route
-            path="/bookings"
-            element={
-             <ProtectedRoute allowedRoles={["User"]}>
-                  <UserBookingsPage />
-              </ProtectedRoute>
+            />
+            <Route
+              path="/admin/users" 
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <AdminUsersPage />
+                </ProtectedRoute>
               }
-          />
-           <Route
-            path="/bookings/:id"
-            element={
-             <ProtectedRoute allowedRoles={["User"]}>
-                  <BookingDetails />
-              </ProtectedRoute>
+            />
+            <Route
+              path="/admin/events" 
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <AdminEvents />
+                </ProtectedRoute>
               }
-          />
-          <Route
-            path="/my-events" 
+            />
+            <Route
+              path="/booking/BookTicketForm/:eventId"
+              element={
+               <ProtectedRoute allowedRoles={["User"]}>
+                    <BookTicketForm />
+                </ProtectedRoute>
+                }
+            />
+            <Route
+              path="/bookings"
+              element={
+               <ProtectedRoute allowedRoles={["User"]}>
+                    <UserBookingsPage />
+                </ProtectedRoute>
+                }
+            />
+             <Route
+              path="/bookings/:id"
+              element={
+               <ProtectedRoute allowedRoles={["User"]}>
+                    <BookingDetails />
+                </ProtectedRoute>
+                }
+            />
+            <Route
+              path="/my-events" 
+              element={
+                <ProtectedRoute allowedRoles={["Organizer"]}>
+                  <OrganizerPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+            path="/profile"
             element={
-              <ProtectedRoute allowedRoles={["Organizer"]}>
-                <OrganizerPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-          path="/profile"
-          element={
-          <ProtectedRoute allowedRoles={["Admin", "Organizer", "User"]}>
-          <ProfilePage />
-          </ProtectedRoute>
-        }
+            <ProtectedRoute allowedRoles={["Admin", "Organizer", "User"]}>
+            <ProfilePage />
+            </ProtectedRoute>
+          }
 />
-          <Route
-            path="/events/:id" 
-            element={
-              <ProtectedRoute allowedRoles={["Organizer"]}>
-                <OrganizerEvent />
-              </ProtectedRoute>
-            }
+            <Route
+              path="/events/:id" 
+              element={
+                <ProtectedRoute allowedRoles={["Organizer"]}>
+                  <OrganizerEvent />
+                </ProtectedRoute>
+              }
+            />
+            
+            <Route
+              path="/my-events/new" 
+              element={
+                <ProtectedRoute allowedRoles={["Organizer"]}>
+                  <CreateEvent />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/my-events/analytics" 
+              element={
+                <ProtectedRoute allowedRoles={["Organizer"]}>
+                  <ChartComponent />
+                </ProtectedRoute>
+              }
+            />
+            
+
+            <Route path="/search" element={<SearchedEvents />} />
+            <Route
+            path="*"
+            element={<Navigate to={"/login"} replace />}
           />
-          
-          <Route
-            path="/my-events/new" 
-            element={
-              <ProtectedRoute allowedRoles={["Organizer"]}>
-                <CreateEvent />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/my-events/analytics" 
-            element={
-              <ProtectedRoute allowedRoles={["Organizer"]}>
-                <ChartComponent />
-              </ProtectedRoute>
-            }
-          />
-          
-
-          <Route path="/search" element={<SearchedEvents />} />
-          <Route
-          path="*"
-          element={<Navigate to={"/login"} replace />}
-        />
-        </Routes>
-
-      
-
-      
-
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </AuthProvider>
   );
 }
