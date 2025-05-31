@@ -246,7 +246,6 @@ export default function RegisterForm() {
                             >
                                 <option value="User">Attendee</option>
                                 <option value="Organizer">Event Organizer</option>
-                                <option value="Admin">Administrator</option>
                             </select>
                         </div>
 

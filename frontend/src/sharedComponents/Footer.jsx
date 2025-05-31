@@ -18,22 +18,38 @@ const Footer = () => {
   };
 
   const socialLinks = [
-    { icon: Facebook, style: { 
-      color: isDarkMode ? '#60a5fa' : '#3b82f6', 
-      backgroundColor: isDarkMode ? 'rgba(96, 165, 250, 0.1)' : '#eff6ff' 
-    }},
-    { icon: Twitter, style: { 
-      color: isDarkMode ? '#38bdf8' : '#0ea5e9', 
-      backgroundColor: isDarkMode ? 'rgba(56, 189, 248, 0.1)' : '#f0f9ff' 
-    }},
-    { icon: Instagram, style: { 
-      color: isDarkMode ? '#f472b6' : '#ec4899', 
-      backgroundColor: isDarkMode ? 'rgba(244, 114, 182, 0.1)' : '#fdf2f8' 
-    }},
-    { icon: Mail, style: { 
-      color: isDarkMode ? '#fb923c' : '#f97316', 
-      backgroundColor: isDarkMode ? 'rgba(251, 146, 60, 0.1)' : '#fff7ed' 
-    }}
+    { 
+      icon: Facebook, 
+      url: 'https://www.facebook.com/mahmoud.ghoraba.14/',
+      style: { 
+        color: isDarkMode ? '#60a5fa' : '#3b82f6', 
+        backgroundColor: isDarkMode ? 'rgba(96, 165, 250, 0.1)' : '#eff6ff' 
+      }
+    },
+    { 
+      icon: Twitter, 
+      url: 'https://twitter.com/spaghettis',
+      style: { 
+        color: isDarkMode ? '#38bdf8' : '#0ea5e9', 
+        backgroundColor: isDarkMode ? 'rgba(56, 189, 248, 0.1)' : '#f0f9ff' 
+      }
+    },
+    { 
+      icon: Instagram, 
+      url: 'https://www.instagram.com/m.ghoraba/',
+      style: { 
+        color: isDarkMode ? '#f472b6' : '#ec4899', 
+        backgroundColor: isDarkMode ? 'rgba(244, 114, 182, 0.1)' : '#fdf2f8' 
+      }
+    },
+    { 
+      icon: Mail, 
+      url: 'mailto:mahmoud.ghoraba2005@gmail.com',
+      style: { 
+        color: isDarkMode ? '#fb923c' : '#f97316', 
+        backgroundColor: isDarkMode ? 'rgba(251, 146, 60, 0.1)' : '#fff7ed' 
+      }
+    }
   ];
 
   const quickLinks = ['Home', 'Events', 'How It Works', 'About Us', 'Contact', 'FAQ'];
@@ -107,11 +123,11 @@ const Footer = () => {
             <div style={{ color: isDarkMode ? '#9ca3af' : '#4b5563', fontSize: '0.75rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
                 <MapPin size={14} color={isDarkMode ? '#fb923c' : '#f97316'} />
-                <span>123 Event Street, Party City</span>
+                <span>German International University, Egypt</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.25rem' }}>
                 <Phone size={14} color={isDarkMode ? '#fb923c' : '#f97316'} />
-                <span>+1 (555) 123-PARTY</span>
+                <span>+20 102 086 5020</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <Clock size={14} color={isDarkMode ? '#fb923c' : '#f97316'} />
@@ -220,17 +236,26 @@ const Footer = () => {
               {socialLinks.map((social, index) => {
                 const Icon = social.icon;
                 return (
-                  <div key={index} style={{
-                    width: '2.5rem',
-                    height: '2.5rem',
-                    borderRadius: '0.5rem',
-                    backgroundColor: social.style.backgroundColor,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
-                    cursor: 'pointer'
-                  }}>
+                  <div 
+                    key={index} 
+                    onClick={() => window.open(social.url, '_blank')}
+                    style={{
+                      width: '2.5rem',
+                      height: '2.5rem',
+                      borderRadius: '0.5rem',
+                      backgroundColor: social.style.backgroundColor,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      border: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                      ':hover': {
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      }
+                    }}
+                  >
                     <Icon style={{ color: social.style.color }} />
                   </div>
                 );

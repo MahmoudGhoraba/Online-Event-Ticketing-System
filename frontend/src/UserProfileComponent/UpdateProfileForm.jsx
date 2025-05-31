@@ -2,11 +2,13 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext';
+import { useTheme } from '../theme/ThemeContext';
 import '../cssStyles/UpdateProfileForm.css';
 import Loader from '../sharedComponents/Loader';
 
 export default function UpdateProfileForm({ onFinish }) {
   const { user, setUser } = useAuth();
+  const { isDarkMode } = useTheme();
   const [previewUrl, setPreviewUrl] = useState(user?.profilePicture || null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -88,7 +90,7 @@ export default function UpdateProfileForm({ onFinish }) {
   };
 
   return (
-    <div className="update-profile-container">
+    <div className={`update-profile-container ${isDarkMode ? 'dark' : ''}`}>
       {isLoading && (
         <div className="update-profile-loader-overlay">
           <div className="update-profile-loader-popup">

@@ -17,7 +17,7 @@ export default function EventCard({ event }) {
     navigate(`/events/${event._id}`);
   };
 
-  const eventImage = event.image || "/api/placeholder/400/320";
+  const eventImage = (event.image !== undefined )?  event.image : "src/assets/ed.jpg" ;
   const formattedDate = new Date(event.date).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",

@@ -308,7 +308,7 @@ const Navbar = () => {
                 <input
                   type="text"
                   value={searchQuery}
-                  onChange={(e) => {
+                  onChange={(e) => { 
                     setSearchQuery(e.target.value);
                     setShowSearchHistory(true);
                   }}
@@ -680,21 +680,44 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <div style={{ display: "flex", gap: "1rem" }}>
+            <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+              <button
+                onClick={toggleDarkMode}
+                style={{
+                  padding: "8px",
+                  borderRadius: "50%",
+                  border: `2px solid ${isDarkMode ? "var(--dark-border)" : "#000"}`,
+                  background: "transparent",
+                  cursor: "pointer",
+                  color: isDarkMode ? "var(--dark-text)" : "var(--text-light)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = isDarkMode ? "var(--dark-hover)" : "#f3f4f6";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                {isDarkMode ? "🌙" : "☀️"}
+              </button>
               <button
                 onClick={() => navigate('/login')}
                 style={{
                   padding: "8px 16px",
                   borderRadius: "20px",
-                  border: `2px solid ${isDarkMode ? "var(--border-dark)" : "#000"}`,
+                  border: `2px solid ${isDarkMode ? "var(--dark-border)" : "#000"}`,
                   background: "transparent",
                   cursor: "pointer",
-                  color: isDarkMode ? "var(--text-dark)" : "var(--text-light)",
+                  color: isDarkMode ? "var(--dark-text)" : "var(--text-light)",
                   fontWeight: "bold",
                   transition: "all 0.3s ease",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = isDarkMode ? "var(--hover-dark)" : "#f3f4f6";
+                  e.currentTarget.style.background = isDarkMode ? "var(--dark-hover)" : "#f3f4f6";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
@@ -707,15 +730,15 @@ const Navbar = () => {
                 style={{
                   padding: "8px 16px",
                   borderRadius: "20px",
-                  border: `2px solid ${isDarkMode ? "var(--border-dark)" : "#000"}`,
+                  border: `2px solid ${isDarkMode ? "var(--dark-border)" : "#000"}`,
                   background: "transparent",
                   cursor: "pointer",
-                  color: isDarkMode ? "var(--text-dark)" : "var(--text-light)",
+                  color: isDarkMode ? "var(--dark-text)" : "var(--text-light)",
                   fontWeight: "bold",
                   transition: "all 0.3s ease",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = isDarkMode ? "var(--hover-dark)" : "#f3f4f6";
+                  e.currentTarget.style.background = isDarkMode ? "var(--dark-hover)" : "#f3f4f6";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
