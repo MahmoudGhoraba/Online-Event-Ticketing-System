@@ -180,6 +180,7 @@ const Navbar = () => {
     const roleSpecificItems = {
       User: [
         { icon: '🎫', text: 'My Bookings', onClick: () => navigate('/bookings') },
+        { icon: '📅', text: 'Available Events', onClick: () => navigate('/user-events') },
       ],
       Organizer: [
         { icon: '📅', text: 'My Events', onClick: () => navigate('/my-events') },

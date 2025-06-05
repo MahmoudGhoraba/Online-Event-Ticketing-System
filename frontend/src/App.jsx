@@ -21,6 +21,7 @@ import ChartComponent from "./OrganizerComponent/EventAnalytics.jsx";
 import SearchedEvents from './sharedComponents/searchedevents';
 import Unauthorized from "./auth/Unauthorized.jsx";
 import Footer from "./sharedComponents/Footer.jsx";
+import UserEventList from "./UserProfileComponent/UserEventList.jsx";
 function App() {
 
 
@@ -114,6 +115,15 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={["Organizer"]}>
                   <CreateEvent />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/user-events"
+              element={
+                <ProtectedRoute allowedRoles={["User"]}>
+                  <UserEventList />
                 </ProtectedRoute>
               }
             />
