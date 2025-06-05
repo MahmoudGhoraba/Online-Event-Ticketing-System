@@ -4,9 +4,11 @@ import { useNavigate, Link } from "react-router-dom";
 import "../cssStyles/RegisterForm.css";
 import Loader from "../sharedComponents/Loader";
 import { Toast, showToast } from '../sharedComponents/Toast';
+import { useTheme } from '../theme/ThemeContext';
 
 export default function RegisterForm() {
     const navigate = useNavigate();
+    const { isDarkMode } = useTheme();
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -100,7 +102,7 @@ export default function RegisterForm() {
     };
 
     return (
-        <div className="auth-register-container">
+        <div className={`auth-register-container ${isDarkMode ? 'dark-mode' : ''}`}>
             <Toast />
             <div className="back-to-home">
                 <Link to="/" className="back-home-button">
@@ -116,7 +118,7 @@ export default function RegisterForm() {
                 </div>
             )}
 
-            <div className={`auth-register-left ${loading ? "blurred" : ""}`}>
+            <div className={`auth-register-left ${loading ? "blurred" : ""} ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="auth-register-welcome">
                     <h2>Begin Your Event Journey <span>Today!</span></h2>
                 </div>
@@ -174,7 +176,7 @@ export default function RegisterForm() {
                 </div>
             </div>
 
-            <div className={`auth-register-right ${loading ? "blurred" : ""}`}>
+            <div className={`auth-register-right ${loading ? "blurred" : ""} ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="auth-register-form">
                     <div className="auth-register-header">
                         <h1>Create Account</h1>

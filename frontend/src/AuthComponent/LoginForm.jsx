@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
+import { useTheme } from "../theme/ThemeContext";
 import '../cssStyles/LoginForm.css';
 import { Toast, showToast } from '../sharedComponents/Toast';
 
 export default function LoginForm() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
   const [form, setForm] = useState({ email: "", password: "" });
   const [rememberMe, setRememberMe] = useState(false);
   
@@ -24,165 +26,165 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="auth-login-container">
+    <div className={`auth-login-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <Toast />
       <div className="back-to-home">
-        <Link to="/" className="back-home-button">
+        <Link to="/" className={`back-home-button ${isDarkMode ? 'dark-mode' : ''}`}>
           ← Back to Home
         </Link>
       </div>
 
-      <div className="auth-login-left">
-        <div className="auth-login-welcome">
-          <h2>Login to book your tickets now... <span>what are you waiting for?</span></h2>
+      <div className={`auth-login-left ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`auth-login-welcome ${isDarkMode ? 'dark-mode' : ''}`}>
+          <h2 className={isDarkMode ? 'dark-mode' : ''}>Login to book your tickets now... <span>what are you waiting for?</span></h2>
         </div>
         <div className="auth-login-cards">
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Music Festival</h2>
-              <p className="auth-login-event-date">Summer 2024</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Music Festival</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Summer 2024</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">🎵 Live Performances</div>
-              <div className="auth-login-ticket-info">🎪 Multiple Stages</div>
-              <div className="auth-login-ticket-info">🌟 Featured Artists</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎵 Live Performances</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎪 Multiple Stages</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🌟 Featured Artists</div>
             </div>
           </div>
 
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Sports Championship</h2>
-              <p className="auth-login-event-date">Season Finals</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Sports Championship</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Season Finals</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">🏆 Premium Seating</div>
-              <div className="auth-login-ticket-info">🎯 Live Action</div>
-              <div className="auth-login-ticket-info">🌟 Star Players</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🏆 Premium Seating</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎯 Live Action</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🌟 Star Players</div>
             </div>
           </div>
 
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Art Exhibition</h2>
-              <p className="auth-login-event-date">Gallery Opening</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Art Exhibition</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Gallery Opening</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">🎨 Modern Art</div>
-              <div className="auth-login-ticket-info">🍷 VIP Reception</div>
-              <div className="auth-login-ticket-info">✨ Special Guests</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎨 Modern Art</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🍷 VIP Reception</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>✨ Special Guests</div>
             </div>
           </div>
 
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Tech Conference</h2>
-              <p className="auth-login-event-date">Innovation Summit</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Tech Conference</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Innovation Summit</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">💻 Workshops</div>
-              <div className="auth-login-ticket-info">🚀 Keynotes</div>
-              <div className="auth-login-ticket-info">🤝 Networking</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>💻 Workshops</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🚀 Keynotes</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🤝 Networking</div>
             </div>
           </div>
 
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Food Festival</h2>
-              <p className="auth-login-event-date">Culinary Week</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Food Festival</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Culinary Week</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">🍳 Chef Demos</div>
-              <div className="auth-login-ticket-info">🍷 Wine Tasting</div>
-              <div className="auth-login-ticket-info">🌮 Global Cuisine</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🍳 Chef Demos</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🍷 Wine Tasting</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🌮 Global Cuisine</div>
             </div>
           </div>
 
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Comedy Night</h2>
-              <p className="auth-login-event-date">Stand-up Special</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Comedy Night</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Stand-up Special</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">😂 Top Comics</div>
-              <div className="auth-login-ticket-info">🎭 Live Shows</div>
-              <div className="auth-login-ticket-info">🎪 After Party</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>😂 Top Comics</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎭 Live Shows</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎪 After Party</div>
             </div>
           </div>
 
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Film Festival</h2>
-              <p className="auth-login-event-date">Premiere Week</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Film Festival</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Premiere Week</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">🎬 Screenings</div>
-              <div className="auth-login-ticket-info">🎭 Q&A Sessions</div>
-              <div className="auth-login-ticket-info">🌟 Celebrity Guests</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎬 Screenings</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎭 Q&A Sessions</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🌟 Celebrity Guests</div>
             </div>
           </div>
 
-          <div className="auth-login-ticket">
+          <div className={`auth-login-ticket ${isDarkMode ? 'dark-mode' : ''}`}>
             <div className="auth-login-ticket-header">
-              <h2 className="auth-login-event-title">Dance Show</h2>
-              <p className="auth-login-event-date">Contemporary Arts</p>
+              <h2 className={`auth-login-event-title ${isDarkMode ? 'dark-mode' : ''}`}>Dance Show</h2>
+              <p className={`auth-login-event-date ${isDarkMode ? 'dark-mode' : ''}`}>Contemporary Arts</p>
             </div>
             <div className="auth-login-ticket-body">
-              <div className="auth-login-ticket-info">💃 Performance</div>
-              <div className="auth-login-ticket-info">✨ Light Show</div>
-              <div className="auth-login-ticket-info">🎵 Live Music</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>💃 Performance</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>✨ Light Show</div>
+              <div className={`auth-login-ticket-info ${isDarkMode ? 'dark-mode' : ''}`}>🎵 Live Music</div>
             </div>
           </div>
         </div>
       </div>
       
-      <div className="auth-login-right">
-        <div className="auth-login-form">
-          <div className="auth-login-header">
-            <h1>HELLO!</h1>
-            <p className="auth-login-subtitle">Welcome back! Please login to your account.</p>
+      <div className={`auth-login-right ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`auth-login-form ${isDarkMode ? 'dark-mode' : ''}`}>
+          <div className={`auth-login-header ${isDarkMode ? 'dark-mode' : ''}`}>
+            <h1 className={isDarkMode ? 'dark-mode' : ''}>HELLO!</h1>
+            <p className={`auth-login-subtitle ${isDarkMode ? 'dark-mode' : ''}`}>Welcome back! Please login to your account.</p>
           </div>
           
           <form onSubmit={handleSubmit}>
-            <div className="auth-login-group">
+            <div className={`auth-login-group ${isDarkMode ? 'dark-mode' : ''}`}>
               <input
                 type="email"
                 placeholder="Email address"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="auth-login-input"
+                className={`auth-login-input ${isDarkMode ? 'dark-mode' : ''}`}
               />
             </div>
             
-            <div className="auth-login-group">
+            <div className={`auth-login-group ${isDarkMode ? 'dark-mode' : ''}`}>
               <input
                 type="password"
                 placeholder="Password"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="auth-login-input"
+                className={`auth-login-input ${isDarkMode ? 'dark-mode' : ''}`}
               />
             </div>
 
-            <div className="auth-login-options">
-              <label className="auth-login-remember">
+            <div className={`auth-login-options ${isDarkMode ? 'dark-mode' : ''}`}>
+              <label className={`auth-login-remember ${isDarkMode ? 'dark-mode' : ''}`}>
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
                 />
-                <span>Remember me</span>
+                <span className={isDarkMode ? 'dark-mode' : ''}>Remember me</span>
               </label>
-              <a href="/forget-password" className="auth-login-forgot">
+              <a href="/forget-password" className={`auth-login-forgot ${isDarkMode ? 'dark-mode' : ''}`}>
                 Forgot password?
               </a>
             </div>
 
-            <button type="submit" className="auth-login-button">
-              NEXT <span>→</span>
+            <button type="submit" className={`auth-login-button ${isDarkMode ? 'dark-mode' : ''}`}>
+              NEXT <span className={isDarkMode ? 'dark-mode' : ''}>→</span>
             </button>
 
-            <div className="auth-login-register-link">
-              Don't have an account? <a href="/register">Register here</a>
+            <div className={`auth-login-register-link ${isDarkMode ? 'dark-mode' : ''}`}>
+              Don't have an account? <a href="/register" className={isDarkMode ? 'dark-mode' : ''}>Register here</a>
             </div>
           </form>
         </div>

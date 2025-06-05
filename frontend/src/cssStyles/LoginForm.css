@@ -404,3 +404,183 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Dark Mode Styles */
+.auth-login-container.dark-mode {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+.auth-login-left.dark-mode {
+  background: #111827;
+  border-right-color: #1f2937;
+}
+
+.auth-login-welcome.dark-mode {
+  background: #111827;
+}
+
+.auth-login-welcome h2.dark-mode {
+  color: #f3f4f6;
+  background: #111827;
+}
+
+.auth-login-welcome h2.dark-mode span {
+  background: linear-gradient(to right, #f97316, #ef4444);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.auth-login-right.dark-mode {
+  background: #111827;
+}
+
+.auth-login-form.dark-mode {
+  background: #1f2937;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-login-header h1.dark-mode {
+  color: #f3f4f6;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: #1f2937;
+  margin: 0;
+  padding-bottom: 0.5rem;
+}
+
+.auth-login-subtitle.dark-mode {
+  color: #d1d5db;
+  background: #1f2937;
+  margin: 0;
+  padding-bottom: 1.5rem;
+}
+
+.auth-login-group.dark-mode {
+  background: #1f2937;
+}
+
+.auth-login-input.dark-mode {
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  color: #f3f4f6;
+}
+
+.auth-login-input.dark-mode::placeholder {
+  color: #9ca3af;
+}
+
+.auth-login-input.dark-mode:focus {
+  background: #111827;
+  border-color: #f97316;
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2);
+}
+
+.auth-login-options.dark-mode {
+  background: #1f2937;
+}
+
+.auth-login-remember.dark-mode {
+  color: #d1d5db;
+  background: #1f2937;
+}
+
+.auth-login-remember.dark-mode span {
+  background: #1f2937;
+}
+
+.auth-login-forgot.dark-mode {
+  color: #f97316;
+  background: #1f2937;
+  text-decoration: none;
+}
+
+.auth-login-forgot.dark-mode:hover {
+  color: #fb923c;
+  text-decoration: underline;
+}
+
+.auth-login-button.dark-mode {
+  background: #1f2937;
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.auth-login-button.dark-mode:hover {
+  background: #374151;
+  border-color: rgba(249, 115, 22, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.auth-login-register-link.dark-mode {
+  color: #d1d5db;
+  background: #1f2937;
+}
+
+.auth-login-register-link.dark-mode a {
+  color: #f97316;
+  background: #1f2937;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-login-register-link.dark-mode a:hover {
+  color: #fb923c;
+  text-decoration: underline;
+}
+
+.back-home-button.dark-mode {
+  background: #1f2937;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  color: #f3f4f6;
+}
+
+.auth-login-ticket.dark-mode {
+  background: #1f2937;
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.auth-login-ticket.dark-mode:hover {
+  background: #1e293b;
+  border-color: rgba(249, 115, 22, 0.4);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.auth-login-event-title.dark-mode {
+  color: #f3f4f6;
+  background: #1f2937;
+}
+
+.auth-login-event-date.dark-mode {
+  color: #d1d5db;
+  background: #1f2937;
+}
+
+.auth-login-ticket-info.dark-mode {
+  color: #d1d5db;
+  background: #1f2937;
+}
+
+/* Improve dark mode form alignment */
+.auth-login-form.dark-mode .auth-login-group {
+  margin-bottom: 1.5rem;
+}
+
+.auth-login-form.dark-mode .auth-login-options {
+  margin: 1.5rem 0;
+  align-items: center;
+}
+
+.auth-login-form.dark-mode .auth-login-button {
+  margin: 1rem 0;
+}
+
+.auth-login-form.dark-mode .auth-login-register-link {
+  margin-top: 1.5rem;
+  text-align: center;
+}

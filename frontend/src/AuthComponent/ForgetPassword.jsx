@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../cssStyles/ForgetPassword.css";
 import Loader from "../sharedComponents/Loader";
 import { Toast, showToast } from '../sharedComponents/Toast';
+import { useTheme } from '../theme/ThemeContext';
 
 export default function ForgetPassword() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ export default function ForgetPassword() {
   const [step, setStep] = useState(1); // 1: email, 2: otp
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
@@ -61,7 +63,7 @@ export default function ForgetPassword() {
   };
 
   return (
-    <div className="auth-forgetPassword-container">
+    <div className={`auth-forgetPassword-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <Toast />
       {loading && (
         <div className="loader-overlay">
@@ -71,7 +73,7 @@ export default function ForgetPassword() {
         </div>
       )}
 
-      <div className={`auth-forgetPassword-left ${loading ? "blurred" : ""}`}>
+      <div className={`auth-forgetPassword-left ${loading ? "blurred" : ""} ${isDarkMode ? 'dark-mode' : ''}`}>
         <div className="auth-forgetPassword-welcome">
           <h2>Reset Your Password <span>Securely</span></h2>
         </div>
@@ -118,7 +120,7 @@ export default function ForgetPassword() {
         </div>
       </div>
 
-      <div className={`auth-forgetPassword-right ${loading ? "blurred" : ""}`}>
+      <div className={`auth-forgetPassword-right ${loading ? "blurred" : ""} ${isDarkMode ? 'dark-mode' : ''}`}>
         <div className="auth-forgetPassword-form">
           <div className="auth-forgetPassword-header">
             {step === 1 ? (
