@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import './BookTicketForm.css'
+import './BookTicketForm.css';
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useTheme } from '../theme/ThemeContext';
+import { toast, ToastContainer } from 'react-toastify';
 
 const BookTicketForm = () => {
   const [quantity, setQuantity] = useState(1);
-  const [message, setMessage] = useState("");
   const [event, setEvent] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { eventId } = useParams();
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -15,17 +18,30 @@ const BookTicketForm = () => {
         const res = await axios.get(`http://localhost:3000/api/v1/events/${eventId}`);
         setEvent(res.data);
       } catch (error) {
-        setMessage("Failed to load event details.");
+        toast.error("Failed to load event details.");
+      } finally {
+        setLoading(false);
       }
     };
     fetchEvent();
   }, [eventId]);
 
+  if (loading) {
+    return (
+      <div className={`booking-container ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className="booking-content">
+          <p className="loading">Loading event details...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!event) {
     return (
-      <div className="booking-container">
-        <p>Loading event details...</p>
-        {message && <p className="message error">{message}</p>}
+      <div className={`booking-container ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className="booking-content">
+          <p className="error">Event not found</p>
+        </div>
       </div>
     );
   }
@@ -39,49 +55,72 @@ const BookTicketForm = () => {
         { event: eventId, tickets: quantity },
         { withCredentials: true }
       );
-      setMessage("Booking is done successfully");
+      
+      toast.success("Booking completed successfully!");
+      
       setEvent((prevEvent) => ({
         ...prevEvent,
         remainingTickets: prevEvent.remainingTickets - quantity
       }));
       setQuantity(1);
     } catch (error) {
-      setMessage(error.response?.data?.message || "Booking failed");
+      toast.error(error.response?.data?.message || "Booking failed");
     }
   };
 
-  function DisplayQuantity(e) {
-    setQuantity(Number(e.target.value));
+  function handleQuantityChange(e) {
+    const value = Number(e.target.value);
+    if (value > event.remainingTickets) {
+      toast.warning("Cannot exceed available tickets!");
+      setQuantity(event.remainingTickets);
+    } else if (value < 1) {
+      setQuantity(1);
+    } else {
+      setQuantity(value);
+    }
   }
 
   return (
-    <div className="booking-container">
-      <div className="event-details">
-        <h2 className="event-title">{event.title}</h2>
-        <p className="tickets-available">Available Tickets: {event.remainingTickets}</p>
+    <div className={`booking-container ${isDarkMode ? 'dark-mode' : ''}`}>
+      <ToastContainer />
+      <div className="navigation-buttons">
+        <Link to="/" className={`profile-button ${isDarkMode ? 'dark-mode' : ''}`}>
+          Back to Home
+        </Link>
+        <Link to="/profile" className={`profile-button ${isDarkMode ? 'dark-mode' : ''}`}>
+          Profile
+        </Link>
       </div>
 
-      <div className="booking-form">
-        <label className="quantity-label">
-          Quantity:
-          <input
-            type="number"
-            min="1"
-            max={event.remainingTickets}
-            value={quantity}
-            onChange={DisplayQuantity}
-            className="quantity-input"
-          />
-        </label>
-        <p className="total-price">Total Price: ${totalPrice.toFixed(2)}</p>
-        <button className="book-btn" onClick={createBooking}>
-          Book Now
-        </button>
-        {message && (
-          <p className={`message ${message.includes("successfully") ? "success" : "error"}`}>
-            {message}
-          </p>
-        )}
+      <div className={`booking-content ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`event-details ${isDarkMode ? 'dark-mode' : ''}`}>
+          <h2 className="event-title">{event.title}</h2>
+          <p className="tickets-available">Available Tickets: {event.remainingTickets}</p>
+        </div>
+
+        <div className={`booking-form ${isDarkMode ? 'dark-mode' : ''}`}>
+          <label className="quantity-label">
+            Number of Tickets:
+            <input
+              type="number"
+              min="1"
+              max={event.remainingTickets}
+              value={quantity}
+              onChange={handleQuantityChange}
+              className="quantity-input"
+            />
+          </label>
+          
+          <p className="total-price">Total Price: ${totalPrice.toFixed(2)}</p>
+          
+          <button 
+            className="book-btn"
+            onClick={createBooking}
+            disabled={event.remainingTickets === 0}
+          >
+            {event.remainingTickets === 0 ? 'Sold Out' : 'Book Now'}
+          </button>
+        </div>
       </div>
     </div>
   );

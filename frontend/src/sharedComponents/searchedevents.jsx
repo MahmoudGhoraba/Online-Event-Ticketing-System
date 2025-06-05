@@ -5,12 +5,15 @@ import EventList from '../eventComponents/EventList';
 import { useLocation } from 'react-router-dom';
 import Navbar from './navBar';
 import Footer from './Footer';
+import { useTheme } from '../theme/ThemeContext';
+import '../cssStyles/SearchedEvents.css';
 
 const SearchedEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { user } = useAuth();
+  const { isDarkMode } = useTheme();
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get('q');
 
@@ -58,7 +61,7 @@ const SearchedEvents = () => {
   const renderContent = () => {
     if (loading) {
       return (
-        <div className="loading">
+        <div className={`loading ${isDarkMode ? 'dark-mode' : ''}`}>
           <div className="loading-spinner"></div>
           <p>Searching for events...</p>
         </div>
@@ -66,16 +69,16 @@ const SearchedEvents = () => {
     }
 
     if (error) {
-      return <div className="error">{error}</div>;
+      return <div className={`error ${isDarkMode ? 'dark-mode' : ''}`}>{error}</div>;
     }
 
     if (!searchQuery) {
-      return <div className="no-search">Enter a search term to find events</div>;
+      return <div className={`no-search ${isDarkMode ? 'dark-mode' : ''}`}>Enter a search term to find events</div>;
     }
 
     if (events.length === 0) {
       return (
-        <div className="no-results">
+        <div className={`no-results ${isDarkMode ? 'dark-mode' : ''}`}>
           <p>No events found matching "{searchQuery}"</p>
           <small>Try using different keywords or check your spelling</small>
         </div>
@@ -83,7 +86,7 @@ const SearchedEvents = () => {
     }
 
     return (
-      <div className="searched-events-container">
+      <div className={`searched-events-container ${isDarkMode ? 'dark-mode' : ''}`}>
         <h2>Search Results for "{searchQuery}"</h2>
         <p className="results-count">{events.length} event{events.length !== 1 ? 's' : ''} found</p>
         <EventList events={events} />
@@ -92,11 +95,12 @@ const SearchedEvents = () => {
   };
 
   return (
-    <>
+    <div className={`searched-events-page ${isDarkMode ? 'dark-mode' : ''}`}>
       <Navbar />
-      {renderContent()}
-      <Footer />
-    </>
+      <div className="searched-events-content">
+        {renderContent()}
+      </div>
+    </div>
   );
 };
 

@@ -29,7 +29,7 @@ export default function LoginForm() {
     <div className={`auth-login-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <Toast />
       <div className="back-to-home">
-        <Link to="/" className={`back-home-button ${isDarkMode ? 'dark-mode' : ''}`}>
+        <Link to="/" className={`profile-button ${isDarkMode ? 'dark-mode' : ''}`}>
           ← Back to Home
         </Link>
       </div>

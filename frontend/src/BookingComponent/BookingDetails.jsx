@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import './BookingDetails.css';
+import { useTheme } from '../theme/ThemeContext';
 
 const BookingDetails = () => {
   const [booking, setBooking] = useState(null);
   const [bookingId, setBookingId] = useState("");
+  const { isDarkMode } = useTheme();
 
   const getBooking = async (id) => {
     try {
@@ -17,9 +19,9 @@ const BookingDetails = () => {
   };
 
   return (
-    <div className="booking-view-container">
+    <div className={`booking-view-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="navigation-buttons">
-        <Link to="/" className="back-home-button">
+        <Link to="/" className="profile-button">
           ← Back to Home
         </Link>
         <Link to="/profile" className="profile-button">
@@ -27,8 +29,8 @@ const BookingDetails = () => {
         </Link>
       </div>
       
-      <div className="booking-view-content">
-        <div className="booking-view-search">
+      <div className={`booking-view-content ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`booking-view-search ${isDarkMode ? 'dark-mode' : ''}`}>
           <h2 className="booking-view-title">Find Your Booking</h2>
           <p className="booking-view-subtitle">Enter your booking ID to view your ticket details</p>
           <div className="booking-view-search-box">
@@ -46,13 +48,13 @@ const BookingDetails = () => {
         </div>
 
         {!booking && (
-          <div className="booking-view-placeholder">
+          <div className={`booking-view-placeholder ${isDarkMode ? 'dark-mode' : ''}`}>
             <p>Enter your booking ID above to see your ticket details</p>
           </div>
         )}
 
         {booking && (
-          <div className="booking-view-details">
+          <div className={`booking-view-details ${isDarkMode ? 'dark-mode' : ''}`}>
             <h2 className="booking-view-details-title">Booking Details</h2>
             <div className="booking-view-info-container">
               <div className="booking-view-info-row">

@@ -105,7 +105,7 @@ export default function RegisterForm() {
         <div className={`auth-register-container ${isDarkMode ? 'dark-mode' : ''}`}>
             <Toast />
             <div className="back-to-home">
-                <Link to="/" className="back-home-button">
+                <Link to="/" className="profile-button">
                     ← Back to Home
                 </Link>
             </div>

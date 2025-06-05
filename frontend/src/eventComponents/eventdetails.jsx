@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../auth/AuthContext'; // Adjust path as needed
+import { useTheme } from '../theme/ThemeContext';
 import '../cssStyles/EventDetails.css';
 import Loader from '../sharedComponents/Loader';
 import {
@@ -23,6 +24,7 @@ function EventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth(); // access logged-in user
+  const { isDarkMode } = useTheme();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -123,30 +125,30 @@ function EventDetails() {
   };
 
   return (
-    <div className="event-details-container">
+    <div className={`event-details-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="navigation-buttons">
-        <Link to="/" className="back-home-button">
+        <Link to="/" className={`profile-button ${isDarkMode ? 'dark-mode' : ''}`}>
           ← Back to Home
         </Link>
         { user !== undefined && (
-        <Link to="/profile" className="profile-button">
+        <Link to="/profile" className={`profile-button ${isDarkMode ? 'dark-mode' : ''}`}>
           Profile →
         </Link>
         )}
       </div>
 
-      <div className="event-details-card">
-        <div className="event-details-header">
+      <div className={`event-details-card ${isDarkMode ? 'dark-mode' : ''}`}>
+        <div className={`event-details-header ${isDarkMode ? 'dark-mode' : ''}`}>
           <h1 className="event-details-title">{event.title}</h1>
           {isOrganizer && !isEditing && (
-            <div className="event-details-organizer-actions">
-              <div className="status-display">
+            <div className={`event-details-organizer-actions ${isDarkMode ? 'dark-mode' : ''}`}>
+              <div className={`status-display ${isDarkMode ? 'dark-mode' : ''}`}>
                 <ClipboardDocumentCheckIcon className="button-icon" />
                 <span>Status: {event.status || 'pending'}</span>
               </div>
               <button
                 onClick={() => setIsEditing(true)}
-                className="event-details-edit-button"
+                className={`event-details-edit-button ${isDarkMode ? 'dark-mode' : ''}`}
               >
                 <PencilSquareIcon className="button-icon" />
                 Edit Event
@@ -168,7 +170,7 @@ function EventDetails() {
                   }
                 }}
                 disabled={deleting}
-                className="event-details-delete-button"
+                className={`event-details-delete-button ${isDarkMode ? 'dark-mode' : ''}`}
               >
                 <TrashIcon className="button-icon" />
                 {deleting ? "Deleting..." : "Delete Event"}
@@ -178,9 +180,9 @@ function EventDetails() {
         </div>
 
         {!isEditing ? (
-          <div className="event-details-content">
+          <div className={`event-details-content ${isDarkMode ? 'dark-mode' : ''}`}>
             {event.image && (
-              <div className="event-image-container">
+              <div className={`event-image-container ${isDarkMode ? 'dark-mode' : ''}`}>
                 <img 
                   src={event.image} 
                   alt={event.title} 
@@ -194,7 +196,7 @@ function EventDetails() {
             )}
 
             <div className="event-details-info-grid">
-              <div className="info-card">
+              <div className={`info-card ${isDarkMode ? 'dark-mode' : ''}`}>
                 <CalendarIcon className="info-icon" />
                 <div className="info-text">
                   <h3>Date & Time</h3>
@@ -202,7 +204,7 @@ function EventDetails() {
                 </div>
               </div>
 
-              <div className="info-card">
+              <div className={`info-card ${isDarkMode ? 'dark-mode' : ''}`}>
                 <MapPinIcon className="info-icon" />
                 <div className="info-text">
                   <h3>Location</h3>
@@ -210,7 +212,7 @@ function EventDetails() {
                 </div>
               </div>
 
-              <div className="info-card">
+              <div className={`info-card ${isDarkMode ? 'dark-mode' : ''}`}>
                 <TagIcon className="info-icon" />
                 <div className="info-text">
                   <h3>Category</h3>
@@ -218,7 +220,7 @@ function EventDetails() {
                 </div>
               </div>
 
-              <div className="info-card">
+              <div className={`info-card ${isDarkMode ? 'dark-mode' : ''}`}>
                 <CurrencyDollarIcon className="info-icon" />
                 <div className="info-text">
                   <h3>Ticket Price</h3>
@@ -226,7 +228,7 @@ function EventDetails() {
                 </div>
               </div>
 
-              <div className="info-card">
+              <div className={`info-card ${isDarkMode ? 'dark-mode' : ''}`}>
                 <TicketIcon className="info-icon" />
                 <div className="info-text">
                   <h3>Available Tickets</h3>
@@ -234,7 +236,7 @@ function EventDetails() {
                 </div>
               </div>
 
-              <div className="info-card">
+              <div className={`info-card ${isDarkMode ? 'dark-mode' : ''}`}>
                 <UserGroupIcon className="info-icon" />
                 <div className="info-text">
                   <h3>Capacity</h3>
@@ -243,13 +245,13 @@ function EventDetails() {
               </div>
             </div>
 
-            <div className="event-details-description">
+            <div className={`event-details-description ${isDarkMode ? 'dark-mode' : ''}`}>
               <h2>About This Event</h2>
               <p>{event.description}</p>
             </div>
 
-            <div className="event-details-booking">
-              <div className={`ticket-status ${event.remainingTickets > 0 ? 'tickets-available' : 'tickets-sold-out'}`}>
+            <div className={`event-details-booking ${isDarkMode ? 'dark-mode' : ''}`}>
+              <div className={`ticket-status ${event.remainingTickets > 0 ? 'tickets-available' : 'tickets-sold-out'} ${isDarkMode ? 'dark-mode' : ''}`}>
                 {event.remainingTickets > 0 ? (
                   <CheckCircleIcon className="status-icon" />
                 ) : (
@@ -268,21 +270,21 @@ function EventDetails() {
                     <button
                       onClick={NavigateToBookTicketForm}
                       disabled={event.remainingTickets <= 0 || new Date(event.date) < new Date()}
-                      className="event-details-button"
+                      className={`event-details-button ${isDarkMode ? 'dark-mode' : ''}`}
                     >
                       <TicketIcon className="button-icon" />
                       {event.remainingTickets > 0 ? "Book Now!" : "Sold Out"}
                     </button>
                   )}
                   {isAdmin && (
-                    <div className="admin-status-control">
-                      <div className="status-dropdown">
+                    <div className={`admin-status-control ${isDarkMode ? 'dark-mode' : ''}`}>
+                      <div className={`status-dropdown ${isDarkMode ? 'dark-mode' : ''}`}>
                         <ClipboardDocumentCheckIcon className="button-icon" />
                         <select
                           value={event.status || ''}
                           onChange={(e) => handleStatusChange(e.target.value)}
                           disabled={updatingStatus}
-                          className="status-select"
+                          className={`status-select ${isDarkMode ? 'dark-mode' : ''}`}
                         >
                           <option value="">Current: {event.status || 'pending'}</option>
                           <option value="approved">approve</option>
@@ -297,7 +299,7 @@ function EventDetails() {
               ) : (
                 <button
                   onClick={handleLoginRedirect}
-                  className="event-details-login-button"
+                  className={`event-details-login-button ${isDarkMode ? 'dark-mode' : ''}`}
                 >
                   <ArrowRightOnRectangleIcon className="button-icon" />
                   Login to Book Tickets
@@ -321,7 +323,7 @@ function EventDetails() {
                 setSaving(false);
               }
             }}
-            className="event-details-form"
+            className={`event-details-form ${isDarkMode ? 'dark-mode' : ''}`}
           >
             <div className="form-grid">
               <div className="form-group event-image-upload">

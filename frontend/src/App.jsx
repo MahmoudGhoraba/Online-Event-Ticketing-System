@@ -93,12 +93,6 @@ function App() {
               }
             />
             <Route
-              path="/Footer"
-              element={
-
-                  <Footer />              }
-            />
-            <Route
             path="/profile"
             element={
             <ProtectedRoute allowedRoles={["Admin", "Organizer", "User"]}>
