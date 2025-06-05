@@ -1,19 +1,42 @@
 import React, { useState } from 'react';
 import { Facebook, Twitter, Instagram, Mail, ArrowRight, MapPin, Phone, Clock } from 'lucide-react';
 import { useTheme } from '../theme/ThemeContext';
+import axios from 'axios';
+
 
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const { isDarkMode } = useTheme();
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async (e) => {
     if (email) {
-      setIsSubscribed(true);
-      setTimeout(() => {
+      try {
+        setIsLoading(true); // Start loading
+        const res = await axios.put("http://localhost:3000/api/v1/users/subscribe", {
+          email
+        });
+        console.log(res.data);
+        setIsLoading(false); // Stop loading
+        setIsSubscribed(true);
+        setIsFailed(false);
+        setTimeout(() => {
+          setIsSubscribed(false);
+          setEmail('');
+        }, 3000);
+      } catch (err) {
+        console.error('Subscription error:', err);
+        setIsLoading(false); // Stop loading
+        setIsFailed(true);
         setIsSubscribed(false);
-        setEmail('');
-      }, 3000);
+        setTimeout(() => {
+          setIsFailed(false);
+          setEmail('');
+        }, 3000);
+        return;
+      }
     }
   };
 
@@ -204,7 +227,7 @@ const Footer = () => {
               </div>
               <button
                 onClick={handleSubscribe}
-                disabled={!email || isSubscribed}
+                disabled={!email || isSubscribed || isLoading}
                 style={{
                   width: '100%',
                   padding: '0.5rem',
@@ -212,15 +235,50 @@ const Footer = () => {
                   borderRadius: '0.5rem',
                   border: 'none',
                   background: isSubscribed 
-                    ? isDarkMode ? '#059669' : '#22c55e'
+                    ? (isDarkMode ? '#059669' : '#22c55e')
+                    : isFailed
+                    ? (isDarkMode ? '#dc2626' : '#ef4444')
+                    : isLoading
+                    ? (isDarkMode ? '#4b5563' : '#9ca3af')
                     : 'linear-gradient(to right, #f97316, #ef4444)',
                   color: 'white',
-                  cursor: isSubscribed ? 'default' : 'pointer',
-                  fontSize: '0.9rem'
+                  cursor: (isSubscribed || isLoading) ? 'default' : 'pointer',
+                  fontSize: '0.9rem',
+                  transition: 'all 0.3s ease',
+                  opacity: (!email || isLoading) ? 0.7 : 1,
+                  position: 'relative',
+                  overflow: 'hidden'
                 }}
               >
-                {isSubscribed ? '✓ Subscribed!' : 'Subscribe Now'}
+                {isLoading ? (
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem'
+                  }}>
+                    <div style={{
+                      width: '0.75rem',
+                      height: '0.75rem',
+                      border: '2px solid #ffffff',
+                      borderTopColor: 'transparent',
+                      borderRadius: '50%',
+                      animation: 'spin 1s linear infinite',
+                      display: 'inline-block'
+                    }} />
+                    Subscribing...
+                  </div>
+                ) : isSubscribed ? '✓ Subscribed!' : isFailed ? '✗ Failed to Subscribe' : 'Subscribe Now'}
               </button>
+              <style>
+                {`
+                  @keyframes spin {
+                    to {
+                      transform: rotate(360deg);
+                    }
+                  }
+                `}
+              </style>
             </div>
           </div>
 

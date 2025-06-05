@@ -8,6 +8,8 @@ const authenticationMiddleware=require('../Middleware/authenticateMiddleware')
 
 router.get("/",authenticationMiddleware,authorizationMiddleware(["Admin"]),userController.getUsers)//HENA ESMAHA USERS
 
+router.put("/subscribe",userController.subscribe)
+
 // here we put all types====>authenticated user
 router.get("/profile",authenticationMiddleware,authorizationMiddleware(['Admin','User','Organizer']),userController.getUserProfile)
 router.put("/profile",authenticationMiddleware,authorizationMiddleware(['Admin','User','Organizer']),userController.updateUserProfile)
@@ -17,5 +19,4 @@ router.get("/events/analytics",authenticationMiddleware,authorizationMiddleware(
 router.get("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.getUserById)
 router.put("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.updateUserRole)
 router.delete("/:id",authenticationMiddleware,authorizationMiddleware(['Admin']),userController.deleteUser)
-
 module.exports=router;

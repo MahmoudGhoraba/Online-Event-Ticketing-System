@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTheme } from '../theme/ThemeContext';
 
 const messages = [
   "Welcome to Spaghetti's",
@@ -10,6 +11,7 @@ function TypingMessage() {
   const [displayedText, setDisplayedText] = useState('');
   const [messageIndex, setMessageIndex] = useState(0);
   const [isTyping, setIsTyping] = useState(true);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     let timeoutId;
@@ -39,7 +41,7 @@ function TypingMessage() {
   const typingStyle = {
     fontSize: '3.5rem',
     fontWeight: 700,
-    color: '#3a3e3b',
+    color: isDarkMode ? 'white' : 'black',
     marginBottom: '20px',
     textShadow: '2px 2px 4px rgba(0,0,0,0.1)',
     position: 'relative',

@@ -20,6 +20,7 @@ import BookingDetails from "./BookingComponent/BookingDetails";
 import ChartComponent from "./OrganizerComponent/EventAnalytics.jsx";
 import SearchedEvents from './sharedComponents/searchedevents';
 import Unauthorized from "./auth/Unauthorized.jsx";
+import Footer from "./sharedComponents/Footer.jsx";
 function App() {
 
 
@@ -90,6 +91,12 @@ function App() {
                   <OrganizerPage />
                 </ProtectedRoute>
               }
+            />
+            <Route
+              path="/Footer"
+              element={
+
+                  <Footer />              }
             />
             <Route
             path="/profile"

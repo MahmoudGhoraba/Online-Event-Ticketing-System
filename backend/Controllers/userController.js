@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 const { Console } = require('console');
+const { subscribe } = require('diagnostics_channel');
 
 require("dotenv").config();
 const secretKey = process.env.SECRET_KEY;
@@ -341,6 +342,56 @@ catch(error){
     catch(error){
         console.log("error in authotp")
         return res.status(500).json({message:"error in authotp"})
+    }
+}, subscribe: async(req,res)=>{
+    const userEmail = req.body.email;
+    try {
+        const user = await User.findOne({email: userEmail});
+    
+        if(!user){
+            return res.status(404).json({message: "User not found with this email address"});
+        }
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: "ahmedwaelhebesha401@gmail.com",
+              pass: "jdmd vkhm bnza mhjl",
+            },
+            tls: {
+                rejectUnauthorized: false,
+            },
+        });
+    
+        const mailOptions = {
+            from: '"Spaghetti\'s Events" <ahmedwaelhebesha401@gmail.com>',
+            to: user.email.toString(),
+            subject: "Successfully Subscribed to Spaghetti's Events!",
+            text: `You are now subscribed to Spaghetti's Events! You'll receive updates about new events and special offers.`,
+            html: `
+                <h2>Welcome to Spaghetti's Events Newsletter!</h2>
+                <p>You are now subscribed to our newsletter. You'll receive updates about:</p>
+                <ul>
+                    <li>New upcoming events</li>
+                    <li>Special offers and discounts</li>
+                    <li>Event recommendations</li>
+                </ul>
+                <p>Thank you for joining our community!</p>
+            `
+        };      
+          
+        await transporter.sendMail(mailOptions);
+        return res.status(200).json({
+            success: true,
+            message: "Successfully subscribed to the newsletter"
+        });
+
+    } catch(error) {
+        console.error("Error in subscribe:", error);
+        return res.status(500).json({ 
+            success: false,
+            message: "Failed to subscribe to the newsletter"
+        });
     }
 }
 }
