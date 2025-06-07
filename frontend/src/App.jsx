@@ -22,7 +22,6 @@ import SearchedEvents from './sharedComponents/searchedevents';
 import Unauthorized from "./auth/Unauthorized.jsx";
 import Footer from "./sharedComponents/Footer.jsx";
 import UserEventList from "./UserProfileComponent/UserEventList.jsx";
-import AllEvents from "./AdminCompnent/AllEvents.jsx";
 function App() {
 
 
