@@ -15,11 +15,25 @@
   --organizer-gradient-2: linear-gradient(135deg, #3b82f6, #10b981);
 }
 
+/* Dark mode variables */
+.dark-mode {
+  --organizer-background: #111827;
+  --organizer-text-primary: #F9FAFB;
+  --organizer-text-secondary: #9CA3AF;
+  --organizer-border: #374151;
+  --organizer-gradient-1: linear-gradient(135deg, #f97316, #1d4ed8);
+  --organizer-gradient-2: linear-gradient(135deg, #2563eb, #059669);
+}
+
 .organizer-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #faf5ff 0%, #ffe4e6 50%, #ffedd5 100%);
   position: relative;
   overflow-x: hidden;
+}
+
+.dark-mode.organizer-page {
+  background: linear-gradient(to bottom right, #111827, #1f2937, #1e293b);
 }
 
 /* Enhanced Background Decorations */
@@ -86,6 +100,17 @@
   display: inline-block;
 }
 
+.organizer-title.dark-mode {
+  font-size: 3rem;
+  font-weight: 800;
+  background: white;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: inline-block;
+}
+
 .organizer-title::after {
   content: '';
   position: absolute;
@@ -130,6 +155,11 @@
   border: 2px dashed var(--organizer-border);
   position: relative;
   overflow: hidden;
+}
+
+.dark-mode .organizer-create-card {
+  background: rgba(31, 41, 55, 0.8);
+  border-color: var(--organizer-border);
 }
 
 .organizer-create-card::before {
@@ -237,6 +267,13 @@
   overflow: hidden;
 }
 
+.dark-mode .organizer-stats-card {
+  background: rgba(31, 41, 55, 0.8);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
 .organizer-stats-card::before {
   content: '';
   position: absolute;
@@ -290,6 +327,10 @@
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+}
+
+.dark-mode .organizer-stat-item {
+  background: rgba(55, 65, 81, 0.5);
 }
 
 .organizer-stat-item::before {

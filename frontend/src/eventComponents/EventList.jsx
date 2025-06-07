@@ -180,7 +180,15 @@ export default function EventList(props) {
       <div className="top-destinations__container">
         <div className="top-destinations__header">
           <div className="top-destinations__subheading">Top Selling</div>
-          <h2 className="top-destinations__heading">Available Events</h2>
+          {user?.role === "User" && (
+            <h2 className="top-destinations__heading">Available Events</h2>
+          )}
+          {user?.role === "Organizer" && (
+            <h2 className="top-destinations__heading">My Events</h2>
+          )}
+          {user?.role === "Admin" && (
+            <h2 className="top-destinations__heading">All Events</h2>
+          )}
           {(selectedDate || priceSort || (user?.role === "Admin" && statusFilter !== "all")) && (
             <div className="active-filters">
               {selectedDate && `Date: ${new Date(selectedDate).toLocaleDateString()}`}

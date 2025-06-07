@@ -11,6 +11,7 @@ import {
   PlusCircleIcon,
 } from '@heroicons/react/24/outline';
 import './createEvent.css';
+import { useTheme } from '../theme/ThemeContext';
 
 function EventForm() {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ function EventForm() {
     image: ""
   });
 
+  const { isDarkMode } = useTheme();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -133,24 +135,24 @@ function EventForm() {
   );
 
   return (
-    <div className="event-details-container">
+    <div className={`event-details-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="navigation-buttons">
-        <Link to="/" className="back-home-button">
+        <Link to="/" className={`profile-button ${isDarkMode ? 'dark-mode' : ''}`}>
           ← Back to Home
         </Link>
-        <Link to="/profile" className="profile-button">
+        <Link to="/profile" className={`profile-button ${isDarkMode ? 'dark-mode' : ''}`}>
           Profile →
         </Link>
       </div>
 
-      <div className="event-details-card">
+      <div className={`event-details-card ${isDarkMode ? 'dark-mode' : ''}`}>
         <div className="event-details-header">
-          <h1 className="event-details-title">Create New Event</h1>
+          <h1 className={`event-details-title ${isDarkMode ? 'dark-mode' : ''}`}>Create New Event</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="event-details-form">
           <div className="form-grid">
-            <div className="form-group event-image-upload">
+            <div className={`form-group event-image-upload `}>
               <div className="image-upload-container">
                 <input
                   type="file"
@@ -163,7 +165,7 @@ function EventForm() {
                   {previewUrl ? (
                     <img src={previewUrl} alt="Event Preview" className="image-preview" />
                   ) : (
-                    <div className="image-placeholder">
+                    <div className={`image-placeholder`}>
                       <span>📷</span>
                       <p>Add Event Image</p>
                     </div>
@@ -320,15 +322,15 @@ function EventForm() {
             <button
               type="submit"
               disabled={loading || uploadingImage}
-              className="event-details-button"
+              className={`event-details-button ${isDarkMode ? 'dark-mode' : ''}`}
             >
               <PlusCircleIcon className="button-icon" />
               {loading ? "Creating..." : "Create Event"}
             </button>
           </div>
 
-          {error && <div className="event-details-error">{error}</div>}
-          {success && <div className="event-details-success">{success}</div>}
+          {error && <div className={`event-details-error ${isDarkMode ? 'dark-mode' : ''}`}>{error}</div>}
+          {success && <div className={`event-details-success ${isDarkMode ? 'dark-mode' : ''}`}>{success}</div>}
         </form>
       </div>
     </div>

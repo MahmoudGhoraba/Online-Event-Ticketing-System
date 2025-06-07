@@ -7,11 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { Plus, Calendar } from "lucide-react";
 import '../cssStyles/MyEventsPage.css';
 import Loader from "../sharedComponents/Loader";
+import { useTheme } from '../theme/ThemeContext';
 
 function OrganizerPage() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     async function fetchEvents() {
@@ -32,7 +34,7 @@ function OrganizerPage() {
   };
 
   return (
-    <div className="organizer-page">
+    <div className={`organizer-page ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="organizer-background-decor">
         <div className="organizer-circle organizer-circle-1"></div>
         <div className="organizer-circle organizer-circle-2"></div>
@@ -42,7 +44,7 @@ function OrganizerPage() {
 
       <div className="organizer-content">
         <div className="organizer-header">
-          <h1 className="organizer-title">My Events Dashboard</h1>
+          <h1 className={`organizer-title ${isDarkMode ? 'dark-mode' : ''}`}>My Events Dashboard</h1>
           <p className="organizer-subtitle">Manage and create your events</p>
         </div>
 
