@@ -7,12 +7,12 @@
 
 /* Select Role Dropdown */
 .user-role-select {
-  padding: 0.5rem 2rem 0.5rem 1rem;
-  border: 1px solid rgba(249, 115, 22, 0.3);
-  border-radius: 0.5rem;
-  background: white;
-  color: #1f2937;
-  font-size: 0.95rem;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  font-size: 0.875rem;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -21,10 +21,21 @@
   transition: all 0.3s ease;
 }
 
+.user-role-select.dark-mode {
+  background-color: var(--bg-dark);
+  border-color: var(--border-dark);
+  color: var(--text-dark);
+}
+
 .user-role-select:focus {
   outline: none;
-  border-color: #f97316;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.dark-mode .user-role-select:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
 }
 
 .user-role-select:hover {
@@ -33,39 +44,122 @@
 
 /* Role Display */
 .user-role-display {
-  display: inline-block;
-  padding: 0.4rem 1rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 500;
-  background: rgba(249, 115, 22, 0.1);
-  color: #f97316;
+  text-transform: capitalize;
   transition: all 0.3s ease;
 }
 
+.user-role-display.user {
+  background-color: #e5e7eb;
+  color: #4b5563;
+}
+
 .user-role-display.admin {
-  background: rgba(79, 70, 229, 0.1);
-  color: #4f46e5;
+  background-color: #bfdbfe;
+  color: #1d4ed8;
 }
 
 .user-role-display.organizer {
-  background: rgba(16, 185, 129, 0.1);
-  color: #10b981;
+  background-color: #fde68a;
+  color: #b45309;
+}
+
+.dark-mode .user-role-display.user {
+  background-color: #374151;
+  color: #9ca3af;
+}
+
+.dark-mode .user-role-display.admin {
+  background-color: #1e3a8a;
+  color: #93c5fd;
+}
+
+.dark-mode .user-role-display.organizer {
+  background-color: #78350f;
+  color: #fcd34d;
 }
 
 /* Action Buttons */
 .user-row-btn {
   padding: 0.5rem 1rem;
-  border: 1px solid rgba(249, 115, 22, 0.3);
-  border-radius: 0.5rem;
+  border-radius: 0.375rem;
   font-weight: 500;
-  font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: white;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  border: none;
+}
+
+.user-row-edit-btn {
+  background-color: #f97316;
+  color: white;
+}
+
+.user-row-edit-btn:hover:not(:disabled) {
+  background-color: #ea580c;
+}
+
+.user-row-save-btn {
+  background-color: #f97316;
+  color: white;
+}
+
+.user-row-save-btn:hover:not(:disabled) {
+  background-color: #ea580c;
+}
+
+.user-row-cancel-btn {
+  background-color: #6b7280;
+  color: white;
+  margin-left: 0.5rem;
+}
+
+.user-row-cancel-btn:hover:not(:disabled) {
+  background-color: #4b5563;
+}
+
+.user-row-delete-btn {
+  background-color: #ef4444;
+  color: white;
+  margin-left: 0.5rem;
+}
+
+.user-row-delete-btn:hover:not(:disabled) {
+  background-color: #dc2626;
+}
+
+.dark-mode .user-row-edit-btn {
+  background-color: #f97316;
+}
+
+.dark-mode .user-row-edit-btn:hover:not(:disabled) {
+  background-color: #ea580c;
+}
+
+.dark-mode .user-row-save-btn {
+  background-color: #f97316;
+}
+
+.dark-mode .user-row-save-btn:hover:not(:disabled) {
+  background-color: #ea580c;
+}
+
+.dark-mode .user-row-cancel-btn {
+  background-color: #9ca3af;
+}
+
+.dark-mode .user-row-cancel-btn:hover:not(:disabled) {
+  background-color: #6b7280;
+}
+
+.dark-mode .user-row-delete-btn {
+  background-color: #f87171;
+}
+
+.dark-mode .user-row-delete-btn:hover:not(:disabled) {
+  background-color: #ef4444;
 }
 
 .user-row-btn:disabled {
@@ -73,59 +167,16 @@
   cursor: not-allowed;
 }
 
-/* Edit Button */
-.user-row-edit-btn {
-  color: #f97316;
-  border-color: rgba(249, 115, 22, 0.3);
-}
-
-.user-row-edit-btn:hover:not(:disabled) {
-  background: #f97316;
-  color: white;
-  box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2);
-}
-
-/* Save Button */
-.user-row-save-btn {
-  color: #10b981;
-  border-color: rgba(16, 185, 129, 0.3);
-}
-
-.user-row-save-btn:hover:not(:disabled) {
-  background: #10b981;
-  color: white;
-  box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
-}
-
-/* Cancel Button */
-.user-row-cancel-btn {
-  color: #6b7280;
-  border-color: rgba(107, 114, 128, 0.3);
-}
-
-.user-row-cancel-btn:hover:not(:disabled) {
-  background: #6b7280;
-  color: white;
-  box-shadow: 0 4px 6px rgba(107, 114, 128, 0.2);
-}
-
-/* Delete Button */
-.user-row-delete-btn {
-  color: #ef4444;
-  border-color: rgba(239, 68, 68, 0.3);
-}
-
-.user-row-delete-btn:hover:not(:disabled) {
-  background: #ef4444;
-  color: white;
-  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
-}
-
 /* User Data Cells */
 .user-row-cell {
   padding: 1rem;
-  color: #4b5563;
+  color: var(--text-light);
   font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.user-row-cell.dark-mode {
+  color: var(--text-dark);
 }
 
 .user-row-id {
@@ -144,13 +195,30 @@
 
 /* Loading State */
 .user-row-loading {
-  opacity: 0.7;
+  opacity: 0.5;
   pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.user-row-loading {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* Hover Effect */
 .user-row {
   transition: all 0.3s ease;
+}
+
+.user-row.dark-mode {
+  background-color: var(--bg-dark);
 }
 
 .user-row:hover {

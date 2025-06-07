@@ -7,12 +7,14 @@ import Navbar from '../sharedComponents/navBar';
 import Footer from '../sharedComponents/Footer';
 import Loader from '../sharedComponents/Loader';
 import { Toast, showToast } from '../sharedComponents/Toast';
+import { useTheme } from '../theme/ThemeContext';
 axios.defaults.withCredentials = true;
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { isDarkMode } = useTheme();
 
     const fetchUsers = async () => {
         setLoading(true);
@@ -32,20 +34,21 @@ export default function AdminUsersPage() {
     useEffect(() => { fetchUsers(); }, []);
 
     if (loading) return <Loader />;
-    if (error) return <div className="error">Error: {error}</div>;
+    if (error) return <div className={`error ${isDarkMode ? 'dark-mode' : ''}`}>Error: {error}</div>;
 
     return (
-        <>
+        <div className={isDarkMode ? 'dark-mode' : ''}>
         <Navbar />
-        <div className="admin-users">
+        <div className={`admin-users ${isDarkMode ? 'dark-mode' : ''}`}>
             <h1>Admin Users</h1>
             <UserTable 
                 users={users} 
                 onUsersChange={fetchUsers} 
+                isDarkMode={isDarkMode} 
             />
         </div>
         <Toast />
         <Footer />
-        </>
+        </div>
     );
 }

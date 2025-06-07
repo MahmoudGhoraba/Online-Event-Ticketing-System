@@ -3,7 +3,7 @@ import axios from 'axios';
 import './UserRow.css';
 import { showToast } from '../sharedComponents/Toast';
 
-export default function UserRow({ user, onUsersChange }) {
+export default function UserRow({ user, onUsersChange, isDarkMode }) {
     const [isEditing, setIsEditing] = useState(false);
     const [currentRole, setCurrentRole] = useState(user.role);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -40,14 +40,14 @@ export default function UserRow({ user, onUsersChange }) {
     };
 
     return (
-        <tr className={`user-row ${isDeleting ? 'user-row-loading' : ''}`}>
-            <td className="user-row-cell user-row-id">{user.id || user._id}</td>
-            <td className="user-row-cell user-row-name">{user.name}</td>
-            <td className="user-row-cell user-row-email">{user.email}</td>
-            <td className="user-row-cell">
+        <tr className={`user-row ${isDeleting ? 'user-row-loading' : ''} ${isDarkMode ? 'dark-mode' : ''}`}>
+            <td className={`user-row-cell user-row-id ${isDarkMode ? 'dark-mode' : ''}`}>{user.id || user._id}</td>
+            <td className={`user-row-cell user-row-name ${isDarkMode ? 'dark-mode' : ''}`}>{user.name}</td>
+            <td className={`user-row-cell user-row-email ${isDarkMode ? 'dark-mode' : ''}`}>{user.email}</td>
+            <td className={`user-row-cell ${isDarkMode ? 'dark-mode' : ''}`}>
                 {isEditing ? (
                     <select
-                        className="user-role-select"
+                        className={`user-role-select ${isDarkMode ? 'dark-mode' : ''}`}
                         value={currentRole}
                         onChange={(e) => setCurrentRole(e.target.value)}
                     >
@@ -56,24 +56,24 @@ export default function UserRow({ user, onUsersChange }) {
                         <option value="Organizer">Organizer</option>
                     </select>
                 ) : (
-                    <span className={`user-role-display ${currentRole.toLowerCase()}`}>
+                    <span className={`user-role-display ${currentRole.toLowerCase()} ${isDarkMode ? 'dark-mode' : ''}`}>
                         {currentRole}
                     </span>
                 )}
             </td>
-            <td className="user-row-cell">
+            <td className={`user-row-cell ${isDarkMode ? 'dark-mode' : ''}`}>
                 <div className="user-row-actions">
                     {isEditing ? (
                         <>
                             <button 
-                                className="user-row-btn user-row-save-btn"
+                                className={`user-row-btn user-row-save-btn ${isDarkMode ? 'dark-mode' : ''}`}
                                 onClick={handleUpdate}
                                 disabled={isDeleting}
                             >
                                 Save
                             </button>
                             <button 
-                                className="user-row-btn user-row-cancel-btn"
+                                className={`user-row-btn user-row-cancel-btn ${isDarkMode ? 'dark-mode' : ''}`}
                                 onClick={() => setIsEditing(false)}
                                 disabled={isDeleting}
                             >
@@ -82,7 +82,7 @@ export default function UserRow({ user, onUsersChange }) {
                         </>
                     ) : (
                         <button 
-                            className="user-row-btn user-row-edit-btn"
+                            className={`user-row-btn user-row-edit-btn ${isDarkMode ? 'dark-mode' : ''}`}
                             onClick={() => setIsEditing(true)}
                             disabled={isDeleting}
                         >
@@ -90,7 +90,7 @@ export default function UserRow({ user, onUsersChange }) {
                         </button>
                     )}
                     <button 
-                        className="user-row-btn user-row-delete-btn"
+                        className={`user-row-btn user-row-delete-btn ${isDarkMode ? 'dark-mode' : ''}`}
                         onClick={handleDelete}
                         disabled={isEditing || isDeleting}
                     >
